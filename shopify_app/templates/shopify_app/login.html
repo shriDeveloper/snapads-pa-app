@@ -1,18 +1,52 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Install</h1>
 
-<p>Install this app in a shop to get access to its private admin data.</p>
 
-<p style="padding-bottom: 1em"><span class="hint">Don&rsquo;t have a shop to install your app in handy? <a href="https://app.shopify.com/services/partners/api_clients/test_shops">Create a test shop.</a></span></p>
 
-<form action="{% url "shopify_app_authenticate" %}" method="post">{% csrf_token %}
-  <label for='shop'><strong>The URL of the Shop</strong>
-    <span class="hint">(or just the subdomain if it&rsquo;s at myshopify.com)</span>
-  </label>
-  <p>
-    <input id="shop" name="shop" size="45" type="text" />
-    <input name="commit" type="submit" value="Install" />
-  </p>
+<div class="container">
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div class="col-md-5">
+			<div class="card">
+			  <div class="card-body">
+			  
+			  	<div class="row">
+			  		<div class="col-md-12">
+			  			
+			    <h1 class="card-title text-center">Install FontMan</h1>
+			    <br/>
+			    <h5 class="card-text">FontMan Let's You Customize Store Fonts !</h5>
+			  	</div>
+			  	</div>  
+
+
+			  	<div class="row">
+			  		<div class="col-md-12 mt-4">
+			  			<form action="{% url "shopify_app_authenticate" %}" method="post">
+			  				{% csrf_token %}
+
+			  	
+  
+
+			  				<div class="input-group mb-3 mt-3">
+  <input type="text" id="shop" name="shop" class="form-control" placeholder="Add Store URL Here">
+  <div class="input-group-append">
+    <button name="commit" class="btn btn-primary" type="submit">Install</button>
+  </div>
+</div>
+
+
+ 
 </form>
+			  		</div>
+			  	</div>
+
+
+			  
+
+			  </div>
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock %}

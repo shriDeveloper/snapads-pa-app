@@ -1,23 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{% block title %}{% endblock %}</title><!-- 
+  <style type="text/css">
+    .text-style{
+      color:white;
+    }
+    .nav-link:hover {
+      color: yellow;
+    }
+    .navbar-brand:hover {
+      color: yellow;
+    }
+  
+  </style>
+  <title>{% block title %}{% endblock %}</title><!--
   <link href="/static/stylesheets/application.css" media="screen" rel="stylesheet" type="text/css" /> -->
-  <!-- Bootstrap CSS --> 
+  <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <!-- ADDED FONTS & EVERYTHING HERE -->
   <link href="/static/css/fontpicker.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="/static/js/fontpickerjs.js"></script>
+  
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
   <!-- ENDS HERE -->
 </head>
-<body>
-  
-  <!--NAVIGATION GOES HERE -->
+<body style="font-family: 'Source Sans Pro', sans-serif;">
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
+  <!--NAVIGATION GOES HERE -->
+  <nav class="navbar navbar-expand-lg" style="background-color:black;">
+  <a class="navbar-brand text-style" href="{% url "root_path" %}">FontMan</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -25,53 +43,45 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link text-style" href="#">Pricing <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link text-style" href="#">About</a>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link text-style dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Dropdown
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
+        <div class="dropdown-menu " aria-labelledby="navbarDropdown">
+          <a class="dropdown-item text-style" href="#">Help</a>
+          <a class="dropdown-item text-style" href="#">Another action</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
+          <a class="dropdown-item text-style" href="#">Something else here</a>
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-      </li>
+      
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        {% if current_shop %}
+          <span  style="color: white;"> Current Shop: </span> &nbsp;&nbsp;&nbsp;<a href="https://{{ current_shop.domain }}" style="color: white;">{{ current_shop.domain }}</a> <span>|&nbsp;</span>
+          <a class="btn btn-primary" href="{% url "shopify_app_logout" %}"> &nbsp;logout</a>
+  {% endif %}
     </form>
   </div>
 </nav>
 
-  <!-- ENDS HERE -->
-
-
-  <!-- ENDS HERE -->
-
-  <a href="{% url "root_path" %}">Shopify Demo Application</a>
-
-  {% if current_shop %}
-          <span class="note">current shop</span> <a href="https://{{ current_shop.domain }}" class="shop_name">{{ current_shop.domain }}</a> <span class="note">|</span>
-          <a href="{% url "shopify_app_logout" %}">logout</a>
-  {% endif %}
+  
 
 
   {% if messages %}
       {% for message in messages %}
-      <div{% if message.tags %} class="{{ message.tags }}-message"{% endif %}>{{ message }}</div>
+      <div class="alert alert-info" role="alert">
+          <strong>{{ message }}</strong>
+      </div>
       {% endfor %}
     {% endif %}
 
-    <div id="main">
+    <div id="main" class="container mt-4">
       {% block content %}{% endblock %}
     </div>
 

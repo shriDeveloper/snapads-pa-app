@@ -1,7 +1,201 @@
 {% extends "base.html" %}
 {% block content %}
 
-  <h1>STORE : {{ store_token }}</h1>
+
+ <div class="container">
+   <div class="row">
+      <div class="col-md-12">
+         <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+               <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-home" aria-selected="true">Settings</a>
+               <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-preview" role="tab" aria-controls="nav-profile" aria-selected="false">Preview</a>
+               <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-help" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
+            </div>
+         </nav>
+         <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-settings" role="tabpanel" aria-labelledby="nav-home-tab">
+               <div class="container mt-4">
+
+                 <div class="row mb-3">
+      <div class="col-md-10">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Enter Samplat Text here" id="sample_text">
+        </div>
+      </div>
+      <div class="col-md-2"> 
+          <button id="save" class="btn btn-block">Save</button>
+      </div>
+    </div>
+
+
+
+                  <div class="row">
+                     <div class="col-md-12">
+                        <table class="table table-hover">
+                           <thead>
+                              <tr>
+                                 <th scope="col">Element</th>
+                                 <th scope="col">Sample Text</th>
+                                 <th scope="col" id="fontHeader">Font</th>
+                                 <th scope="col">Active</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td>All (Body)</td>
+                                 <td class="test_text" id="bodyFont">Sample Text</td>
+                                 
+                                 <td id="bodyFontColAlt">Please enable</td>
+                                 
+                                 <td id="bodyFontCol"><input class="bodyFont" ></td>
+
+                                 
+                                 <td><input type="checkbox" data-toggle="toggle" id="bodyToggle" data-style="slow"></td>
+                              </tr>
+
+
+                              <!-- IF BODY IS ENABLED  DISABLE BELOW -->
+
+                            
+
+                              <tr id="heading1Row">
+                                 <td>H1 Headings</td>
+                                 <td class="test_text" id="h1Font">Sample Text</td>
+
+                                 <td id="h1FontColAlt">Please enable</td>
+                                 
+
+                                 <td id="h1FontCol"><input class="h1Font"></td>
+                                 <td><input type="checkbox" data-toggle="toggle" id="h1Toggle" data-style="slow"></td>
+                              </tr>
+                              <tr id="heading2Row">
+                                 <td>H2 Headings</td>
+                                 <td class="test_text" id="h2Font">Sample Text</td>
+
+                                 <td id="h2FontColAlt">Please enable</td>
+                                 
+
+                                 <td id="h2FontCol"><input class="h2Font"></td>
+                                 <td><input id="h2Toggle" type="checkbox"  data-toggle="toggle" data-style="slow"></td>
+                              </tr>
+
+                              <tr id="heading3Row">
+                                 <td>H3 Headings</td>
+                                 <td class="test_text" id="h3Font">Sample Text</td>
+
+                                 <td id="h3FontColAlt">Please enable</td>
+                                 
+
+                                 <td id="h3FontCol"><input class="h3Font"></td>
+                                 <td><input id="h3Toggle" type="checkbox"  data-toggle="toggle" data-style="slow"></td>
+                              </tr>
+
+                              <tr id="heading4Row">
+                                 <td>H4 Headings</td>
+                                 <td class="test_text" id="h4Font">Sample Text</td>
+
+                                 <td id="h4FontColAlt">Please enable</td>
+                                 
+
+                                 <td id="h4FontCol"><input class="h4Font"></td>
+                                 <td><input id="h4Toggle" type="checkbox"  data-toggle="toggle" data-style="slow"></td>
+                              </tr>
+
+                              <tr id="heading5Row">
+                                 <td>H5 Headings</td>
+                                 <td class="test_text" id="h5Font">Sample Text</td>
+
+                                 <td id="h5FontColAlt">Please enable</td>
+                                 
+
+                                 <td id="h5FontCol"><input class="h5Font"></td>
+                                 <td><input id="h5Toggle" type="checkbox"  data-toggle="toggle" data-style="slow"></td>
+                              </tr>
+
+                              <tr id="heading6Row">
+                                 <td>H6 Headings</td>
+                                 <td class="test_text" id="h6Font">Sample Text</td>
+
+                                 <td id="h6FontColAlt">Please enable</td>
+                                 
+
+                                 <td id="h6FontCol"><input class="h6Font"></td>
+                                 <td><input id="h6Toggle" type="checkbox"  data-toggle="toggle" data-style="slow"></td>
+                              </tr>
+
+                              <tr id="pRow">
+                                 <td>P Tags (Paragraphs)</td>
+                                 <td class="test_text" id="pFont">Sample Text</td>
+
+                                 <td id="pFontColAlt">Please enable</td>
+                                 
+
+                                 <td id="pFontCol"><input class="pFont"></td>
+                                 <td><input id="pToggle" type="checkbox"  data-toggle="toggle" data-style="slow"></td>
+                              </tr>
+                              <tr id="blockRow">
+                                 <td>Blockquotes</td>
+                                 <td class="test_text" id="blockFont">Sample Text</td>
+
+                                 <td id="blockFontColAlt">Please enable</td>
+                                 
+
+                                 <td id="blockFontCol"><input class="blockFont"></td>
+                                 <td><input id="blockToggle" type="checkbox"  data-toggle="toggle" data-style="slow"></td>
+                              </tr>
+                              <tr id="liRow">
+                                 <td>List's (li Tags)</td>
+                                 <td class="test_text" id="liFont">Sample Text</td>
+
+                                 <td id="liFontColAlt">Please enable</td>
+                                 
+
+
+                                 <td id="liFontCol"><input class="liFont"></td>
+                                 <td><input id="liToggle" type="checkbox"  data-toggle="toggle" data-style="slow"></td>
+                              </tr>
+                              <tr id="aRow">
+                                 <td>Hyperlink (a tags)</td>
+                                 <td class="test_text" id="aFont">Sample Text</td>
+
+                                 <td id="aFontColAlt">Please enable</td>
+                                 
+
+                                 <td id="aFontCol"><input class="aFont"></td>
+                                 <td><input id="aToggle" type="checkbox"  data-toggle="toggle" data-style="slow"></td>
+                              </tr>
+
+                              <!-- ENDS HERE -->
+
+                           
+
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="tab-pane fade" id="nav-preview" role="tabpanel" aria-labelledby="nav-profile-tab">
+              
+              <div class="container">
+                <div class="row mt-3">
+                  <div class="col-md-12 embed-responsive embed-responsive-16by9">
+                          <iframe class="embed-responsive-item" src="http://localhost:1234/" ></iframe>
+                          <!-- ?dev_mode=on -->
+                  </div>
+                </div>
+              </div>
+
+
+
+            </div>
+            <div class="tab-pane fade" id="nav-help" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!--   <h1>STORE : {{ store_token }}</h1>
 
   <p>{{theme}}</p>
 
@@ -14,15 +208,127 @@
   <br/>
 
   <button id="save">Save</button>
-  
+ -->
   <script>
-    var logo = '';
-    var footer = '';
-    var content = '';
-    $(document).ready(function(){ 
-      $('input.logoPicker').fontpicker();
-      $('input.footerPicker').fontpicker();
-      $('input.contentPicker').fontpicker();
+    var body_font = '';
+    var h1_font = '';
+    var h2_font = '';
+    var h3_font = '';
+    var h4_font = '';
+    var h5_font = '';
+    var h6_font = '';
+    var p_font = '';
+    var block_font = '';
+    var li_font = '';
+    var a_font = '';
+
+
+
+
+    
+    $(document).ready(function(){
+
+      //hide font uploads initially
+      $('#bodyFontCol').hide();
+      $('#h1FontCol').hide();
+      $('#h2FontCol').hide();
+      $('#h3FontCol').hide();
+      $('#h4FontCol').hide();
+      $('#h5FontCol').hide();
+      $('#h6FontCol').hide();
+      $('#pFontCol').hide();
+      $('#liFontCol').hide();
+      $('#aFontCol').hide();
+      $('#blockFontCol').hide();
+
+      //load fonts for store 
+
+      $.ajax({
+          type:'GET',
+          url:'http://localhost:8000/api/fontman',
+          data:{'store_token':'{{store_token}}'},
+          success:function(response){
+            if(response['body_tag']!=""){
+              $('#bodyToggle').bootstrapToggle('on');
+              $('input.bodyFont').val(response['body_tag']).trigger('change');
+            }else{
+              //heading tags here
+              if(response['h1_tag']!=""){
+                
+                $('#h1Toggle').bootstrapToggle('on');
+                $('input.h1Font').val(response['h1_tag']).trigger('change');
+
+              }
+              if(response['h2_tag']!=""){
+                
+                $('#h2Toggle').bootstrapToggle('on');
+                $('input.h2Font').val(response['h2_tag']).trigger('change');
+              }
+              if(response['h3_tag']!=""){
+                
+                $('#h3Toggle').bootstrapToggle('on');
+                $('input.h3Font').val(response['h3_tag']).trigger('change');
+              }
+              if(response['h4_tag']!=""){
+                
+                $('#h4Toggle').bootstrapToggle('on');
+                $('input.h4Font').val(response['h4_tag']).trigger('change');
+              }
+              if(response['h5_tag']!=""){
+                
+                $('#h5Toggle').bootstrapToggle('on');
+                $('input.h5Font').val(response['h5_tag']).trigger('change');
+              }
+              if(response['h6_tag']!=""){
+                
+                $('#h6Toggle').bootstrapToggle('on');
+                $('input.h6Font').val(response['h6_tag']).trigger('change');
+              }
+              if(response['p_tag']!=""){
+
+                $('#pToggle').bootstrapToggle('on');
+                $('input.pFont').val(response['p_tag']).trigger('change');
+              }
+              if(response['li_tag']!=""){
+
+                $('#liToggle').bootstrapToggle('on');
+                $('input.liFont').val(response['li_tag']).trigger('change');
+              }
+              if(response['a_tag']!=""){
+
+                $('#aToggle').bootstrapToggle('on');
+                $('input.aFont').val(response['a_tag']).trigger('change');
+
+              }
+              if(response['block_tag']!=""){
+
+                $('#blockToggle').bootstrapToggle('on');
+                $('input.blockFont').val(response['block_tag']).trigger('change');
+              }
+
+            }
+
+          }
+    });
+
+
+      
+
+
+      
+      $('input.bodyFont').fontpicker();
+      $('input.h1Font').fontpicker();
+      $('input.h2Font').fontpicker();
+      $('input.h3Font').fontpicker();
+      $('input.h4Font').fontpicker();
+      $('input.h5Font').fontpicker();
+      $('input.h6Font').fontpicker();
+      
+      $('input.pFont').fontpicker();
+      $('input.blockFont').fontpicker();
+      $('input.aFont').fontpicker();
+      $('input.liFont').fontpicker();
+
     });
 
 
@@ -56,30 +362,114 @@
 	}
 
 
-    $('.logoPicker').fontpicker().on('change', function() {
+    $('.bodyFont').fontpicker().on('change', function() {
       console.log("Picker: "+this.value);
-      applyFont('#Logo', this.value);
-      logo = this.value;
-    });
-
-        $('.footerPicker').fontpicker().on('change', function() {
-        applyFont('#Footer', this.value);
-        footer = this.value;
+      applyFont('#bodyFont', this.value);
+      body_font = this.value;
     });
 
 
-    $('.contentPicker').fontpicker().on('change', function() {
-      applyFont('#Content', this.value);
-      content = this.value;
+    $('.h1Font').fontpicker().on('change', function() {
+      console.log("Picker: "+this.value);
+      applyFont('#h1Font', this.value);
+      h1_font = this.value;
+    });
+
+
+
+    $('.h2Font').fontpicker().on('change', function() {
+      console.log("Picker: "+this.value);
+      applyFont('#h2Font', this.value);
+      h2_font = this.value;
+    });
+
+
+
+    $('.h3Font').fontpicker().on('change', function() {
+      console.log("Picker: "+this.value);
+      applyFont('#h3Font', this.value);
+      h3_font = this.value;
+    });
+
+
+
+    $('.h4Font').fontpicker().on('change', function() {
+      console.log("Picker: "+this.value);
+      applyFont('#h4Font', this.value);
+      h4_font = this.value;
+    });
+
+
+
+
+    $('.h5Font').fontpicker().on('change', function() {
+      console.log("Picker: "+this.value);
+      applyFont('#h5Font', this.value);
+      h5_font = this.value;
+    });
+
+
+
+
+    $('.h6Font').fontpicker().on('change', function() {
+      console.log("Picker: "+this.value);
+      applyFont('#h6Font', this.value);
+      h6_font = this.value;
+    });
+
+
+
+
+
+    $('.pFont').fontpicker().on('change', function() {
+      console.log("Picker: "+this.value);
+      applyFont('#pFont', this.value);
+      p_font = this.value;
+    });
+
+
+
+
+
+    $('.liFont').fontpicker().on('change', function() {
+      console.log("Picker: "+this.value);
+      applyFont('#liFont', this.value);
+      li_font = this.value;
+    });
+
+
+
+
+
+    $('.aFont').fontpicker().on('change', function() {
+      console.log("Picker: "+this.value);
+      applyFont('#aFont', this.value);
+      a_font = this.value;
+    });
+
+
+    $('.blockFont').fontpicker().on('change', function() {
+      console.log("Picker: "+this.value);
+      applyFont('#blockFont', this.value);
+      block_font = this.value;
     });
 
 
   $('#save').click(function(){
         request_data = {
-          "store_header": content,
-          "store_footer": footer,
-          "store_logo": logo
+          "body_tag": body_font,
+          "h1_tag": h1_font,
+          "h2_tag": h2_font,
+          "h3_tag": h3_font,
+          "h4_tag": h4_font,
+          "h5_tag": h5_font,
+          "h6_tag": h6_font,
+          "p_tag": p_font,
+          "li_tag": li_font,
+          "a_tag": a_font,
+          "block_tag": block_font,
         };
+        console.log(request_data);
         $.ajax({
           type:'PUT',
           url:'http://localhost:8000/api/settings/{{store_token}}',
@@ -102,8 +492,260 @@
       var dataFromChildIframe = event.data;
       console.log(dataFromChildIframe)
     }
+
+
+    $("#sample_text").keyup(function(event) {
+      var stt = $(this).val();
+      $(".test_text").text(stt);
+    });
+
+    $(function() {
+
+    $('#bodyToggle').change(function(event) {
+      if($(this).prop('checked')){
+        //diable all here
+        $('#heading1Row').hide();
+        $('#heading2Row').hide();
+        $('#heading3Row').hide();
+        $('#heading4Row').hide();
+        $('#heading5Row').hide();
+        $('#heading6Row').hide();
+        
+        $('#liRow').hide();
+        $('#pRow').hide();
+        $('#aRow').hide();
+        $('#blockRow').hide();
+
+        $('#bodyFontCol').show();
+        $('#bodyFontColAlt').hide();
+        
+        
+
+        
+      }else{
+        $('#headingRow').show();
+         $('#heading1Row').show();
+        $('#heading2Row').show();
+        $('#heading3Row').show();
+        $('#heading4Row').show();
+        $('#heading5Row').show();
+        $('#heading6Row').show();
+        
+        $('#liRow').show();
+        $('#pRow').show();
+        $('#aRow').show();
+        $('#blockRow').show();
+
+
+        $('#bodyFontCol').hide();
+        $('#bodyFontColAlt').show();
+        $('input.bodyFont').val('').trigger('change');
+        
+         
+      }
+    });
+
+
+     $('#h1Toggle').change(function(event) {
+      if($(this).prop('checked')){
+        console.log("CHECKED");
+        
+        $('#h1FontCol').show();
+        $('#h1FontColAlt').hide();
+        
+      }else{
+        
+        $('#h1FontCol').hide();
+        $('#h1FontColAlt').show();
+        $('input.h1Font').val('').trigger('change');
+
+      }
+    });
+
+
+
+    $('#h2Toggle').change(function(event) {
+      if($(this).prop('checked')){
+        console.log("CHECKED");
+        
+        $('#h2FontCol').show();
+        $('#h2FontColAlt').hide();
+        
+      }else{
+        
+        $('#h2FontCol').hide();
+        $('#h2FontColAlt').show();
+        $('input.h2Font').val('').trigger('change');
+
+      }
+    });
+
+
+
+     $('#h3Toggle').change(function(event) {
+      if($(this).prop('checked')){
+        console.log("CHECKED");
+        
+        $('#h3FontCol').show();
+        $('#h3FontColAlt').hide();
+        
+      }else{
+        
+        $('#h3FontCol').hide();
+        $('#h3FontColAlt').show();
+        $('input.h3Font').val('').trigger('change');
+
+      }
+    });
+
+
+
+      $('#h4Toggle').change(function(event) {
+      if($(this).prop('checked')){
+        console.log("CHECKED");
+        
+        $('#h4FontCol').show();
+        $('#h4FontColAlt').hide();
+        
+      }else{
+        
+        $('#h4FontCol').hide();
+        $('#h4FontColAlt').show();
+        $('input.h4Font').val('').trigger('change');
+
+      }
+    });
+
+
+
+
+      $('#h5Toggle').change(function(event) {
+      if($(this).prop('checked')){
+        console.log("CHECKED");
+        
+        $('#h5FontCol').show();
+        $('#h5FontColAlt').hide();
+        
+      }else{
+        
+        $('#h5FontCol').hide();
+        $('#h5FontColAlt').show();
+        $('input.h5Font').val('').trigger('change');
+
+      }
+    });
+
+
+      $('#h6Toggle').change(function(event) {
+      if($(this).prop('checked')){
+        console.log("CHECKED");
+        
+        $('#h6FontCol').show();
+        $('#h6FontColAlt').hide();
+        
+      }else{
+        
+        $('#h6FontCol').hide();
+        $('#h6FontColAlt').show();
+        $('input.h6Font').val('').trigger('change');
+
+      }
+    });
+     
+
+
+
+      $('#pToggle').change(function(event) {
+      if($(this).prop('checked')){
+        console.log("CHECKED");
+        
+        $('#pFontCol').show();
+        $('#pFontColAlt').hide();
+        
+      }else{
+        
+        $('#pFontCol').hide();
+        $('#pFontColAlt').show();
+        $('input.pFont').val('').trigger('change');
+
+      }
+    });
+
+
+
+      $('#aToggle').change(function(event) {
+      if($(this).prop('checked')){
+        console.log("CHECKED");
+        
+        $('#aFontCol').show();
+        $('#aFontColAlt').hide();
+        
+      }else{
+        
+        $('#aFontCol').hide();
+        $('#aFontColAlt').show();
+        $('input.aFont').val('').trigger('change');
+
+      }
+    });
+
+
+
+      $('#liToggle').change(function(event) {
+      if($(this).prop('checked')){
+        console.log("CHECKED");
+        
+        $('#liFontCol').show();
+        $('#liFontColAlt').hide();
+        
+      }else{
+        
+        $('#liFontCol').hide();
+        $('#liFontColAlt').show();
+        $('input.liFont').val('').trigger('change');
+
+      }
+    });
+
+
+
+$('#blockToggle').change(function(event) {
+      if($(this).prop('checked')){
+        console.log("CHECKED");
+        
+        $('#blockFontCol').show();
+        $('#blockFontColAlt').hide();
+        
+      }else{
+        
+        $('#blockFontCol').hide();
+        $('#blockFontColAlt').show();
+        $('input.blockFont').val('').trigger('change');
+
+      }
+    });
+
+
+
+
+
+
+
+    // $('#h2Toggle').change(function(event) {
+    //     if($(this).prop('checked')){
+    //       $('#fontHeader').show();
+    //       $('#h2FontCol').show();
+    //     }else{
+    //       $('#fontHeader').hide();
+    //       $('#h2FontCol').hide();
+    //     }
+
+    // });
+
+  })
+
+
+
+
   </script>
-
-    <iframe src="http://localhost:1234/?dev_mode=on" height="900" width="900"></iframe>
-
 {% endblock %}
