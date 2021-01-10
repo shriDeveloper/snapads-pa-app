@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <h1>STORE : {{ store_token }}</h1>
+
+  <p>{{theme}}</p>
+
+
+  <p id="Logo">Logo Here</p><input class="logoPicker">
+  <br/>
+  <p id="Footer">Footer Here</p><input class="footerPicker">
+  <br/>
+  <p id="Content">Content Here</p><input class="contentPicker">
+  <br/>
+
+  <button id="save">Save</button>
+  
+  <script>
+    var logo = '';
+    var footer = '';
+    var content = '';
+    $(document).ready(function(){ 
+      $('input.logoPicker').fontpicker();
+      $('input.footerPicker').fontpicker();
+      $('input.contentPicker').fontpicker();
+    });
+
+
+    function applyFont(element, fontSpec) {
+		if (!fontSpec) {
+			// Font was cleared
+			console.log('You cleared font');
+			$(element).css({
+				fontFamily: 'inherit',
+				fontWeight: 'normal',
+				fontStyle: 'normal'
+			});
+			return;
+		}
+
+		console.log('You selected font: ' + fontSpec);
+
+		// Split font into family and weight/style
+		var tmp = fontSpec.split(':'),
+			family = tmp[0],
+			variant = tmp[1] || '400',
+			weight = parseInt(variant,10),
+			italic = /i$/.test(variant);
+
+		// Apply selected font to element
+		$(element).css({
+			fontFamily: "'" + family + "'",
+			fontWeight: weight,
+			fontStyle: italic ? 'italic' : 'normal'
+		});
+	}
+
+
+    $('.logoPicker').fontpicker().on('change', function() {
+      console.log("Picker: "+this.value);
+      applyFont('#Logo', this.value);
+      logo = this.value;
+    });
+
+        $('.footerPicker').fontpicker().on('change', function() {
+        applyFont('#Footer', this.value);
+        footer = this.value;
+    });
+
+
+    $('.contentPicker').fontpicker().on('change', function() {
+      applyFont('#Content', this.value);
+      content = this.value;
+    });
+
+
+  $('#save').click(function(){
+        request_data = {
+          "store_header": content,
+          "store_footer": footer,
+          "store_logo": logo
+        };
+        $.ajax({
+          type:'PUT',
+          url:'http://localhost:8000/api/settings/{{store_token}}',
+          data:JSON.stringify(request_data),
+          success:function(response){
+            alert('Saved Successfully');
+          }
+        });
+  });
+
+
+    if(window.addEventListener) {
+      window.addEventListener("message", handleMessage);
+    } else {
+      window.attachEvent("onmessage", handleMessage);
+    }
+
+    function handleMessage(event) {
+      console.log("Received a message from " + event.origin + ".");
+      var dataFromChildIframe = event.data;
+      console.log(dataFromChildIframe)
+    }
+  </script>
+
+    <iframe src="http://localhost:1234/?dev_mode=on" height="900" width="900"></iframe>
+
+{% endblock %}
