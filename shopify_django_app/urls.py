@@ -6,4 +6,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('',include('api.urls')),
+    path('',include('shopify_app.urls'))
 ]

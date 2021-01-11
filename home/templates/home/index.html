@@ -195,6 +195,9 @@
    </div>
 </div>
 
+
+{% csrf_token %}
+
 <!--   <h1>STORE : {{ store_token }}</h1>
 
   <p>{{theme}}</p>
@@ -246,7 +249,7 @@
       $.ajax({
           type:'GET',
           url:'http://localhost:8000/api/fontman',
-          data:{'store_token':'{{store_token}}'},
+          data:{'store_token':'{{app_token}}'},
           success:function(response){
             if(response['body_tag']!=""){
               $('#bodyToggle').bootstrapToggle('on');
@@ -457,6 +460,7 @@
 
   $('#save').click(function(){
         request_data = {
+          "store_token":'{{app_token}}',
           "body_tag": body_font,
           "h1_tag": h1_font,
           "h2_tag": h2_font,
@@ -471,9 +475,10 @@
         };
         console.log(request_data);
         $.ajax({
-          type:'PUT',
-          url:'http://localhost:8000/api/settings/{{store_token}}',
-          data:JSON.stringify(request_data),
+          type:'POST',
+          url:'http://localhost:8000/submit/',
+          //url:'http://localhost:8000/api/settings/{{store_token}}',
+          data:{ font_data: JSON.stringify(request_data) , store_data: JSON.stringify({'store_token':'{{store_token}}','store_url':'{{store_url}}'})},
           success:function(response){
             alert('Saved Successfully');
           }
@@ -518,9 +523,10 @@
 
         $('#bodyFontCol').show();
         $('#bodyFontColAlt').hide();
-        
-        
 
+        //reset all fonts here
+        resetAllFonts();
+        
         
       }else{
         $('#headingRow').show();
@@ -743,6 +749,21 @@ $('#blockToggle').change(function(event) {
     // });
 
   })
+
+
+  function resetAllFonts(){
+    $('input.h1Font').val('').trigger('change');
+    $('input.h2Font').val('').trigger('change');
+    $('input.h3Font').val('').trigger('change');
+    $('input.h4Font').val('').trigger('change');
+    $('input.h5Font').val('').trigger('change');
+    $('input.h6Font').val('').trigger('change');
+    $('input.pFont').val('').trigger('change');
+    $('input.aFont').val('').trigger('change');
+    $('input.liFont').val('').trigger('change');
+    $('input.blockFont').val('').trigger('change');
+     
+  }
 
 
 

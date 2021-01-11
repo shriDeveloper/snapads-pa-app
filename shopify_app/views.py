@@ -1,12 +1,19 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse
+from django.http import JsonResponse,HttpResponse
 from django.template import RequestContext
 from django.apps import apps
 import hmac, base64, hashlib, binascii, os
 import shopify
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 from api.models import Store 
+
+from home.views import shopify_call
+
+import requests
 
 def _new_session(shop_url):
     api_version = apps.get_app_config('shopify_app').SHOPIFY_API_VERSION
@@ -71,3 +78,79 @@ def logout(request):
     request.session.pop('shopify', None)
     messages.info(request, "Successfully logged out.")
     return redirect(reverse(login))
+
+@csrf_exempt
+def submit(request):
+    if request.method == "POST":
+        font_data = request.POST.get('font_data')
+        store_data = request.POST.get('store_data')
+        
+        font_json = json.loads(font_data)
+        store_json = json.loads(store_data)
+
+        themes=shopify_call(store_json['store_url']+"/admin/api/2020-10/themes.json",store_json['store_token'])
+        print(themes)
+        for theme in json.loads(themes)['themes']:
+            if theme['role']=='main':
+                theme_id = theme['id']
+        
+        #theme settings
+        assets = shopify_call(store_json['store_url']+"/admin/api/2020-10/themes/"+str(theme_id)+"/assets.json?asset[key]=snippets/fontmancss.liquid",store_json['store_token'])
+        assets = json.loads(assets)['asset']['value']
+        
+        font_link = ""
+        fontman_css = '<style type="text/css" id="fontman_css">'
+        if font_json['body_tag'] != "":
+            fontman_css = fontman_css + 'body,span,h1,h2,h3,h4,h5,h6,blockquote,div,p,a,li{font-family:\''+fontmanFamily(font_json['body_tag'])+'\' !important;}'
+            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['body_tag'])+"' />"
+        if font_json['h1_tag'] != "":
+            fontman_css = fontman_css + 'h1{font-family:\''+fontmanFamily(font_json['h1_tag'])+'\' !important;}'
+            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h1_tag'])+"' />"
+        if font_json['h2_tag'] != "":
+            fontman_css = fontman_css + 'h2{font-family:\''+fontmanFamily(font_json['h2_tag'])+'\' !important;}'
+            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h2_tag'])+"' />"
+        if font_json['h3_tag'] != "":
+            fontman_css = fontman_css + 'h3{font-family:\''+fontmanFamily(font_json['h3_tag'])+'\' !important;}'
+            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h3_tag'])+"' />"
+        if font_json['h4_tag'] != "":
+            fontman_css = fontman_css + 'h4{font-family:\''+fontmanFamily(font_json['h4_tag'])+'\' !important;}'
+            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h4_tag'])+"' />"
+        if font_json['h5_tag'] != "":
+            fontman_css = fontman_css + 'h5{font-family:\''+fontmanFamily(font_json['h5_tag'])+'\' !important;}'
+            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h5_tag'])+"' />"
+        if font_json['h6_tag'] != "":
+            fontman_css = fontman_css + 'h6{font-family:\''+fontmanFamily(font_json['h6_tag'])+'\' !important;}'
+            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h6_tag'])+"' />"
+        if font_json['p_tag'] != "":
+            fontman_css = fontman_css + 'p{font-family:\''+fontmanFamily(font_json['p_tag'])+'\' !important;}'
+            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['p_tag'])+"' />"
+        if font_json['block_tag'] != "":
+            fontman_css = fontman_css + 'blockquote{font-family:\''+fontmanFamily(font_json['block_tag'])+'\' !important;}'
+            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['block_tag'])+"' />"
+        if font_json['li_tag'] != "":
+            fontman_css = fontman_css + 'li{font-family:\''+fontmanFamily(font_json['li_tag'])+'\' !important;}'
+            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['li_tag'])+"' />"
+        if font_json['a_tag'] != "":
+            fontman_css = fontman_css + 'a{font-family:\''+fontmanFamily(font_json['a_tag'])+'\' !important;}'
+            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['a_tag'])+"' />"
+        fontman_css = fontman_css + "</style>"
+        
+        markup = font_link + fontman_css
+
+        snippet = shopify.Asset()
+        snippet.key = "snippets/fontmancss.liquid"
+        snippet.value = markup
+        success = snippet.save()
+
+        #finally update db
+        response = requests.put("http://localhost:8000/api/settings/"+font_json['store_token'],data = font_data)
+        print(response.text)
+        #ends here
+        return HttpResponse(response.text);
+        #return JsonResponse({},safe=False)
+    return JsonResponse({},safe=False)
+
+def slugifyFont(font):
+    return "+".join(font.split(":")[0].split())
+def fontmanFamily(font):
+    return font.split(":")[0]

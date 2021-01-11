@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'rest_framework',
     'api',
+    'django_extensions',
 ]
 
 REST_FRAMEWORK = {

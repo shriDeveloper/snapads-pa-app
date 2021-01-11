@@ -14,6 +14,7 @@ def index(request):
 	store_token = rand_token = uuid4()
 	try:
 		store = Store.objects.get(name=request.session['shopify']['shop_url'])
+		store_token = store.token
 	except Store.DoesNotExist:
 		#INIIAL SETUP FOR APP
 		store = Store(name = request.session['shopify']['shop_url'] , token = store_token)
@@ -27,29 +28,33 @@ def index(request):
 			if theme['role']=='main':
 				theme_id = theme['id']
 		
+
+		print(themes)
 		#theme settings
 		assets = shopify_call(shop_url+"/admin/api/2020-10/themes/"+str(theme_id)+"/assets.json?asset[key]=layout/theme.liquid",token)
 		assets = json.loads(assets)['asset']['value']
-		snippet = "{% include 'fontmanjs' %}"
-		body_tag = "</body>"
+		snippet = "{% include 'fontmancss' %}"
+		head_tag = "</head>"
 		
-		fontman_api = snippet+body_tag
+		fontman_api = snippet+head_tag
 		
 		if fontman_api not in assets:
-			theme_liquid = assets.replace(body_tag,fontman_api)
+			theme_liquid = assets.replace(head_tag,fontman_api)
 			asset = shopify.Asset()
 			asset.key = "layout/theme.liquid"
 			asset.value = theme_liquid
 			success = asset.save()
+			print("Asset Added")
 
-		fontman_js = '<script type="text/javascript" src="http://localhost:8000/static/js/fontman.js"></script><script type="text/javascript">loadFontMan("'+str(store_token)+'");</script>'
+		fontman_css = ''
 		snippet = shopify.Asset()
-		asset.key = "snippets/fontmanjs.liquid"
-		asset.value = fontman_js
+		asset.key = "snippets/fontmancss.liquid"
+		asset.value = fontman_css
 		success = asset.save()
+		print("Assets saved Liqued")
 		
 		########################## ENDS HERE ##################################################################
-	return render(request, 'home/index.html',{'store_token':store.token})
+	return render(request, 'home/index.html',{'store_token':token,'store_url':shop_url,'app_token':store_token})
 
 def shopify_call(url,token):
 	return requests.get(url, headers={"X-Shopify-Access-Token":token}).text

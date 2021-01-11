@@ -1,6 +1,14 @@
 function addGoogleFont(FontName) {
-    $("head").append("<link href='https://fonts.googleapis.com/css?family=" + FontName + "' rel='stylesheet' type='text/css'>");
+	
+	console.log("google font added");
+	link = document.createElement('link');
+    link.href = 'https://fonts.googleapis.com/css?family='+ FontName;
+    link.rel = 'stylesheet';
+    link.id = 'linkid'; 
+	$('head').prepend(link); 
+
 }
+
 function slugiFyFont(font){
 	var font_name = font.split(":")[0];
     var font_slug =  font_name.split(' ').join('+');
@@ -77,6 +85,7 @@ function loadFontMan(store_token){
 
 
             	console.log(response['body_tag']);
+
           	}
           	
           }
