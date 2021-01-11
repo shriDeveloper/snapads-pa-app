@@ -1,2 +1,1 @@
-
-Great , 
+API For Changing Dynamic StoreFonts
