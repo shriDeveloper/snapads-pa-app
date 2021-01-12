@@ -1,19 +1,3 @@
-function addGoogleFont(FontName) {
-	
-	console.log("google font added");
-	link = document.createElement('link');
-    link.href = 'https://fonts.googleapis.com/css?family='+ FontName;
-    link.rel = 'stylesheet';
-    link.id = 'linkid'; 
-	$('head').prepend(link); 
-
-}
-
-function slugiFyFont(font){
-	var font_name = font.split(":")[0];
-    var font_slug =  font_name.split(' ').join('+');
-    return font_slug;
-}
 function loadFontMan(store_token){
 	const urlParams = new URLSearchParams(window.location.search);
 	const myParam = urlParams.get('dev_mode');
@@ -36,14 +20,11 @@ function loadFontMan(store_token){
 
 			$(event.target).css('border','10px solid black');
 			array.push(event.target);
-			
 			var arr   = event.target.classList['value'].split(/\s+/);
 			var selector   = '.' + arr.join('.');
-			
 			if(selector === '.'){
 				var selector = event.target; 
 			}
-			
 			console.log(selector);
 			console.log("Sending data to http://dev.project.com.");
 			parent.postMessage(
@@ -51,43 +32,8 @@ function loadFontMan(store_token){
 					user_age:    '12',
 					user_height: '12',
 				},
-				"http://localhost:8000/");
-
+			"http://localhost:8000/");
 		}
 	});
-
-
 	}
-	
-	$.ajax({
-          type:'GET',
-          url:'http://localhost:8000/api/fontman',
-          data:{'store_token':store_token},
-          success:function(response){
-          	var tags = ['p','h1','h2','h3','h4','h5','h6','blockquote','li','a'];
-          	if(response['body_tag']!=""){
-          		//add google font to all tags dynamically
-          		var slugifiedFont = slugiFyFont(response['body_tag'])  
-          		addGoogleFont(slugifiedFont);
-    //       		for (i = 0; i < tags.length; ++i) {
-    // 				$(''+tags[i]).css({
-    //       				"font-family":response['body_tag'],
-    //       				"font-size":"10px",
-    //       				"color":"red",
-    //       			});
-				// }
-
-				$("p").css({
-          				"font-family":response['body_tag'],
-          				"font-size":"50px",
-          				"color":"black",
-          			});
-
-
-            	console.log(response['body_tag']);
-
-          	}
-          	
-          }
-    });
 }

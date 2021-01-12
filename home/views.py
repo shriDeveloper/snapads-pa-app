@@ -54,7 +54,7 @@ def index(request):
 		print("Assets saved Liqued")
 		
 		########################## ENDS HERE ##################################################################
-	return render(request, 'home/index.html',{'store_token':token,'store_url':shop_url,'app_token':store_token})
+	return render(request, 'home/index.html',{'store_token':token,'store_url':shop_url,'app_token':store_token,'shop_url':request.session['shopify']['shop_url']})
 
 def shopify_call(url,token):
 	return requests.get(url, headers={"X-Shopify-Access-Token":token}).text

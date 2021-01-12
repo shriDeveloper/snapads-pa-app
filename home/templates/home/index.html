@@ -7,8 +7,8 @@
       <div class="col-md-12">
          <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-               <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-home" aria-selected="true">Settings</a>
-               <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-preview" role="tab" aria-controls="nav-profile" aria-selected="false">Preview</a>
+               <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-home" aria-selected="true">Basic Elements</a>
+               <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-preview" role="tab" aria-controls="nav-profile" aria-selected="false">Custom Elements</a>
                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-help" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
             </div>
          </nav>
@@ -17,13 +17,25 @@
                <div class="container mt-4">
 
                  <div class="row mb-3">
-      <div class="col-md-10">
+      
+      <div class="col-md-8">
+        <form method="post" action="font_upload/" enctype="multipart/form-data">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Enter Samplat Text here" id="sample_text">
+          {% csrf_token %}
+          <input type="file" class="form-control" name="myfile">
+          <input type="hidden" value="{{shop_url}}" name="shop_url">        
         </div>
       </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <button class="btn btn-block btn-lg" type="submit">Upload</button>
+          </form>
+        </div>
+      </div>
+      
+      
       <div class="col-md-2"> 
-          <button id="save" class="btn btn-block">Save</button>
+          <button id="save" class="btn btn-block btn-lg">Save</button>
       </div>
     </div>
 
@@ -35,7 +47,6 @@
                            <thead>
                               <tr>
                                  <th scope="col">Element</th>
-                                 <th scope="col">Sample Text</th>
                                  <th scope="col" id="fontHeader">Font</th>
                                  <th scope="col">Active</th>
                               </tr>
@@ -43,7 +54,7 @@
                            <tbody>
                               <tr>
                                  <td>All (Body)</td>
-                                 <td class="test_text" id="bodyFont">Sample Text</td>
+                          
                                  
                                  <td id="bodyFontColAlt">Please enable</td>
                                  
@@ -60,7 +71,7 @@
 
                               <tr id="heading1Row">
                                  <td>H1 Headings</td>
-                                 <td class="test_text" id="h1Font">Sample Text</td>
+                                
 
                                  <td id="h1FontColAlt">Please enable</td>
                                  
@@ -70,7 +81,7 @@
                               </tr>
                               <tr id="heading2Row">
                                  <td>H2 Headings</td>
-                                 <td class="test_text" id="h2Font">Sample Text</td>
+                                
 
                                  <td id="h2FontColAlt">Please enable</td>
                                  
@@ -81,7 +92,7 @@
 
                               <tr id="heading3Row">
                                  <td>H3 Headings</td>
-                                 <td class="test_text" id="h3Font">Sample Text</td>
+                                
 
                                  <td id="h3FontColAlt">Please enable</td>
                                  
@@ -92,7 +103,7 @@
 
                               <tr id="heading4Row">
                                  <td>H4 Headings</td>
-                                 <td class="test_text" id="h4Font">Sample Text</td>
+                              
 
                                  <td id="h4FontColAlt">Please enable</td>
                                  
@@ -103,7 +114,7 @@
 
                               <tr id="heading5Row">
                                  <td>H5 Headings</td>
-                                 <td class="test_text" id="h5Font">Sample Text</td>
+                                
 
                                  <td id="h5FontColAlt">Please enable</td>
                                  
@@ -114,7 +125,7 @@
 
                               <tr id="heading6Row">
                                  <td>H6 Headings</td>
-                                 <td class="test_text" id="h6Font">Sample Text</td>
+                              
 
                                  <td id="h6FontColAlt">Please enable</td>
                                  
@@ -125,7 +136,7 @@
 
                               <tr id="pRow">
                                  <td>P Tags (Paragraphs)</td>
-                                 <td class="test_text" id="pFont">Sample Text</td>
+                              
 
                                  <td id="pFontColAlt">Please enable</td>
                                  
@@ -135,7 +146,7 @@
                               </tr>
                               <tr id="blockRow">
                                  <td>Blockquotes</td>
-                                 <td class="test_text" id="blockFont">Sample Text</td>
+                                
 
                                  <td id="blockFontColAlt">Please enable</td>
                                  
@@ -145,7 +156,7 @@
                               </tr>
                               <tr id="liRow">
                                  <td>List's (li Tags)</td>
-                                 <td class="test_text" id="liFont">Sample Text</td>
+                              
 
                                  <td id="liFontColAlt">Please enable</td>
                                  
@@ -156,7 +167,7 @@
                               </tr>
                               <tr id="aRow">
                                  <td>Hyperlink (a tags)</td>
-                                 <td class="test_text" id="aFont">Sample Text</td>
+                                
 
                                  <td id="aFontColAlt">Please enable</td>
                                  
@@ -179,15 +190,21 @@
               
               <div class="container">
                 <div class="row mt-3">
-                  <div class="col-md-12 embed-responsive embed-responsive-16by9">
-                          <iframe class="embed-responsive-item" src="http://localhost:1234/" ></iframe>
-                          <!-- ?dev_mode=on -->
-                  </div>
+                  <div class="col-md-9">
+                          <div class="form-group">
+                              
+<textarea class="form-control" placeholder="Custom Classes Are Added Here" name="custom-elements"></textarea>    
+                          </div>
+                        </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                            <button class=" btn btn-lg btn-block btn-picker-element" type="button" data-src="https://shristorey.myshopify.com" data-hover="Elements picker">Picker</button>
+                          </div>
+                          </div>
+
+                  
                 </div>
               </div>
-
-
-
             </div>
             <div class="tab-pane fade" id="nav-help" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
          </div>
@@ -458,6 +475,64 @@
     });
 
 
+    var $postData = [];
+    var $picker = $(".btn-picker-element, .elements-picker-block");
+    var $textarea = $picker;
+    $picker.on("click", function (event) {
+
+        console.log("Clicked ");
+        var itv;
+        var $this = $(this);
+        $textarea = $this;
+        var target = window.open($picker.data("src"), "_blank", "location=0");
+        var $input = $this.closest("div.row").find('[name="custom-elements"]').val(),
+            $postData = $input == "" ? [] : $input.split(/\r|\n/g);
+        function message(evt) {
+            if (typeof evt.data.message == "string" && evt.data.message === "init") {
+                console.log("Got request", evt);
+                target.postMessage({ message: "pick", data: $postData }, "*");
+                return true;
+            }
+            if (typeof evt.data.message == "string" && evt.data.message == "pull") {
+                $postData = evt.data.data;
+                $textarea.closest("div.row").find('[name="custom-elements"]').val($postData.join("\n"));
+            }
+        }
+        window.addEventListener("message", message, false);
+        itv = setInterval(() => {
+            if (!target || !target.opener) {
+                clearInterval(itv);
+                window.removeEventListener("message", message);
+            }
+        }, 1000);
+    });
+    
+  window.addEventListener("message", receiveMessage, false);
+    function receiveMessage(event) {
+        if (event.origin == "https://services.lumise.com") {
+            var e = event;
+            if (e.data && e.data.action) {
+                switch (e.data.action) {
+                    case "fonts":
+                        var fonts = Object.keys(e.data.fonts);
+                        if (fonts.length < 1) return;
+                        console.log(fonts);
+                        $('[name="google-font"]').val(decodeURIComponent(fonts[0]));
+                        $.fancybox.close();
+                        break;
+                }
+            }
+            return true;
+        }
+    }
+
+
+
+
+
+  
+
+
   $('#save').click(function(){
         request_data = {
           "store_token":'{{app_token}}',
@@ -499,10 +574,8 @@
     }
 
 
-    $("#sample_text").keyup(function(event) {
-      var stt = $(this).val();
-      $(".test_text").text(stt);
-    });
+
+
 
     $(function() {
 
