@@ -9,7 +9,7 @@
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-home" aria-selected="true">Basic Elements</a>
                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-preview" role="tab" aria-controls="nav-profile" aria-selected="false">Custom Elements</a>
-               <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-help" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
+               <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-help" role="tab" aria-controls="nav-contact" aria-selected="false">My Fonts</a>
             </div>
          </nav>
          <div class="tab-content" id="nav-tabContent">
@@ -18,20 +18,6 @@
 
                  <div class="row mb-3">
       
-      <div class="col-md-8">
-        <form method="post" action="font_upload/" enctype="multipart/form-data">
-        <div class="form-group">
-          {% csrf_token %}
-          <input type="file" class="form-control" name="myfile">
-          <input type="hidden" value="{{shop_url}}" name="shop_url">        
-        </div>
-      </div>
-      <div class="col-md-2">
-        <div class="form-group">
-          <button class="btn btn-block btn-lg" type="submit">Upload</button>
-          </form>
-        </div>
-      </div>
       
       
       <div class="col-md-2"> 
@@ -47,18 +33,20 @@
                            <thead>
                               <tr>
                                  <th scope="col">Element</th>
-                                 <th scope="col" id="fontHeader">Font</th>
+                                 <th scope="col" id="fontHeader">Choose Google Font</th>
                                  <th scope="col">Active</th>
+
                               </tr>
                            </thead>
                            <tbody>
                               <tr>
                                  <td>All (Body)</td>
-                          
-                                 
+                                                                
                                  <td id="bodyFontColAlt">Please enable</td>
                                  
-                                 <td id="bodyFontCol"><input class="bodyFont" ></td>
+                                <td id="bodyFontCol">
+                                  <input class="bodyFont">
+                                </td>
 
                                  
                                  <td><input type="checkbox" data-toggle="toggle" id="bodyToggle" data-style="slow"></td>
@@ -206,7 +194,59 @@
                 </div>
               </div>
             </div>
-            <div class="tab-pane fade" id="nav-help" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+         
+            <!-- CUSTOM FONTS -->   
+            <div class="tab-pane fade" id="nav-help" role="tabpanel" aria-labelledby="nav-contact-tab">
+              <div class="container mt-4">
+                <div class="row">
+                        
+                  <div class="col-md-1"></div>
+      <div class="col-md-8">
+        <form method="post" action="font_upload/" enctype="multipart/form-data">
+        <div class="form-group">
+          {% csrf_token %}
+          <input type="file" class="form-control" name="myfile">
+          <input type="hidden" value="{{shop_url}}" name="shop_url">        
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <button class="btn btn-block btn-lg" type="submit">Upload</button>
+          </form>
+        </div>
+      </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                   <table class="table table-hover">
+                           <thead style="text-align: center;">
+                              <tr>
+                                 <th scope="col">Font Name</th>
+                                 <th scope="col">Action</th>
+                              </tr>
+                           </thead>
+                           <tbody style="text-align: center;">
+                              {%  for font in store_fonts %}
+                              <tr>
+                                 <td>{{font.font_name}}</td>                                 
+                                 <td>Delete | Edit</td>
+                              </tr>
+
+                              {% endfor %}
+
+                            </tbody>
+                          </table>
+
+                </div>  
+              </div>
+              
+              </div>
+
+
+            </div>
+            <!-- ENDS HERE -->
+         
          </div>
       </div>
    </div>
@@ -837,6 +877,8 @@ $('#blockToggle').change(function(event) {
     $('input.blockFont').val('').trigger('change');
      
   }
+
+
 
 
 

@@ -16,3 +16,6 @@ class Settings(models.Model):
     block_tag = models.CharField(max_length=100,null=True,default='',blank=True)
     li_tag = models.CharField(max_length=100,null=True,default='',blank=True)
     a_tag = models.CharField(max_length=100,null=True,default='',blank=True)
+class CustomFonts(models.Model):
+	store_url =   models.CharField(max_length=100,null=True,default='',blank=True)
+	font_name   = models.CharField(max_length=100,null=True,default='',blank=True)

@@ -6,6 +6,7 @@ from api.views import Store,Settings
 from uuid import uuid4
 import requests
 import json
+from api.models import CustomFonts 
 
 @shop_login_required
 def index(request):
@@ -48,13 +49,18 @@ def index(request):
 
 		fontman_css = ''
 		snippet = shopify.Asset()
-		asset.key = "snippets/fontmancss.liquid"
-		asset.value = fontman_css
-		success = asset.save()
+		snippet.key = "snippets/fontmancss.liquid"
+		snippet.value = fontman_css
+		success = snippet.save()
 		print("Assets saved Liqued")
 		
 		########################## ENDS HERE ##################################################################
-	return render(request, 'home/index.html',{'store_token':token,'store_url':shop_url,'app_token':store_token,'shop_url':request.session['shopify']['shop_url']})
+	file_upload = request.session.get('file_upload')
+	#load fonts here
+	store_fonts = CustomFonts.objects.filter(store_url = request.session['shopify']['shop_url'] )
+	print(store_fonts)
+	request.session['file_upload']='' #reset session here
+	return render(request, 'home/index.html',{'store_token':token,'store_url':shop_url,'app_token':store_token,'shop_url':request.session['shopify']['shop_url'],'file_status':file_upload,'store_fonts':store_fonts})
 
 def shopify_call(url,token):
 	return requests.get(url, headers={"X-Shopify-Access-Token":token}).text
