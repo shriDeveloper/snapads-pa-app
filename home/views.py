@@ -22,38 +22,6 @@ def index(request):
 		settings = Settings(store_token = store_token)
 		store.save()
 		settings.save()
-		
-		############################### THEME MODIFICATION CODE HERE #########################################
-		themes=shopify_call(shop_url+"/admin/api/2020-10/themes.json",token)
-		for theme in json.loads(themes)['themes']:
-			if theme['role']=='main':
-				theme_id = theme['id']
-		
-
-		print(themes)
-		#theme settings
-		assets = shopify_call(shop_url+"/admin/api/2020-10/themes/"+str(theme_id)+"/assets.json?asset[key]=layout/theme.liquid",token)
-		assets = json.loads(assets)['asset']['value']
-		snippet = "{% include 'fontmancss' %}"
-		head_tag = "</head>"
-		
-		fontman_api = snippet+head_tag
-		
-		if fontman_api not in assets:
-			theme_liquid = assets.replace(head_tag,fontman_api)
-			asset = shopify.Asset()
-			asset.key = "layout/theme.liquid"
-			asset.value = theme_liquid
-			success = asset.save()
-			print("Asset Added")
-
-		fontman_css = ''
-		snippet = shopify.Asset()
-		snippet.key = "snippets/fontmancss.liquid"
-		snippet.value = fontman_css
-		success = snippet.save()
-		print("Assets saved Liqued")
-		
 		########################## ENDS HERE ##################################################################
 	file_upload = request.session.get('file_upload')
 	#load fonts here

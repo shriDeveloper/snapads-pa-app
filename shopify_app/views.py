@@ -88,11 +88,38 @@ def submit(request):
         font_json = json.loads(font_data)
         store_json = json.loads(store_data)
 
+
         themes=shopify_call(store_json['store_url']+"/admin/api/2020-10/themes.json",store_json['store_token'])
         print(themes)
         for theme in json.loads(themes)['themes']:
             if theme['role']=='main':
                 theme_id = theme['id']
+
+        print("THEME ID: "+str(theme_id))
+
+        assets = shopify_call(store_json['store_url']+"/admin/api/2020-10/themes/"+str(theme_id)+"/assets.json?asset[key]=layout/theme.liquid",store_json['store_token'])
+        assets = json.loads(assets)['asset']['value']
+
+        #theme settings
+        snippet = "{% include 'fontmancss' %}"
+        head_tag = "</head>"
+        
+        fontman_api = snippet+head_tag
+        
+        if fontman_api not in assets:
+            theme_liquid = assets.replace(head_tag,fontman_api)
+            asset = shopify.Asset()
+            asset.key = "layout/theme.liquid"
+            asset.value = theme_liquid
+            success = asset.save()
+            print("Asset Added")
+
+        fontman_css = ''
+        snippet = shopify.Asset()
+        snippet.key = "snippets/fontmancss.liquid"
+        snippet.value = fontman_css
+        success = snippet.save()
+        print("Assets saved Liqued")
         
         #theme settings
         assets = shopify_call(store_json['store_url']+"/admin/api/2020-10/themes/"+str(theme_id)+"/assets.json?asset[key]=snippets/fontmancss.liquid",store_json['store_token'])

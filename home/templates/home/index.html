@@ -60,7 +60,7 @@
                                         <select class="form-control custom-body">
                                         <option value="none">Select Font</option>
                                           {%  for font in store_fonts %}
-                                            <option value="{{font.id}}">{{font.font_name}}</option>
+                                            <option value="{{font.font_name}}">{{font.font_name}}</option>
                                           {% endfor %}
                                         </select>
                                   </div>
@@ -94,7 +94,7 @@
                                         <select class="form-control custom-h1">
                                         <option value="none">Select Font</option>
                                           {%  for font in store_fonts %}
-                                            <option value="{{font.id}}">{{font.font_name}}</option>
+                                            <option value="{{font.font_name}}">{{font.font_name}}</option>
                                           {% endfor %}
                                         </select>
                                   </div>
@@ -127,7 +127,7 @@
                                         <select class="form-control custom-h2">
                                         <option value="none">Select Font</option>
                                           {%  for font in store_fonts %}
-                                            <option value="{{font.id}}">{{font.font_name}}</option>
+                                            <option value="{{font.font_name}}">{{font.font_name}}</option>
                                           {% endfor %}
                                         </select>
                                   </div>
@@ -160,7 +160,7 @@
                                         <select class="form-control custom-h3">
                                         <option value="none">Select Font</option>
                                           {%  for font in store_fonts %}
-                                            <option value="{{font.id}}">{{font.font_name}}</option>
+                                            <option value="{{font.font_name}}">{{font.font_name}}</option>
                                           {% endfor %}
                                         </select>
                                   </div>
@@ -193,7 +193,7 @@
                                         <select class="form-control custom-h4">
                                         <option value="none">Select Font</option>
                                           {%  for font in store_fonts %}
-                                            <option value="{{font.id}}">{{font.font_name}}</option>
+                                            <option value="{{font.font_name}}">{{font.font_name}}</option>
                                           {% endfor %}
                                         </select>
                                   </div>
@@ -226,7 +226,7 @@
                                         <select class="form-control custom-h5">
                                         <option value="none">Select Font</option>
                                           {%  for font in store_fonts %}
-                                            <option value="{{font.id}}">{{font.font_name}}</option>
+                                            <option value="{{font.font_name}}">{{font.font_name}}</option>
                                           {% endfor %}
                                         </select>
                                   </div>
@@ -259,7 +259,7 @@
                                         <select class="form-control custom-h6">
                                         <option value="none">Select Font</option>
                                           {%  for font in store_fonts %}
-                                            <option value="{{font.id}}">{{font.font_name}}</option>
+                                            <option value="{{font.font_name}}">{{font.font_name}}</option>
                                           {% endfor %}
                                         </select>
                                   </div>
@@ -292,7 +292,7 @@
                                         <select class="form-control custom-p">
                                           <option value="none">Select Font</option>
                                           {%  for font in store_fonts %}
-                                            <option value="{{font.id}}">{{font.font_name}}</option>
+                                            <option value="{{font.font_name}}">{{font.font_name}}</option>
                                           {% endfor %}
                                         </select>
                                   </div>
@@ -324,7 +324,7 @@
                                         <select class="form-control custom-block">
                                         <option value="none">Select Font</option>
                                           {%  for font in store_fonts %}
-                                            <option value="{{font.id}}">{{font.font_name}}</option>
+                                            <option value="{{font.font_name}}">{{font.font_name}}</option>
                                           {% endfor %}
                                         </select>
                                   </div>
@@ -357,7 +357,7 @@
                                         <select class="form-control custom-li">
                                         <option value="none">Select Font</option>
                                           {%  for font in store_fonts %}
-                                            <option value="{{font.id}}">{{font.font_name}}</option>
+                                            <option value="{{font.font_name}}">{{font.font_name}}</option>
                                           {% endfor %}
                                         </select>
                                   </div>
@@ -390,7 +390,7 @@
                                         <select class="form-control custom-a">
                                         <option value="none">Select Font</option>
                                           {%  for font in store_fonts %}
-                                            <option value="{{font.id}}">{{font.font_name}}</option>
+                                            <option value="{{font.font_name}}">{{font.font_name}}</option>
                                           {% endfor %}
                                         </select>
                                   </div>
@@ -491,24 +491,7 @@
       </div>
    </div>
 </div>
-
-
 {% csrf_token %}
-
-<!--   <h1>STORE : {{ store_token }}</h1>
-
-  <p>{{theme}}</p>
-
-
-  <p id="Logo">Logo Here</p><input class="logoPicker">
-  <br/>
-  <p id="Footer">Footer Here</p><input class="footerPicker">
-  <br/>
-  <p id="Content">Content Here</p><input class="contentPicker">
-  <br/>
-
-  <button id="save">Save</button>
- -->
   <script>
     var body_font = '';
     var h1_font = '';
@@ -521,20 +504,20 @@
     var block_font = '';
     var li_font = '';
     var a_font = '';
-    $(document).ready(function(){
 
+    $(document).ready(function(){
       //load fonts for store 
       $.ajax({
           type:'GET',
           url:'http://localhost:8000/api/fontman',
           data:{'store_token':'{{app_token}}'},
           success:function(response){
-
             console.log(response);
-
+            
+            //init changes here
 
             if(response['body_tag']!=null && response['body_tag']!="" ){
-              
+
               $('#body-toggle').prop("checked", true).change();
               $('#body-type-select').val('body-google').change();
               $('.google-body').val(response['body_tag']).trigger('change');
@@ -625,88 +608,127 @@
     });
 
 
+    //do changes as per selection here 
 
      $('.google-body').fontpicker().on('change', function() {
-      console.log("Picker: "+this.value);
       body_font = this.value;
     });
 
 
+     $('.custom-body').on('change', function() {
+        body_font = this.value;
+    });
+
+
+
 
     $('.google-h1').fontpicker().on('change', function() {
-      console.log("Picker: "+this.value);
       h1_font = this.value;
     });
 
+    $('.custom-h1').on('change', function() {
+        h1_font = this.value;
+    });
+
+    
 
 
     $('.google-h2').fontpicker().on('change', function() {
-      console.log("Picker: "+this.value);
       h2_font = this.value;
     });
+
+    $('.custom-h2').on('change', function() {
+        h2_font = this.value;
+    });
+
 
 
 
     $('.google-h3').fontpicker().on('change', function() {
-      console.log("Picker: "+this.value);
+      h3_font = this.value;
+    });
+
+    $('.custom-h3').on('change', function() {
       h3_font = this.value;
     });
 
 
 
     $('.google-h4').fontpicker().on('change', function() {
-      console.log("Picker: "+this.value);
+      h4_font = this.value;
+    });
+
+
+    $('.custom-h4').on('change', function() {
       h4_font = this.value;
     });
 
 
 
-
     $('.google-h5').fontpicker().on('change', function() {
-      console.log("Picker: "+this.value);
       h5_font = this.value;
     });
 
 
+    $('.custom-h5').on('change', function() {
+      h5_font = this.value;
+    });
 
 
+    
     $('.google-h6').fontpicker().on('change', function() {
-      console.log("Picker: "+this.value);
+      h6_font = this.value;
+    });
+
+    $('.custom-h6').on('change', function() {
       h6_font = this.value;
     });
 
 
 
 
-
     $('.google-p').fontpicker().on('change', function() {
-      console.log("Picker: "+this.value);
+      p_font = this.value;
+    });
+
+    $('.custom-p').on('change', function() {
       p_font = this.value;
     });
 
 
 
 
-
     $('.google-li').fontpicker().on('change', function() {
-      console.log("Picker: "+this.value);
       li_font = this.value;
     });
 
+    $('.custom-li').on('change', function() {
+      li_font = this.value;
+    });
+    
 
 
 
 
     $('.google-a').fontpicker().on('change', function() {
-      console.log("Picker: "+this.value);
       a_font = this.value;
     });
 
 
+    $('.custom-a').on('change', function() {
+      a_font = this.value;
+    });
+
+
+
     $('.google-block').fontpicker().on('change', function() {
-      console.log("Picker: "+this.value);
       block_font = this.value;
     });
+
+    $('.custom-block').on('change', function() {
+      block_font = this.value;
+    });
+    
 
 
     var $postData = [];
@@ -765,6 +787,30 @@
 
 
   $('#save').click(function(){
+
+        //clean finally here
+        if(body_font == "none")
+          body_font = "";
+        if(h1_font == "none")
+          h1_font = "";
+        if(h2_font == "none")
+          h2_font = "";
+        if(h3_font == "none")
+          h3_font = "";
+        if(h5_font == "none")
+          h5_font = "";
+        if(h6_font == "none")
+          h6_font = "";
+        if(p_font == "none")
+          p_font = "";
+        if(li_font == "none")
+          li_font = "";
+        if(a_font == "none")
+          a_font = "";
+        if(block_font == "none")
+          block_font = "";
+        
+
         request_data = {
           "store_token":'{{app_token}}',
           "body_tag": body_font,
@@ -779,7 +825,7 @@
           "a_tag": a_font,
           "block_tag": block_font,
         };
-        console.log(request_data);
+
         $.ajax({
           type:'POST',
           url:'http://localhost:8000/submit/',
@@ -789,6 +835,8 @@
             alert('Saved Successfully');
           }
         });
+
+
   });
 
 
@@ -896,16 +944,25 @@
   $('select').on('change', function() {
       var el = this.value.split('-')[0];
       var type = this.value.split('-')[1];
+
       if(type == 'custom'){
         $('.'+type+'-'+el+'-div').show();
         $('.google'+'-'+el+'-div').hide();
         $('.default-'+el+'-div').html('');
+
+        //reset google font here
+        $('.google-'+el).val('').trigger('change');
+
       }
       
       if(type =='google'){
         $('.'+type+'-'+el+'-div').show();
         $('.custom'+'-'+el+'-div').hide();
         $('.default-'+el+'-div').html('');
+
+        //reset custom font here
+        $('.custom-'+el).val('none').change();        
+
       }
       
       if(type == 'default'){
@@ -917,6 +974,7 @@
           $('.default-'+el+'-div').html(' <i class="fa fa-hand-o-left" aria-hidden="true"></i> Select Font Type ');
         }
       }
+
   
   });
 
@@ -942,10 +1000,11 @@
           $('#li-row').hide();
           $('#block-row').hide();
           
-          // if(confirm("This will reset all other fonts !")){
+          // confirmation = confirm("This will reset all other fonts !");
+          // if(confirmation){
           //   resetGoogleFonts();
           //   console.log("Reset everything ");
-          //   $('#body-toggle').prop("checked", true).change();
+          //   //$('#body-toggle').prop("checked", true).change();
 
           // }else{
           //   alert("I saved my ass");
@@ -958,8 +1017,6 @@
         $("#"+type+"-type-select").prop('disabled', true);
         $('.default-'+type+'-div').html('Activate 👉');
 
-        //reset all fonts here & only show body tag
-        console.log("all google & custom fonts have been reset");
         if(type == 'body'){
             //hide all other here
             $('#h1-row').show();
@@ -973,9 +1030,12 @@
             $('#li-row').show();
             $('#block-row').show();  
         }
+      
       }
 
       $('#'+type+'-type-select').val(''+type+'-default').change();
+      $('.google-'+type).val('').trigger('change');
+      
       $('.google-'+type+'-div').css('display','none');
       $('.custom-'+type+'-div').css('display','none');
 
