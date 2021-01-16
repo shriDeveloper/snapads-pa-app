@@ -21,10 +21,10 @@
       
       <div class="col-md-10"></div>
       <div class="col-md-1"> 
-          <button id="save" class="btn btn-primary btn-lg"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+          <button id="save" class="btn btn-gradient btn-lg"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
       </div>
       <div class="col-md-1"> 
-          <a href="{{store_url}}" target="_blank" class="btn btn-primary btn-lg"><i class="fa fa-eye" aria-hidden="true"></i></a>
+          <a href="{{store_url}}" target="_blank" class="btn btn-gradient btn-lg"><i class="fa fa-eye" aria-hidden="true"></i></a>
       </div>
     </div>
 
@@ -835,7 +835,7 @@
           type:'POST',
           url:'http://localhost:8000/submit/',
           //url:'http://localhost:8000/api/settings/{{store_token}}',
-          data:{ font_data: JSON.stringify(request_data) , store_data: JSON.stringify({'store_token':'{{store_token}}','store_url':'{{store_url}}'})},
+          data:{ font_data: JSON.stringify(request_data) , store_data: JSON.stringify({'store_token':'{{store_token}}','store_url':'{{store_url}}','store_domain':'{{shop_url}}'})},
           success:function(response){
             console.log('Saved Successfully');
             $('#save').html('<i class="fa fa-floppy-o" aria-hidden="true"></i>');

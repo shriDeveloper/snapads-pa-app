@@ -88,14 +88,12 @@ def submit(request):
         font_json = json.loads(font_data)
         store_json = json.loads(store_data)
 
-
         themes=shopify_call(store_json['store_url']+"/admin/api/2020-10/themes.json",store_json['store_token'])
         print(themes)
         for theme in json.loads(themes)['themes']:
             if theme['role']=='main':
                 theme_id = theme['id']
 
-        print("THEME ID: "+str(theme_id))
 
         assets = shopify_call(store_json['store_url']+"/admin/api/2020-10/themes/"+str(theme_id)+"/assets.json?asset[key]=layout/theme.liquid",store_json['store_token'])
         assets = json.loads(assets)['asset']['value']
@@ -112,54 +110,85 @@ def submit(request):
             asset.key = "layout/theme.liquid"
             asset.value = theme_liquid
             success = asset.save()
-            print("Asset Added")
 
         fontman_css = ''
         snippet = shopify.Asset()
         snippet.key = "snippets/fontmancss.liquid"
         snippet.value = fontman_css
         success = snippet.save()
-        print("Assets saved Liqued")
-        
+
         #theme settings
         assets = shopify_call(store_json['store_url']+"/admin/api/2020-10/themes/"+str(theme_id)+"/assets.json?asset[key]=snippets/fontmancss.liquid",store_json['store_token'])
         assets = json.loads(assets)['asset']['value']
-        
+        #settings for google fonts
         font_link = ""
         fontman_css = '<style type="text/css" id="fontman_css">'
         if font_json['body_tag'] != "":
             fontman_css = fontman_css + 'body,span,h1,h2,h3,h4,h5,h6,blockquote,div,p,a,li{font-family:\''+fontmanFamily(font_json['body_tag'])+'\' !important;}'
-            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['body_tag'])+"' />"
+            if isCustomFont(font_json['body_tag']):
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['body_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['body_tag']+") format('woff2'); }</style>"
+            else:
+                font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['body_tag'])+"' />"
         if font_json['h1_tag'] != "":
             fontman_css = fontman_css + 'h1{font-family:\''+fontmanFamily(font_json['h1_tag'])+'\' !important;}'
-            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h1_tag'])+"' />"
+            if isCustomFont(font_json['h1_tag']):
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h1_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['h1_tag']+") format('woff2'); }</style>"
+            else:
+                font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h1_tag'])+"' />"
         if font_json['h2_tag'] != "":
             fontman_css = fontman_css + 'h2{font-family:\''+fontmanFamily(font_json['h2_tag'])+'\' !important;}'
-            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h2_tag'])+"' />"
+            if isCustomFont(font_json['h2_tag']):
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h2_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['h2_tag']+") format('woff2'); }</style>"
+            else:
+                font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h2_tag'])+"' />"
         if font_json['h3_tag'] != "":
             fontman_css = fontman_css + 'h3{font-family:\''+fontmanFamily(font_json['h3_tag'])+'\' !important;}'
-            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h3_tag'])+"' />"
+            if isCustomFont(font_json['h3_tag']):
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h3_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['h3_tag']+") format('woff2'); }</style>"
+            else:
+                font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h3_tag'])+"' />"
         if font_json['h4_tag'] != "":
             fontman_css = fontman_css + 'h4{font-family:\''+fontmanFamily(font_json['h4_tag'])+'\' !important;}'
-            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h4_tag'])+"' />"
+            if isCustomFont(font_json['h4_tag']):
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h4_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['h4_tag']+") format('woff2'); }</style>"
+            else:
+                font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h4_tag'])+"' />"
         if font_json['h5_tag'] != "":
             fontman_css = fontman_css + 'h5{font-family:\''+fontmanFamily(font_json['h5_tag'])+'\' !important;}'
-            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h5_tag'])+"' />"
+            if isCustomFont(font_json['h5_tag']):
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h5_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['h5_tag']+") format('woff2'); }</style>"
+            else:
+                font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h5_tag'])+"' />"
         if font_json['h6_tag'] != "":
             fontman_css = fontman_css + 'h6{font-family:\''+fontmanFamily(font_json['h6_tag'])+'\' !important;}'
-            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h6_tag'])+"' />"
+            if isCustomFont(font_json['h6_tag']):
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h6_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['h6_tag']+") format('woff2'); }</style>"
+            else:
+                font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h6_tag'])+"' />"
         if font_json['p_tag'] != "":
             fontman_css = fontman_css + 'p{font-family:\''+fontmanFamily(font_json['p_tag'])+'\' !important;}'
-            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['p_tag'])+"' />"
+            if isCustomFont(font_json['p_tag']):
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['p_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['p_tag']+") format('woff2'); }</style>"
+            else:
+                font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['p_tag'])+"' />"
         if font_json['block_tag'] != "":
             fontman_css = fontman_css + 'blockquote{font-family:\''+fontmanFamily(font_json['block_tag'])+'\' !important;}'
-            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['block_tag'])+"' />"
+            if isCustomFont(font_json['block_tag']):
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h2_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['block_tag']+") format('woff2'); }</style>"
+            else:
+                font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['block_tag'])+"' />"
         if font_json['li_tag'] != "":
             fontman_css = fontman_css + 'li{font-family:\''+fontmanFamily(font_json['li_tag'])+'\' !important;}'
-            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['li_tag'])+"' />"
+            if isCustomFont(font_json['li_tag']):
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['li_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['li_tag']+") format('woff2'); }</style>"
+            else:
+                font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['li_tag'])+"' />"
         if font_json['a_tag'] != "":
             fontman_css = fontman_css + 'a{font-family:\''+fontmanFamily(font_json['a_tag'])+'\' !important;}'
-            font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['a_tag'])+"' />"
+            if isCustomFont(font_json['a_tag']):
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['a_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['a_tag']+") format('woff2'); }</style>"
+            else:
+                font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['a_tag'])+"' />"
         fontman_css = fontman_css + "</style>"
         
         markup = font_link + fontman_css
@@ -179,5 +208,16 @@ def submit(request):
 
 def slugifyFont(font):
     return "+".join(font.split(":")[0].split())
+
 def fontmanFamily(font):
+    if isCustomFont(font):
+        return customifyFont(font)
     return font.split(":")[0]
+
+def isCustomFont(font):
+    extension = ['.woff','.woff2','.ttf','.otf']
+    return list(filter(font.endswith, extension)) != []
+
+def customifyFont(font):
+    return font.split('.')[0]
+     
