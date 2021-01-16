@@ -19,7 +19,7 @@
                  <div class="row mb-3">
       
       
-      
+      <div class="col-md-10"></div>
       <div class="col-md-2"> 
           <button id="save" class="btn btn-block btn-lg">Save</button>
       </div>
@@ -533,63 +533,87 @@
             console.log(response);
 
 
-            if(response['body_tag']!=null){
+            if(response['body_tag']!=null && response['body_tag']!="" ){
+              
               $('#body-toggle').prop("checked", true).change();
               $('#body-type-select').val('body-google').change();
               $('.google-body').val(response['body_tag']).trigger('change');
+
             }else{
               //heading tags here
-              if(response['h1_tag']!=""){
+              if(response['h1_tag']!="" && response['h1_tag']!=null ){
                 
-                $('#h1Toggle').bootstrapToggle('on');
-                $('input.h1Font').val(response['h1_tag']).trigger('change');
+                $('#h1-toggle').prop("checked", true).change();
+                $('#h1-type-select').val('h1-google').change();
+                $('.google-h1').val(response['h1_tag']).trigger('change');
+
 
               }
-              if(response['h2_tag']!=""){
+              if(response['h2_tag']!="" &&  response['h2_tag']!=null){
                 
-                $('#h2Toggle').bootstrapToggle('on');
-                $('input.h2Font').val(response['h2_tag']).trigger('change');
-              }
-              if(response['h3_tag']!=""){
-                
-                $('#h3Toggle').bootstrapToggle('on');
-                $('input.h3Font').val(response['h3_tag']).trigger('change');
-              }
-              if(response['h4_tag']!=""){
-                
-                $('#h4Toggle').bootstrapToggle('on');
-                $('input.h4Font').val(response['h4_tag']).trigger('change');
-              }
-              if(response['h5_tag']!=""){
-                
-                $('#h5Toggle').bootstrapToggle('on');
-                $('input.h5Font').val(response['h5_tag']).trigger('change');
-              }
-              if(response['h6_tag']!=""){
-                
-                $('#h6Toggle').bootstrapToggle('on');
-                $('input.h6Font').val(response['h6_tag']).trigger('change');
-              }
-              if(response['p_tag']!=""){
-
-                $('#pToggle').bootstrapToggle('on');
-                $('input.pFont').val(response['p_tag']).trigger('change');
-              }
-              if(response['li_tag']!=""){
-
-                $('#liToggle').bootstrapToggle('on');
-                $('input.liFont').val(response['li_tag']).trigger('change');
-              }
-              if(response['a_tag']!=""){
-
-                $('#aToggle').bootstrapToggle('on');
-                $('input.aFont').val(response['a_tag']).trigger('change');
+                $('#h2-toggle').prop("checked", true).change();
+                $('#h2-type-select').val('h2-google').change();
+                $('.google-h2').val(response['h2_tag']).trigger('change');
 
               }
-              if(response['block_tag']!=""){
+              if(response['h3_tag']!="" &&  response['h3_tag']!=null){
+                
+                $('#h3-toggle').prop("checked", true).change();
+                $('#h3-type-select').val('h3-google').change();
+                $('.google-h3').val(response['h3_tag']).trigger('change');
+              }
+              if(response['h4_tag']!="" && response['h4_tag']!=null){
+                
+                $('#h4-toggle').prop("checked", true).change();
+                $('#h4-type-select').val('h4-google').change();
+                $('.google-h4').val(response['h4_tag']).trigger('change');
 
-                $('#blockToggle').bootstrapToggle('on');
-                $('input.blockFont').val(response['block_tag']).trigger('change');
+              }
+              if(response['h5_tag']!="" && response['h5_tag']!=null){
+                
+                $('#h5-toggle').prop("checked", true).change();
+                $('#h5-type-select').val('h5-google').change();
+                $('.google-h5').val(response['h5_tag']).trigger('change');
+
+              }
+              if(response['h6_tag']!="" && response['h6_tag']!=null){
+                
+                $('#h6-toggle').prop("checked", true).change();
+                $('#h6-type-select').val('h6-google').change();
+                $('.google-h6').val(response['h6_tag']).trigger('change');
+              }
+              if(response['p_tag']!="" && response['p_tag']!=null){
+
+                
+                $('#p-toggle').prop("checked", true).change();
+                $('#p-type-select').val('p-google').change();
+                $('.google-p').val(response['p_tag']).trigger('change');
+
+              }
+              if(response['li_tag']!="" && response['li_tag']!=null ){
+
+                
+                $('#li-toggle').prop("checked", true).change();
+                $('#li-type-select').val('li-google').change();
+                $('.google-li').val(response['li_tag']).trigger('change');
+
+              }
+              if(response['a_tag']!="" && response['a_tag']!=null ){
+
+                
+                $('#a-toggle').prop("checked", true).change();
+                $('#a-type-select').val('a-google').change();
+                $('.google-a').val(response['a_tag']).trigger('change');
+
+              }
+              if(response['block_tag']!="" && response['block_tag']!=null ){
+
+                
+                $('#block-toggle').prop("checked", true).change();
+                $('#block-type-select').val('block-google').change();
+                $('.google-block').val(response['block_tag']).trigger('change');
+
+
               }
 
             }
