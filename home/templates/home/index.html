@@ -506,6 +506,9 @@
     var a_font = '';
 
     $(document).ready(function(){
+      
+      //progressLoader here
+
       //load fonts for store 
       $.ajax({
           type:'GET',
@@ -600,6 +603,9 @@
               }
 
             }
+
+            //hide progressbar here
+            $('#progressLoader').modal('hide');
 
           }
     });
@@ -788,6 +794,13 @@
 
   $('#save').click(function(){
 
+
+        $('#imageLoader').attr('src','https://www.kiksarvr.com/RTE/earrings/assets/loader.gif');
+        $('#progressLoaderStatus').html('<strong><h5>Saving ...</h5></strong>');
+        //show loading here
+        $('#progressLoader').modal('show');
+
+
         //clean finally here
         if(body_font == "none")
           body_font = "";
@@ -826,13 +839,23 @@
           "block_tag": block_font,
         };
 
+
         $.ajax({
           type:'POST',
           url:'http://localhost:8000/submit/',
           //url:'http://localhost:8000/api/settings/{{store_token}}',
           data:{ font_data: JSON.stringify(request_data) , store_data: JSON.stringify({'store_token':'{{store_token}}','store_url':'{{store_url}}'})},
           success:function(response){
-            alert('Saved Successfully');
+            console.log('Saved Successfully');
+            $('#imageLoader').attr('src','https://i.pinimg.com/originals/06/ae/07/06ae072fb343a704ee80c2c55d2da80a.gif');
+             $('#progressLoaderStatus').html('<strong><h5>Saved</h5></strong>');
+            
+              //timeout after hide
+              setTimeout(function(){
+                $('#progressLoader').modal('hide');
+              }, 1500)
+            
+          
           }
         });
 
@@ -1048,11 +1071,33 @@
 
 
   /* ENDS HERE */
-
-
-
-
-
-
   </script>
+
+  <!-- PROGRESS MODAL GOES HERE -->
+  <div class="modal fade" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true" id="progressLoader">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="container">
+        <div class="row mt-5">
+          <div class="col-md-12 text-center">
+            <img  src="" height="100" id="imageLoader" width="100">
+          </div>
+        </div>
+        <div class="row text-center mt-2 mb-3">
+          <div class="col-md-12" id="progressLoaderStatus">
+            
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<!-- ENDS HERE -->
+
 {% endblock %}
+
+  {% block window_load_script %}
+
+  {% endblock %}
