@@ -95,6 +95,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'shopify_django_app.wsgi.application'
 
+X_FRAME_OPTIONS = 'ALLOW FROM https://shriCoder.pythonanywhere.com'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
