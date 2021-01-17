@@ -81,7 +81,7 @@ def logout(request):
 
 @csrf_exempt
 def submit(request):
-    API_URL = 'http://6bf22ad3a408.ngrok.io'
+    API_URL = 'http://localhost:8000'
     if request.method == "POST":
         font_data = request.POST.get('font_data')
         store_data = request.POST.get('store_data')
