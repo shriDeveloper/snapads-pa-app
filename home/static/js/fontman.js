@@ -1,6 +1,6 @@
 function InitFontify() {
     (function ($) {
-        var origin = "https://shricoder.pythonanywhere.com/";
+        var origin = "https://shricoder.pythonanywhere.com";
         var css = "h1 { background: red; }",
             head = document.head || document.getElementsByTagName("head")[0],
             style = document.createElement("style");
