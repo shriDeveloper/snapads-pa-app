@@ -200,10 +200,10 @@ def submit(request):
         success = snippet.save()
 
         #finally update db
-        response = requests.put("http://localhost:8000/api/settings/"+font_json['store_token'],data = font_data)
+        response = requests.put("https://shricoder.pythonanywhere.com/api/settings/"+font_json['store_token'],data = font_data)
         print(response.text)
         #ends here
-        return HttpResponse(response.text);
+        return HttpResponse(response.text)
         #return JsonResponse({},safe=False)
     return JsonResponse({},safe=False)
 
