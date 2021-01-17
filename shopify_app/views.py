@@ -81,7 +81,7 @@ def logout(request):
 
 @csrf_exempt
 def submit(request):
-    API_URL = 'http://localhost:8000'
+    API_URL = 'https://shricoder.pythonanywhere.com'
     if request.method == "POST":
         font_data = request.POST.get('font_data')
         store_data = request.POST.get('store_data')
