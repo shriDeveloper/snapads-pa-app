@@ -888,7 +888,7 @@
     
   window.addEventListener("message", receiveMessage, false);
     function receiveMessage(event) {
-        if (event.origin == "http://localhost:8000") {
+        if (event.origin == "https://shricoder.pythonanywhere.com") {
             var e = event;
             if (e.data && e.data.action) {
                 switch (e.data.action) {
