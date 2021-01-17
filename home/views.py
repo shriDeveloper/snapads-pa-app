@@ -24,7 +24,7 @@ def index(request):
 		settings.save()
 
 		### CONFIGURE JS HERE ####
-	res = shopify.ScriptTag(dict(event='onload', src='https://5886c8f380cf.ngrok.io/static/js/fontman.js')).save()
+		res = shopify.ScriptTag(dict(event='onload', src='https://shricoder.pythonanywhere.com/static/js/fontman.js')).save()
 		########################## ENDS HERE ##################################################################
 	file_upload = request.session.get('file_upload')
 	#load fonts here
