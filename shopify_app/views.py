@@ -81,6 +81,7 @@ def logout(request):
 
 @csrf_exempt
 def submit(request):
+    API_URL = ' http://c75a5d38de7b.ngrok.io'
     if request.method == "POST":
         font_data = request.POST.get('font_data')
         store_data = request.POST.get('store_data')
@@ -126,67 +127,67 @@ def submit(request):
         if font_json['body_tag'] != "":
             fontman_css = fontman_css + 'body,span,h1,h2,h3,h4,h5,h6,blockquote,div,p,a,li{font-family:\''+fontmanFamily(font_json['body_tag'])+'\' !important;}'
             if isCustomFont(font_json['body_tag']):
-                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['body_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['body_tag']+") format('woff2'); }</style>"
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['body_tag'])+"'; src: url("+API_URL+"/media/"+store_json['store_domain']+"/fonts/"+font_json['body_tag']+") format('"+getFontType(font_json['body_tag'])+"'); }</style>"
             else:
                 font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['body_tag'])+"' />"
         if font_json['h1_tag'] != "":
             fontman_css = fontman_css + 'h1{font-family:\''+fontmanFamily(font_json['h1_tag'])+'\' !important;}'
             if isCustomFont(font_json['h1_tag']):
-                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h1_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['h1_tag']+") format('woff2'); }</style>"
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h1_tag'])+"'; src: url("+API_URL+"/media/"+store_json['store_domain']+"/fonts/"+font_json['h1_tag']+") format('"+getFontType(font_json['h1_tag'])+"'); }</style>"
             else:
                 font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h1_tag'])+"' />"
         if font_json['h2_tag'] != "":
             fontman_css = fontman_css + 'h2{font-family:\''+fontmanFamily(font_json['h2_tag'])+'\' !important;}'
             if isCustomFont(font_json['h2_tag']):
-                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h2_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['h2_tag']+") format('woff2'); }</style>"
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h2_tag'])+"'; src: url("+API_URL+"/media/"+store_json['store_domain']+"/fonts/"+font_json['h2_tag']+") format('"+getFontType(font_json['h2_tag'])+"'); }</style>"
             else:
                 font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h2_tag'])+"' />"
         if font_json['h3_tag'] != "":
             fontman_css = fontman_css + 'h3{font-family:\''+fontmanFamily(font_json['h3_tag'])+'\' !important;}'
             if isCustomFont(font_json['h3_tag']):
-                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h3_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['h3_tag']+") format('woff2'); }</style>"
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h3_tag'])+"'; src: url("+API_URL+"/media/"+store_json['store_domain']+"/fonts/"+font_json['h3_tag']+") format('"+getFontType(font_json['h3_tag'])+"'); }</style>"
             else:
                 font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h3_tag'])+"' />"
         if font_json['h4_tag'] != "":
             fontman_css = fontman_css + 'h4{font-family:\''+fontmanFamily(font_json['h4_tag'])+'\' !important;}'
             if isCustomFont(font_json['h4_tag']):
-                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h4_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['h4_tag']+") format('woff2'); }</style>"
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h4_tag'])+"'; src: url("+API_URL+"/media/"+store_json['store_domain']+"/fonts/"+font_json['h4_tag']+") format('"+getFontType(font_json['h4_tag'])+"'); }</style>"
             else:
                 font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h4_tag'])+"' />"
         if font_json['h5_tag'] != "":
             fontman_css = fontman_css + 'h5{font-family:\''+fontmanFamily(font_json['h5_tag'])+'\' !important;}'
             if isCustomFont(font_json['h5_tag']):
-                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h5_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['h5_tag']+") format('woff2'); }</style>"
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h5_tag'])+"'; src: url("+API_URL+"/media/"+store_json['store_domain']+"/fonts/"+font_json['h5_tag']+") format('"+getFontType(font_json['h5_tag'])+"'); }</style>"
             else:
                 font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h5_tag'])+"' />"
         if font_json['h6_tag'] != "":
             fontman_css = fontman_css + 'h6{font-family:\''+fontmanFamily(font_json['h6_tag'])+'\' !important;}'
             if isCustomFont(font_json['h6_tag']):
-                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h6_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['h6_tag']+") format('woff2'); }</style>"
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h6_tag'])+"'; src: url("+API_URL+"/media/"+store_json['store_domain']+"/fonts/"+font_json['h6_tag']+") format('"+getFontType(font_json['h6_tag'])+"'); }</style>"
             else:
                 font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['h6_tag'])+"' />"
         if font_json['p_tag'] != "":
             fontman_css = fontman_css + 'p{font-family:\''+fontmanFamily(font_json['p_tag'])+'\' !important;}'
             if isCustomFont(font_json['p_tag']):
-                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['p_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['p_tag']+") format('woff2'); }</style>"
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['p_tag'])+"'; src: url("+API_URL+"/media/"+store_json['store_domain']+"/fonts/"+font_json['p_tag']+") format('"+getFontType(font_json['p_tag'])+"'); }</style>"
             else:
                 font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['p_tag'])+"' />"
         if font_json['block_tag'] != "":
             fontman_css = fontman_css + 'blockquote{font-family:\''+fontmanFamily(font_json['block_tag'])+'\' !important;}'
             if isCustomFont(font_json['block_tag']):
-                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h2_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['block_tag']+") format('woff2'); }</style>"
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['h2_tag'])+"'; src: url("+API_URL+"/media/"+store_json['store_domain']+"/fonts/"+font_json['block_tag']+") format('"+getFontType(font_json['block_tag'])+"'); }</style>"
             else:
                 font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['block_tag'])+"' />"
         if font_json['li_tag'] != "":
             fontman_css = fontman_css + 'li{font-family:\''+fontmanFamily(font_json['li_tag'])+'\' !important;}'
             if isCustomFont(font_json['li_tag']):
-                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['li_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['li_tag']+") format('woff2'); }</style>"
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['li_tag'])+"'; src: url("+API_URL+"/media/"+store_json['store_domain']+"/fonts/"+font_json['li_tag']+") format('"+getFontType(font_json['li_tag'])+"'); }</style>"
             else:
                 font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['li_tag'])+"' />"
         if font_json['a_tag'] != "":
             fontman_css = fontman_css + 'a{font-family:\''+fontmanFamily(font_json['a_tag'])+'\' !important;}'
             if isCustomFont(font_json['a_tag']):
-                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['a_tag'])+"'; src: url(http://localhost:8000/media/"+store_json['store_domain']+"/fonts/"+font_json['a_tag']+") format('woff2'); }</style>"
+                font_link = font_link + "<style>@font-face{ font-family: '"+customifyFont(font_json['a_tag'])+"'; src: url("+API_URL+"/media/"+store_json['store_domain']+"/fonts/"+font_json['a_tag']+") format('"+getFontType(font_json['a_tag'])+"'); }</style>"
             else:
                 font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['a_tag'])+"' />"
         fontman_css = fontman_css + "</style>"
@@ -220,4 +221,16 @@ def isCustomFont(font):
 
 def customifyFont(font):
     return font.split('.')[0]
+
+def getFontType(font):
+    extension = font.split('.')[1]
+    if extension == "ttf":
+        return "truetype"
+    if extension == "woff" or extension == "woff2":
+        return extension
+    if extension == "otf":
+        return "opentype"
+    return ""
+
+
      

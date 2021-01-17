@@ -496,6 +496,17 @@
 </div>
 {% csrf_token %}
   <script>
+
+    function isCustomFont(font){
+      if(font.endsWith('.ttf')||font.endsWith('.otf')||font.endsWith('.woff')||font.endsWith('.woff2')){
+        return true;
+      }else{
+        return false;
+      }
+    }
+
+
+
     var body_font = '';
     var h1_font = '';
     var h2_font = '';
@@ -509,10 +520,12 @@
     var a_font = '';
 
     $(document).ready(function(){
-      //load fonts for store 
+      //load fonts for store
+      var API_URL = 'http://c75a5d38de7b.ngrok.io';
+
       $.ajax({
           type:'GET',
-          url:'http://localhost:8000/api/fontman',
+          url:API_URL+'/api/fontman',
           data:{'store_token':'{{app_token}}'},
           success:function(response){
             console.log(response);
@@ -522,82 +535,178 @@
             if(response['body_tag']!=null && response['body_tag']!="" ){
 
               $('#body-toggle').prop("checked", true).change();
-              $('#body-type-select').val('body-google').change();
-              $('.google-body').val(response['body_tag']).trigger('change');
+              if(isCustomFont(response['body_tag'])){
+                //if this is the custom font here
+                $('#body-type-select').val('body-custom').change();
+                $('.custom-body').val(response['body_tag']).trigger('change');
 
+              }else{
+                //else it is a google font
+                $('#body-type-select').val('body-google').change();
+                $('.google-body').val(response['body_tag']).trigger('change');
+              }
+
+              
             }else{
               //heading tags here
               if(response['h1_tag']!="" && response['h1_tag']!=null ){
                 
                 $('#h1-toggle').prop("checked", true).change();
-                $('#h1-type-select').val('h1-google').change();
-                $('.google-h1').val(response['h1_tag']).trigger('change');
+                if(isCustomFont(response['h1_tag'])){
+                  //if this is the custom font here
+                  $('#h1-type-select').val('h1-custom').change();
+                  $('.custom-h1').val(response['h1_tag']).trigger('change');
+
+                }else{
+                  //else it is a google font
+                  $('#h1-type-select').val('h1-google').change();
+                  $('.google-h1').val(response['h1_tag']).trigger('change');
+                }
 
 
               }
               if(response['h2_tag']!="" &&  response['h2_tag']!=null){
                 
                 $('#h2-toggle').prop("checked", true).change();
-                $('#h2-type-select').val('h2-google').change();
-                $('.google-h2').val(response['h2_tag']).trigger('change');
+
+                if(isCustomFont(response['h2_tag'])){
+                  //if this is the custom font here
+                  $('#h2-type-select').val('h2-custom').change();
+                  $('.custom-h2').val(response['h2_tag']).trigger('change');
+
+                }else{
+                  $('#h2-type-select').val('h2-google').change();
+                  $('.google-h2').val(response['h2_tag']).trigger('change');  
+                }
+                
 
               }
               if(response['h3_tag']!="" &&  response['h3_tag']!=null){
                 
                 $('#h3-toggle').prop("checked", true).change();
-                $('#h3-type-select').val('h3-google').change();
-                $('.google-h3').val(response['h3_tag']).trigger('change');
+
+                if(isCustomFont(response['h3_tag'])){
+                  
+                  $('#h3-type-select').val('h3-custom').change();
+                  $('.custom-h3').val(response['h3_tag']).trigger('change');
+
+                }else{
+                  $('#h3-type-select').val('h3-google').change();
+                  $('.google-h3').val(response['h3_tag']).trigger('change');  
+                }
+                
+              
               }
               if(response['h4_tag']!="" && response['h4_tag']!=null){
                 
                 $('#h4-toggle').prop("checked", true).change();
-                $('#h4-type-select').val('h4-google').change();
-                $('.google-h4').val(response['h4_tag']).trigger('change');
+
+                if(isCustomFont(response['h4_tag'])){
+
+                  $('#h4-type-select').val('h4-custom').change();
+                  $('.custom-h4').val(response['h4_tag']).trigger('change');
+
+                }else{
+                  $('#h4-type-select').val('h4-google').change();
+                  $('.google-h4').val(response['h4_tag']).trigger('change');
+                }
+                
 
               }
               if(response['h5_tag']!="" && response['h5_tag']!=null){
                 
                 $('#h5-toggle').prop("checked", true).change();
-                $('#h5-type-select').val('h5-google').change();
-                $('.google-h5').val(response['h5_tag']).trigger('change');
+
+                if(isCustomFont(response['h5_tag'])){
+
+                  $('#h5-type-select').val('h5-custom').change();
+                  $('.custom-h5').val(response['h5_tag']).trigger('change');
+
+
+                }else{
+                  $('#h5-type-select').val('h5-google').change();
+                  $('.google-h5').val(response['h5_tag']).trigger('change');  
+                }
 
               }
+
               if(response['h6_tag']!="" && response['h6_tag']!=null){
                 
                 $('#h6-toggle').prop("checked", true).change();
-                $('#h6-type-select').val('h6-google').change();
-                $('.google-h6').val(response['h6_tag']).trigger('change');
+
+                if(isCustomFont(response['h6_tag'])){
+                  $('#h6-type-select').val('h6-custom').change();
+                  $('.custom-h6').val(response['h6_tag']).trigger('change');
+
+                }else{
+                    $('#h6-type-select').val('h6-google').change();
+                    $('.google-h6').val(response['h6_tag']).trigger('change');
+                }
+                
+              
               }
               if(response['p_tag']!="" && response['p_tag']!=null){
 
                 
                 $('#p-toggle').prop("checked", true).change();
-                $('#p-type-select').val('p-google').change();
-                $('.google-p').val(response['p_tag']).trigger('change');
+                if(isCustomFont(response['p_tag'])){
+                    $('#p-type-select').val('p-custom').change();
+                    $('.custom-p').val(response['p_tag']).trigger('change');
 
+                }else{
+                  $('#p-type-select').val('p-google').change();
+                  $('.google-p').val(response['p_tag']).trigger('change');
+                }
+                
               }
               if(response['li_tag']!="" && response['li_tag']!=null ){
 
-                
+
                 $('#li-toggle').prop("checked", true).change();
-                $('#li-type-select').val('li-google').change();
-                $('.google-li').val(response['li_tag']).trigger('change');
+                
+                if(isCustomFont(response['li_tag'])){
+
+                  $('#li-type-select').val('li-custom').change();
+                  $('.custom-li').val(response['li_tag']).trigger('change');
+
+                }else{
+                  $('#li-type-select').val('li-google').change();
+                  $('.google-li').val(response['li_tag']).trigger('change');  
+                }
 
               }
               if(response['a_tag']!="" && response['a_tag']!=null ){
 
-                
+
                 $('#a-toggle').prop("checked", true).change();
-                $('#a-type-select').val('a-google').change();
-                $('.google-a').val(response['a_tag']).trigger('change');
+                
+                if(isCustomFont(response['a_tag'])){
+
+                  $('#a-type-select').val('a-custom').change();
+                  $('.custom-a').val(response['a_tag']).trigger('change');
+
+                }else{
+                  $('#a-type-select').val('a-google').change();
+                  $('.google-a').val(response['a_tag']).trigger('change');  
+                }
 
               }
               if(response['block_tag']!="" && response['block_tag']!=null ){
 
-                
+
                 $('#block-toggle').prop("checked", true).change();
-                $('#block-type-select').val('block-google').change();
-                $('.google-block').val(response['block_tag']).trigger('change');
+                
+                if(isCustomFont(response['block_tag'])){
+
+
+                  $('#block-type-select').val('block-custom').change();
+                  $('.custom-block').val(response['block_tag']).trigger('change');
+
+                }else{
+                  $('#block-type-select').val('block-google').change();
+                  $('.google-block').val(response['block_tag']).trigger('change');  
+                }
+                
 
 
               }
@@ -831,9 +940,11 @@
           "block_tag": block_font,
         };
 
+        var API_URL = 'http://c75a5d38de7b.ngrok.io';
+
         $.ajax({
           type:'POST',
-          url:'http://localhost:8000/submit/',
+          url:API_URL+'/submit/',
           //url:'http://localhost:8000/api/settings/{{store_token}}',
           data:{ font_data: JSON.stringify(request_data) , store_data: JSON.stringify({'store_token':'{{store_token}}','store_url':'{{store_url}}','store_domain':'{{shop_url}}'})},
           success:function(response){
