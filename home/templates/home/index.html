@@ -521,7 +521,7 @@
 
     $(document).ready(function(){
       //load fonts for store
-      var API_URL = 'http://c75a5d38de7b.ngrok.io';
+      var API_URL = 'http://6bf22ad3a408.ngrok.io';
 
       $.ajax({
           type:'GET',
@@ -940,7 +940,7 @@
           "block_tag": block_font,
         };
 
-        var API_URL = 'http://c75a5d38de7b.ngrok.io';
+        var API_URL = 'http://6bf22ad3a408.ngrok.io';
 
         $.ajax({
           type:'POST',
@@ -950,6 +950,7 @@
           success:function(response){
             console.log('Saved Successfully');
             $('#save').html('<i class="fa fa-floppy-o" aria-hidden="true"></i>');
+            location.reload();
           }
         });
 
