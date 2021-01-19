@@ -32,7 +32,7 @@
 
                   <div class="row">
                      <div class="col-md-12">
-                        <table class="table table-hover" style="text-align: center;">
+                        <table class="table" style="text-align: center;">
                            <thead>
                               <tr>
                                  <th scope="col">Element</th>
@@ -421,9 +421,10 @@
               
               <div class="container">
                 <div class="row mt-3">
-                   <div class="col-md-10"></div>
+                   <div class="col-md-10">
+                   </div>
                       <div class="col-md-1"> 
-                          <button  class="btn btn-gradient btn-lg"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+                          <button id="customSubmit"  class="btn btn-gradient btn-lg"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
                       </div>
                     <div class="col-md-1"> 
                         <a href="{{store_url}}" target="_blank" class="btn btn-gradient btn-lg"><i class="fa fa-eye" aria-hidden="true"></i></a>
@@ -431,23 +432,119 @@
                 </div>
 
                 <div class="row mt-3">
-                  <div class="col-md-9">
+                  <div class="col-md-10">
                           <div class="form-group">
-                              
-                              <textarea class="form-control" placeholder="Custom Classes Are Added Here" name="custom-elements"></textarea>    
+                              <textarea class="form-control" id="customClasses" placeholder="Custom Classes Are Added Here" name="custom-elements"></textarea>    
                           </div>
                         </div>
-                          <div class="col-md-3">
+                          <div class="col-md-1 ml-3">
                             <div class="form-group">
-                            <button class=" btn btn-lg btn-block btn-gradient btn-picker-element" type="button" data-src="https://shristorey.myshopify.com" data-hover="Elements picker">Select Element</button>
+                            <button class=" btn btn-lg btn-gradient btn-picker-element" type="button" data-src="https://shristorey.myshopify.com" data-hover="Elements picker">Picker</button>
                           </div>
                           </div>
 
                   
                 </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <table class="table">
+                           <thead style="text-align: center;">
+                              <tr>
+                                 <th scope="col">Font Type</th>
+                                 <th scope="col">Choose Font</th>
+                              </tr>
+                           </thead>
+                           <tbody style="text-align: center;">
+                              
+                              <tr>
+                                 <td style="width:30%;">
+                                  <div class="form-group">
+                                    <select class="form-control" id="custom-picker-select">
+                                      <option value="custom-picker-default">Select Type</option>
+                                      <option value="custom-picker-google" selected>Google</option>
+                                      <option value="custom-picker-custom">Custom</option>
+                                    </select>
+                                  </div>
+                                 
+                                 </td>                                 
+                                 <td style="width:30%;">
+                                        <div class="google-custom-picker"><input class="google-font-picker"></div>
+                                        <div class="custom-custom-picker" style="display:none;">
+                                          <select class="form-control custom-font-picker">
+                                          <option value="none">Select Font</option>
+                                            {%  for font in store_fonts %}
+                                              <option value="{{font.font_name}}">{{font.font_name}}</option>
+                                            {% endfor %}
+                                          </select>
+                                        </div>
+                                 </td>
+                              </tr>
+                              
+                            </tbody>
+                          </table>
+                  </div>
+                </div>
               </div>
             </div>
          
+            <!-- CUSTOM ELEMENTS JS SCRIPT -->
+            <script>
+              var custom_elements_font = '';
+            
+              $('.google-font-picker').fontpicker();
+              $('#custom-picker-select').on('change', function() {
+                var el = this.value;
+                if(el == 'custom-picker-google'){
+                  //hide custom-custom-picker
+                   $('.google-custom-picker').show();
+                   $('.custom-custom-picker').hide();
+                }
+                if(el == 'custom-picker-custom'){
+                  //hide google custom picker
+                   $('.custom-custom-picker').show();
+                   $('.google-custom-picker').hide();
+                }
+              
+              });
+                   $('.google-font-picker').fontpicker().on('change', function() {
+                        custom_elements_font = this.value;
+                   });
+                   $('.custom-font-picker').on('change', function() {
+                      custom_elements_font = this.value;
+                   });
+              
+              $('#customSubmit').click(function(){
+                
+                var custom_classes = $("#customClasses").val();
+                var finalized_classes = custom_classes.split("\n");
+                
+                postData = {
+                  'custom_classes':JSON.stringify(finalized_classes),
+                  'custom_font':custom_elements_font,
+                  'store_token':'{{app_token}}',
+                }
+
+                //ajax here for updating custom classify_classes
+                $.ajax({
+                  type:'PUT',
+                  url:'http://localhost:8000/api/settings/{{app_token}}',
+                  data:JSON.stringify(postData),
+                  success:function(response){
+                      console.log('Saved Successfully');
+                      console.log(response);
+                      $('#save').html('<i class="fa fa-floppy-o" aria-hidden="true"></i>');
+                      location.reload();
+                  }
+                });
+
+                //ends here
+
+                console.log("CUSTOM FONT IS: "+custom_elements_font);
+              
+              });
+            
+            </script>
+            <!-- ENDS HERE -->
             <!-- CUSTOM FONTS -->   
             <div class="tab-pane fade" id="nav-help" role="tabpanel" aria-labelledby="nav-contact-tab">
               <div class="container mt-4">
@@ -473,7 +570,7 @@
 
               <div class="row">
                 <div class="col-md-12">
-                   <table class="table table-hover">
+                   <table class="table">
                            <thead style="text-align: center;">
                               <tr>
                                  <th scope="col">Font Name</th>
