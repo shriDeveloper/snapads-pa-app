@@ -17,6 +17,19 @@ def index(request):
 		store = Store.objects.get(name=request.session['shopify']['shop_url'])
 		store_token = store.token
 	except Store.DoesNotExist:
+
+		#SET BILLING HERE
+		session = shopify.Session(shop_url, token)
+		shopify.ShopifyResource.activate_session(session)
+		charge = shopify.RecurringApplicationCharge()
+		charge.test = True
+        charge.return_url = 'https://shriCoder.pythonanywhere.com'
+        charge.price = 10.00
+        charge.name = "Custom Plan"
+
+		if charge.save():
+			print charge.attributes 
+
 		#INIIAL SETUP FOR APP
 		store = Store(name = request.session['shopify']['shop_url'] , token = store_token)
 		settings = Settings(store_token = store_token)
