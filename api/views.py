@@ -30,15 +30,16 @@ def add_settings(request, token):
         return JsonResponse(settings_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     if request.method == 'PUT':
         store = Settings.objects.get(store_token=token)
-        settings_data = JSONParser().parse(request) 
-        settings_serializer = SettingsSerializer(store, data=settings_data) 
-        if settings_serializer.is_valid(): 
-            settings_serializer.save() 
+        print("METHOD PUT IS NOT WORKING")
+        settings_data = JSONParser().parse(request)
+        settings_serializer = SettingsSerializer(store, data=settings_data)
+        if settings_serializer.is_valid():
+            settings_serializer.save()
             return JsonResponse(settings_serializer.data)
-    return JsonResponse(settings_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return JsonResponse({'error':'Invalid Request'})
 
 @api_view(['GET'])
 def get_settings(request):
     store_settings = Settings.objects.get(store_token=request.GET.get('store_token'))
-    settings_serializer = SettingsSerializer(store_settings) 
+    settings_serializer = SettingsSerializer(store_settings)
     return JsonResponse(settings_serializer.data)

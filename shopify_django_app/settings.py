@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-# Make this unique and store it as an environment variable. 
+# Make this unique and store it as an environment variable.
 # Do not share it with anyone or commit it to version control.
 SECRET_KEY = 'vmb3qi!yp@b8z0&)$7ox_ijue8vf!no7(@591@kd$iss6+z3=@'
 
@@ -100,12 +100,29 @@ X_FRAME_OPTIONS = 'ALLOW FROM https://shriCoder.pythonanywhere.com'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'shriCoder$fontman',
+        'USER': 'shriCoder',
+        'PASSWORD': 'Shriniket@27121997',
+        'HOST': 'shriCoder.mysql.pythonanywhere-services.com',
+        'OPTIONS': {
+            'sql_mode': 'traditional',
+        },
     }
 }
+
+
+
+
 
 
 # Password validation

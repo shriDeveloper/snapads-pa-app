@@ -9,7 +9,7 @@ import shopify
 from django.views.decorators.csrf import csrf_exempt
 import json
 
-from api.models import Store 
+from api.models import Store
 
 from home.views import shopify_call
 
@@ -31,7 +31,7 @@ def authenticate(request):
     shop_url = request.GET.get('shop', request.POST.get('shop')).strip()
     if not shop_url:
         messages.error(request, "A shop param is required")
-        return redirect(reverse(login))    
+        return redirect(reverse(login))
     scope = apps.get_app_config('shopify_app').SHOPIFY_API_SCOPE
     redirect_uri = request.build_absolute_uri(reverse(finalize))
     print("FINALIZE IS HERE")
@@ -85,7 +85,7 @@ def submit(request):
     if request.method == "POST":
         font_data = request.POST.get('font_data')
         store_data = request.POST.get('store_data')
-        
+
         font_json = json.loads(font_data)
         store_json = json.loads(store_data)
 
@@ -102,9 +102,9 @@ def submit(request):
         #theme settings
         snippet = "{% include 'fontmancss' %}"
         head_tag = "</head>"
-        
+
         fontman_api = snippet+head_tag
-        
+
         if fontman_api not in assets:
             theme_liquid = assets.replace(head_tag,fontman_api)
             asset = shopify.Asset()
@@ -191,7 +191,7 @@ def submit(request):
             else:
                 font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font_json['a_tag'])+"' />"
         fontman_css = fontman_css + "</style>"
-        
+
         markup = font_link + fontman_css
 
         snippet = shopify.Asset()
@@ -201,7 +201,9 @@ def submit(request):
 
         #finally update db
         response = requests.put("https://shricoder.pythonanywhere.com/api/settings/"+font_json['store_token'],data = font_data)
+        print("RESPONSE IS HERE")
         print(response.text)
+
         #ends here
         return HttpResponse(response.text)
         #return JsonResponse({},safe=False)
@@ -233,4 +235,3 @@ def getFontType(font):
     return ""
 
 
-     
