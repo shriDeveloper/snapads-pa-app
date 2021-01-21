@@ -5,7 +5,7 @@
     .text-style{
       color:white;
     }
-    
+
 
          .btn-gradient {background-image: linear-gradient(to right, #4776E6 0%, #8E54E9  51%, #4776E6  100%)}
          .btn-gradient {
@@ -15,7 +15,7 @@
             text-transform: uppercase;
             transition: 0.5s;
             background-size: 200% auto;
-            color: white;            
+            color: white;
             box-shadow: 0 0 20px #eee;
             border-radius: 10px;
             display: block;
@@ -27,9 +27,9 @@
             text-decoration: none;
             border: 2px solid black;
           }
-         
 
-  
+
+
   </style>
   <title>{% block title %}{% endblock %}</title><!--
   <link href="/static/stylesheets/application.css" media="screen" rel="stylesheet" type="text/css" /> -->
@@ -45,12 +45,10 @@
 
 
   <script src="/static/js/fontpickerjs.js"></script>
-  
+
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
 
-
-  <link rel="stylesheet" href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css">
 
 
   <!-- ENDS HERE -->
@@ -73,7 +71,7 @@
       <li class="nav-item">
         <a class="nav-link text-style" href="#">About</a>
       </li>
-      <!-- 
+      <!--
       <li class="nav-item dropdown">
         <a class="nav-link text-style dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Dropdown
@@ -85,7 +83,7 @@
           <a class="dropdown-item text-style" href="#">Something else here</a>
         </div>
       </li> -->
-      
+
     </ul>
     <form class="form-inline my-2 my-lg-0">
         {% if current_shop %}
@@ -96,7 +94,7 @@
   </div>
 </nav>
 
-  
+
 
 
     {% if messages %}
@@ -107,58 +105,17 @@
       {% endfor %}
     {% endif %}
 
-    <div id="bodyLoader">
-      <div class="ph-item">
-        <div class="ph-col-12">
-          <div class="ph-picture"></div>
-          <div class="ph-row">
-            <div class="ph-col-6 empty big"></div>
-            <div class="ph-col-4 empty big"></div>
-            <div class="ph-col-2"></div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="ph-item">
-            <div class="ph-col-3">
-              <div class="ph-picture"></div>
-            </div>
-            <div class="ph-col-3">
-              <div class="ph-picture"></div>
-            </div>
-            <div class="ph-col-3">
-              <div class="ph-picture"></div>
-            </div>
-            <div class="ph-col-3">
-              <div class="ph-picture"></div>
-            </div>
-            </div>
-          </div>
-        </div>
-  </div>
 
-
-    <div id="main" style="display: none;" class="container mt-4">
+    <div id="main"  class="container mt-4">
       {% block content %}{% endblock %}
     </div>
 
-
-
-
-  <script type="text/javascript">
-    console.log("Wait till load");
-    $(document).ready(function(){
-      $('#main').css('display','block');
-      $('#bodyLoader').css('display','none');
-    });
-  </script>
 
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
   {% block window_load_script %}
 
- 
+
   {% endblock %}
 
 

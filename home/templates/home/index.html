@@ -527,7 +527,7 @@
                 //ajax here for updating custom classify_classes
                 $.ajax({
                   type:'PUT',
-                  url:'https://shricoder.pythonanywhere.com/api/settings/{{app_token}}',
+                  url:'https://www.fontman.ml/api/settings/{{app_token}}',
                   data:JSON.stringify(postData),
                   success:function(response){
                       console.log('Saved Successfully');
@@ -556,7 +556,7 @@
         <form method="post" action="font_upload/" enctype="multipart/form-data">
         <div class="form-group">
           {% csrf_token %}
-          <input type="file" class="form-control" name="myfile">
+          <input type="file" class="form-control" name="myfile" required>
           <input type="hidden" value="{{shop_url}}" name="shop_url">
         </div>
       </div>
@@ -629,7 +629,7 @@
 
     $(document).ready(function(){
       //load fonts for store
-      var API_URL = 'https://shricoder.pythonanywhere.com';
+      var API_URL = 'https://www.fontman.ml';
 
       $.ajax({
           type:'GET',
@@ -985,7 +985,7 @@
 
   window.addEventListener("message", receiveMessage, false);
     function receiveMessage(event) {
-        if (event.origin == "https://shricoder.pythonanywhere.com") {
+        if (event.origin == "https://www.fontman.ml") {
             var e = event;
             if (e.data && e.data.action) {
                 switch (e.data.action) {
@@ -1050,7 +1050,7 @@
 
         console.log(request_data);
 
-        var API_URL = 'https://shricoder.pythonanywhere.com';
+        var API_URL = 'https://www.fontman.ml';
 
         $.ajax({
           type:'POST',
@@ -1061,7 +1061,7 @@
 
             console.log('Saved Successfully');
             $('#save').html('<i class="fa fa-floppy-o" aria-hidden="true"></i>');
-            //location.reload();
+            location.reload();
           }
         });
 

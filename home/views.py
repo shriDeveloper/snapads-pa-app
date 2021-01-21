@@ -6,7 +6,7 @@ from api.views import Store,Settings
 from uuid import uuid4
 import requests
 import json
-from api.models import CustomFonts 
+from api.models import CustomFonts
 
 @shop_login_required
 def index(request):
@@ -17,19 +17,6 @@ def index(request):
 		store = Store.objects.get(name=request.session['shopify']['shop_url'])
 		store_token = store.token
 	except Store.DoesNotExist:
-
-		#SET BILLING HERE
-		session = shopify.Session(shop_url, token)
-		shopify.ShopifyResource.activate_session(session)
-		charge = shopify.RecurringApplicationCharge()
-		charge.test = True
-        charge.return_url = 'https://shriCoder.pythonanywhere.com'
-        charge.price = 10.00
-        charge.name = "Custom Plan"
-
-		if charge.save():
-			print charge.attributes 
-
 		#INIIAL SETUP FOR APP
 		store = Store(name = request.session['shopify']['shop_url'] , token = store_token)
 		settings = Settings(store_token = store_token)
@@ -37,7 +24,7 @@ def index(request):
 		settings.save()
 
 		### CONFIGURE JS HERE ####
-		res = shopify.ScriptTag(dict(event='onload', src='https://shricoder.pythonanywhere.com/static/js/fontman.js')).save()
+		res = shopify.ScriptTag(dict(event='onload', src='https://www.fontman.ml/static/js/fontman.js')).save()
 		########################## ENDS HERE ##################################################################
 	file_upload = request.session.get('file_upload')
 	#load fonts here
