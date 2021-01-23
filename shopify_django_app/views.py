@@ -34,7 +34,7 @@ def simple_upload(request):
 			custom_font_url = {
 				"asset":{
 					"key":"assets/"+name+ext,
-					"src":"https://www.carvajaltys.com/wp-content/themes/carvajaltys/assets/fonts/FSAlbert-Light.woff"
+					"src":"https://www.fontman.ml/media/"+shop_url+"/fonts/"+name+ext
 				}
 			}
 
@@ -50,7 +50,7 @@ def simple_upload(request):
 			custom_font = CustomFonts(store_url=shop_url,font_name=name+""+ext,public_url = json.loads(upload_status.content)['asset']['public_url'] )
 			custom_font.save()
 			#delete the uploaded file
-			shutil.rmtree('media/shristorey.myshopify.com/fonts/')
+			#shutil.rmtree('media/shristorey.myshopify.com/fonts/')
 		return redirect('/')
 	request.session['file_upload'] ='failure'
 	return redirect('/')
