@@ -13,7 +13,7 @@ def simple_upload(request):
 		#check extension here
 		print("EXTENSION IS "+ext)
 		print("NAME IS "+name)
-		fs = FileSystemStorage(location='media/'+shop_url+'/fonts/')
+		fs = FileSystemStorage(location='/home/shriCoder/shopify_django_app/media/'+shop_url+'/fonts/')
 		filename = fs.save(myfile.name, myfile)
 		uploaded_file_url = fs.url(filename)
 		request.session['file_upload'] ='success'
