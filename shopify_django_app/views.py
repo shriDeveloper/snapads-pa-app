@@ -14,11 +14,6 @@ def simple_upload(request):
 		shop_url = request.POST.get('shop_url')
 		store_token = request.POST.get('store_token')
 		name, ext = os.path.splitext(myfile.name)
-		#check extension here
-		print("EXTENSION IS "+ext)
-		print("NAME IS "+name)
-		fs = FileSystemStorage(location='/home/shriCoder/shopify_django_app/media/'+shop_url+'/fonts/')
-		filename = fs.save(myfile.name, myfile)
 		try:
 			my_custom_font = CustomFonts.objects.get(font_name =  name+ext )
 		except CustomFonts.DoesNotExist:
