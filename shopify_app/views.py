@@ -100,7 +100,7 @@ def submit(request):
         assets = json.loads(assets)['asset']['value']
 
         #theme settings
-        snippet = "{% include 'fontmancss' %}"
+        snippet = "{% include 'fontmangooglecss' %}"
         head_tag = "</head>"
 
         fontman_api = snippet+head_tag
@@ -114,12 +114,12 @@ def submit(request):
 
         fontman_css = ''
         snippet = shopify.Asset()
-        snippet.key = "snippets/fontmancss.liquid"
+        snippet.key = "snippets/fontmangooglecss.liquid"
         snippet.value = fontman_css
         success = snippet.save()
 
         #theme settings
-        assets = shopify_call(store_json['store_url']+"/admin/api/2020-10/themes/"+str(theme_id)+"/assets.json?asset[key]=snippets/fontmancss.liquid",store_json['store_token'])
+        assets = shopify_call(store_json['store_url']+"/admin/api/2020-10/themes/"+str(theme_id)+"/assets.json?asset[key]=snippets/fontmangooglecss.liquid",store_json['store_token'])
         assets = json.loads(assets)['asset']['value']
         
         #improved algorithm
@@ -129,7 +129,7 @@ def submit(request):
         custom_fonts = set()
         
         font_link = ""
-        fontman_css = '<style type="text/css" id="fontman_css">'
+        fontman_css = '<style type="text/css" id="fontmangoogle_css">'
         if font_json['body_tag'] != "":
             fontman_css = fontman_css + 'body,span,h1,h2,h3,h4,h5,h6,blockquote,div,p,a,li{font-family:\''+fontmanFamily(font_json['body_tag'])+'\' !important;}'
             if isCustomFont(font_json['body_tag']):
@@ -208,7 +208,7 @@ def submit(request):
         markup = font_link + fontman_css
 
         snippet = shopify.Asset()
-        snippet.key = "snippets/fontmancss.liquid"
+        snippet.key = "snippets/fontmangooglecss.liquid"
         snippet.value = markup
         success = snippet.save()
 
@@ -221,6 +221,64 @@ def submit(request):
         return HttpResponse(response.text)
         #return JsonResponse({},safe=False)
     return JsonResponse({},safe=False)
+
+@csrf_exempt
+def csubmit(request):
+    API_URL = 'http://localhost:8000/api/settings/'
+    if request.method == "POST":
+        custom_css = '<style type="text/css" id="fontmancustom_css">'
+        custom_data = request.POST.get('custom_data')
+        custom_json = json.loads(custom_data)
+        custom_classes = custom_json['custom_classes']
+        custom_ele_font = custom_json['custom_font']
+        store_url = custom_json['store_url']
+        store_token = custom_json['store_key']
+        
+        #check what font it is 
+        if isCustomFont(custom_ele_font):
+            custom_font = "<style>@font-face{ font-family: '"+fontmanFamily(custom_ele_font)+"'; src: url("+getCustomFontURL(custom_ele_font)+") format('"+getFontType(custom_ele_font)+"');}</style>"
+        else:
+            custom_font = "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(custom_ele_font)+"'/>"
+        
+        #assign the font to elements now
+        for classes in custom_classes:
+            custom_css = custom_css + ''+str(classes).strip()+'{font-family:\''+fontmanFamily(custom_ele_font)+'\' !important;}'        
+        custom_css = custom_css + "</style>"
+        #we need to save the data to template now (add everything just before </head>)
+        themes=shopify_call("https://"+store_url+"/admin/api/2020-10/themes.json",store_token)
+        print(themes)
+        for theme in json.loads(themes)['themes']:
+            if theme['role']=='main':
+                theme_id = theme['id']
+
+        assets = shopify_call("https://"+store_url+"/admin/api/2020-10/themes/"+str(theme_id)+"/assets.json?asset[key]=layout/theme.liquid",store_token)
+        assets = json.loads(assets)['asset']['value']
+
+        
+        #theme settings
+        snippet = "{% include 'fontmancustomcss' %}"
+        head_tag = "</head>"
+        
+        fontman_api = snippet + head_tag
+
+        if fontman_api not in assets:
+            theme_liquid = assets.replace(head_tag,fontman_api)
+            asset = shopify.Asset()
+            asset.key = "layout/theme.liquid"
+            asset.value = theme_liquid
+            success = asset.save()
+
+        markup = custom_font + custom_css
+
+        snippet = shopify.Asset()
+        snippet.key = "snippets/fontmancustomcss.liquid"
+        snippet.value = markup
+        success = snippet.save()
+
+        return HttpResponse("Great")
+    return JsonResponse({},safe=False)
+
+
 
 def slugifyFont(font):
     return "+".join(font.split(":")[0].split())

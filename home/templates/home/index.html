@@ -526,16 +526,29 @@
                 var finalized_classes = custom_classes.split("\n");
 
                 postData = {
-                  'custom_classes':JSON.stringify(finalized_classes),
+                  'custom_classes':finalized_classes,
                   'custom_font':custom_elements_font,
                   'store_token':'{{app_token}}',
+                  'store_key':'{{store_token}}',
+                  'store_url':'{{shop_url}}',
                 }
+
+/*
+                .hero__content-wrapper.hero-initialized .hero__content .hero__content-centered
+                .hero__content .hero__content-centered .hero__text-title
+                .rich-text__text--medium p
+                .grid .grid__item.rte.text-center.medium-up--two-thirds.medium-up--push-one-sixth .rich-text__heading
+                .newsletter.text-center h2
+*/
+
+
 
                 //ajax here for updating custom classify_classes
                 $.ajax({
-                  type:'PUT',
-                  url:'https://www.fontman.ml/api/settings/{{app_token}}',
-                  data:JSON.stringify(postData),
+                  type:'POST',
+                  url: API_URL+'/csubmit/',
+                  //url:'http://fontman.ml/api/settings/{{app_token}}',
+                  data:{ custom_data : JSON.stringify(postData) },
                   success:function(response){
                       console.log('Saved Successfully');
                       console.log(response);
