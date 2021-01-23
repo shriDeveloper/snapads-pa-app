@@ -9,7 +9,7 @@ import shopify
 from django.views.decorators.csrf import csrf_exempt
 import json
 
-from api.models import Store
+from api.models import Store,CustomFonts
 
 from home.views import shopify_call
 
@@ -203,7 +203,7 @@ def submit(request):
             font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+my_google_font+"'/>"
         #construct custom fonts link
         for my_custom_font in custom_fonts:
-            font_link = font_link + "<style>@font-face{ font-family: '"+fontmanFamily(my_custom_font)+"'; src: url("+API_URL+"/media/"+store_json['store_domain']+"/fonts/"+my_custom_font+") format('"+getFontType(my_custom_font)+"');}</style>"
+            font_link = font_link + "<style>@font-face{ font-family: '"+fontmanFamily(my_custom_font)+"'; src: url("+getCustomFontURL(my_custom_font)+") format('"+getFontType(my_custom_font)+"');}</style>"
         
         markup = font_link + fontman_css
 
@@ -246,5 +246,11 @@ def getFontType(font):
     if extension == "otf":
         return "opentype"
     return ""
+def getCustomFontURL(font):
+    try:
+        my_custom_font = CustomFonts.objects.get(font_name =  font )
+    except CustomFonts.DoesNotExist:
+        pass
+    return str(my_custom_font.public_url)
 
 

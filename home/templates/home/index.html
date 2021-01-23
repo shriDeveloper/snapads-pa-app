@@ -558,6 +558,8 @@
           {% csrf_token %}
           <input type="file" class="form-control" name="myfile" required>
           <input type="hidden" value="{{shop_url}}" name="shop_url">
+        
+          <input type="hidden" value="{{store_token}}"  name="store_token">       
         </div>
       </div>
       <div class="col-md-2">
