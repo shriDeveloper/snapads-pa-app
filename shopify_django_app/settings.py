@@ -27,7 +27,7 @@ SECRET_KEY = 'vmb3qi!yp@b8z0&)$7ox_ijue8vf!no7(@591@kd$iss6+z3=@'
 DEBUG = True
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 
 ALLOWED_HOSTS = ['*']

@@ -14,6 +14,11 @@ def simple_upload(request):
 		shop_url = request.POST.get('shop_url')
 		store_token = request.POST.get('store_token')
 		name, ext = os.path.splitext(myfile.name)
+		#check extension here
+		print("EXTENSION IS "+ext)
+		print("NAME IS "+name)
+		fs = FileSystemStorage(location='/home/shriCoder/shopify_django_app/media/'+shop_url+'/fonts/')
+		filename = fs.save(myfile.name, myfile)
 		try:
 			my_custom_font = CustomFonts.objects.get(font_name =  name+ext )
 		except CustomFonts.DoesNotExist:
@@ -25,7 +30,7 @@ def simple_upload(request):
 			for theme in json.loads(themes)['themes']:
 				if theme['role']=='main':
 					theme_id = theme['id']
-	
+
 			custom_font_url = {
 				"asset":{
 					"key":"assets/"+name+ext,
@@ -38,7 +43,7 @@ def simple_upload(request):
     			"X-Shopify-Access-Token": store_token,
     			# "Content-Type": "application/json; charset=utf-8",
 			}
-		
+
 			#save font to Shopify CDN here
 			upload_status = requests.put("https://"+shop_url+"/admin/api/2021-01/themes/"+str(theme_id)+"/assets.json", json = custom_font_url, headers= headers)
 			#add entry in database
