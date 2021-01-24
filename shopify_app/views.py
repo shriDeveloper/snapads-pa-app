@@ -9,7 +9,7 @@ import shopify
 from django.views.decorators.csrf import csrf_exempt
 import json
 
-from api.models import Store,CustomFonts
+from api.models import Store,CustomFonts,Settings
 
 from home.views import shopify_call
 
@@ -280,8 +280,22 @@ def csubmit(request):
 
 def uninstall(request):
     if request.method == "POST":
+        store_url = request.POST.get('domain')
         #delete entries from table
-        print(request.POST)
+        try:
+            store = Store.objects.get(name = store_url)
+            store_token = store.token
+        except Store.DoesNotExist:
+            pass
+
+        print("DELETING ALL ENTRIES FROM DB PLEASE")
+        #delete all db entries please
+        Store.objects.filter(name = store_url).delete()
+        Settings.objects.filter(name = store_token).delete()
+        CustomFonts.objects.filter(store_url = store_url).delete()
+        print("ALL GOOD MAN !!")
+        
+
         #do changes to theme
         return JsonResponse({},safe=False)
     return JsonResponse({},safe=False)
