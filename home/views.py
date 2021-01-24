@@ -23,6 +23,17 @@ def index(request):
 		store.save()
 		settings.save()
 
+		postData = {
+			"webhook":{
+				"topic":"app/uninstalled",
+				"address":"https://fontman.ml/uninstall",
+				"format":"json"
+			}
+		}
+
+		#subscribe to web hook here
+		webhook = requests.post(shop_url+"/admin/api/2021-01/webhooks.json", json = postData ,   headers = {"X-Shopify-Access-Token":token})
+
 		### CONFIGURE JS HERE ####
 		res = shopify.ScriptTag(dict(event='onload', src='https://www.fontman.ml/static/js/fontman.js')).save()
 		########################## ENDS HERE ##################################################################

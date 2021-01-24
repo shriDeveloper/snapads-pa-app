@@ -278,6 +278,12 @@ def csubmit(request):
         return HttpResponse("Great")
     return JsonResponse({},safe=False)
 
+def uninstall(request):
+    if request.method == "POST":
+        #delete entries from table
+        #do changes to theme
+        return JsonResponse({},safe=False)
+    return JsonResponse({},safe=False)
 
 
 def slugifyFont(font):
