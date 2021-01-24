@@ -105,7 +105,7 @@ def submit(request):
 
         fontman_api = snippet+head_tag
 
-        if fontman_api not in assets:
+        if snippet not in assets:
             theme_liquid = assets.replace(head_tag,fontman_api)
             asset = shopify.Asset()
             asset.key = "layout/theme.liquid"
@@ -121,13 +121,13 @@ def submit(request):
         #theme settings
         assets = shopify_call(store_json['store_url']+"/admin/api/2020-10/themes/"+str(theme_id)+"/assets.json?asset[key]=snippets/fontmangooglecss.liquid",store_json['store_token'])
         assets = json.loads(assets)['asset']['value']
-        
+
         #improved algorithm
-        
+
         #settings for google fonts
         google_fonts = set()
         custom_fonts = set()
-        
+
         font_link = ""
         fontman_css = '<style type="text/css" id="fontmangoogle_css">'
         if font_json['body_tag'] != "":
@@ -197,14 +197,14 @@ def submit(request):
             else:
                 google_fonts.add(slugifyFont(font_json['a_tag']))
         fontman_css = fontman_css + "</style>"
-        
+
         #construct google font links
         for my_google_font in google_fonts:
             font_link = font_link + "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+my_google_font+"'/>"
         #construct custom fonts link
         for my_custom_font in custom_fonts:
             font_link = font_link + "<style>@font-face{ font-family: '"+fontmanFamily(my_custom_font)+"'; src: url("+getCustomFontURL(my_custom_font)+") format('"+getFontType(my_custom_font)+"');}</style>"
-        
+
         markup = font_link + fontman_css
 
         snippet = shopify.Asset()
@@ -233,16 +233,16 @@ def csubmit(request):
         custom_ele_font = custom_json['custom_font']
         store_url = custom_json['store_url']
         store_token = custom_json['store_key']
-        
-        #check what font it is 
+
+        #check what font it is
         if isCustomFont(custom_ele_font):
             custom_font = "<style>@font-face{ font-family: '"+fontmanFamily(custom_ele_font)+"'; src: url("+getCustomFontURL(custom_ele_font)+") format('"+getFontType(custom_ele_font)+"');}</style>"
         else:
             custom_font = "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(custom_ele_font)+"'/>"
-        
+
         #assign the font to elements now
         for classes in custom_classes:
-            custom_css = custom_css + ''+str(classes).strip()+'{font-family:\''+fontmanFamily(custom_ele_font)+'\' !important;}'        
+            custom_css = custom_css + ''+str(classes).strip()+'{font-family:\''+fontmanFamily(custom_ele_font)+'\' !important;}'
         custom_css = custom_css + "</style>"
         #we need to save the data to template now (add everything just before </head>)
         themes=shopify_call("https://"+store_url+"/admin/api/2020-10/themes.json",store_token)
@@ -254,14 +254,14 @@ def csubmit(request):
         assets = shopify_call("https://"+store_url+"/admin/api/2020-10/themes/"+str(theme_id)+"/assets.json?asset[key]=layout/theme.liquid",store_token)
         assets = json.loads(assets)['asset']['value']
 
-        
+
         #theme settings
         snippet = "{% include 'fontmancustomcss' %}"
         head_tag = "</head>"
-        
+
         fontman_api = snippet + head_tag
 
-        if fontman_api not in assets:
+        if snippet not in assets:
             theme_liquid = assets.replace(head_tag,fontman_api)
             asset = shopify.Asset()
             asset.key = "layout/theme.liquid"
@@ -293,20 +293,12 @@ def uninstall(request):
         except Store.DoesNotExist:
             pass
 
-        print("STORE TOKEN FOUND: "+store_token)
-        print("DELETING ALL ENTRIES FROM DB PLEASE")
         #delete all db entries please
         Store.objects.get(name = store_url).delete()
         Settings.objects.get(store_token = store_token).delete()
         CustomFonts.objects.filter(store_url = store_url).delete()
         print("ALL GOOD MAN !!")
-        
         print("ALL GOOD MAN")
-
-        #remove the cookies and sessions
-        print("COOKEIES ARE HERE")
-        print(request.COOKIES)
-
         #do changes to theme
         return JsonResponse({},safe=False)
     return JsonResponse({"book":"yess"},safe=False)

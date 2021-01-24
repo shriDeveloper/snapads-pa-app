@@ -6,10 +6,10 @@
  <div class="row">
   <div class="col-md-10"></div>
   <div class="col-md-2">
-    <div id="google_translate_element"></div> 
+    <div id="google_translate_element"></div>
   </div>
  </div>
- 
+
    <div class="row">
       <div class="col-md-12">
          <nav>
@@ -541,6 +541,7 @@
                 .newsletter.text-center h2
 */
 
+                var API_URL = 'https://www.fontman.ml';
 
 
                 //ajax here for updating custom classify_classes
@@ -578,8 +579,8 @@
           {% csrf_token %}
           <input type="file" class="form-control" name="myfile" required>
           <input type="hidden" value="{{shop_url}}" name="shop_url">
-        
-          <input type="hidden" value="{{store_token}}"  name="store_token">       
+
+          <input type="hidden" value="{{store_token}}"  name="store_token">
         </div>
       </div>
       <div class="col-md-2">
@@ -603,7 +604,7 @@
                               {%  for font in store_fonts %}
                               <tr>
                                  <td>{{font.font_name}}</td>
-                                 <td>Delete | Edit</td>
+                                 <td>Active</td>
                               </tr>
 
                               {% endfor %}
