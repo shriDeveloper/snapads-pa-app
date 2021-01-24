@@ -278,9 +278,14 @@ def csubmit(request):
         return HttpResponse("Great")
     return JsonResponse({},safe=False)
 
+@csrf_exempt
 def uninstall(request):
+    store_token= ''
     if request.method == "POST":
-        store_url = request.POST.get('domain')
+        print("CORRET MAN")
+        body_json = json.loads(request.body)
+        store_url = body_json['domain']
+        print("DOMAIN IS HERE MAN "+str(store_url))
         #delete entries from table
         try:
             store = Store.objects.get(name = store_url)
@@ -288,17 +293,23 @@ def uninstall(request):
         except Store.DoesNotExist:
             pass
 
+        print("STORE TOKEN FOUND: "+store_token)
         print("DELETING ALL ENTRIES FROM DB PLEASE")
         #delete all db entries please
-        Store.objects.filter(name = store_url).delete()
-        Settings.objects.filter(name = store_token).delete()
+        Store.objects.get(name = store_url).delete()
+        Settings.objects.get(store_token = store_token).delete()
         CustomFonts.objects.filter(store_url = store_url).delete()
         print("ALL GOOD MAN !!")
         
+        print("ALL GOOD MAN")
+
+        #remove the cookies and sessions
+        print("COOKEIES ARE HERE")
+        print(request.COOKIES)
 
         #do changes to theme
         return JsonResponse({},safe=False)
-    return JsonResponse({},safe=False)
+    return JsonResponse({"book":"yess"},safe=False)
 
 
 def slugifyFont(font):
