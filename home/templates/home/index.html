@@ -15,8 +15,12 @@
          <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-home" aria-selected="true">Basic Elements</a>
+               {% if active_flag == 'ACTIVE' %}
                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-preview" role="tab" aria-controls="nav-profile" aria-selected="false">Custom Elements</a>
                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-help" role="tab" aria-controls="nav-contact" aria-selected="false">My Fonts</a>
+              {% endif %}
+               <a class="nav-item nav-link" id="upgradeNow"  role="tab"  aria-selected="false" data-toggle="modal" data-target="#demoModal"> {% if active_flag == 'INACTIVE' %} Upgrade {% else %} Downgrade {% endif %}</a>
+           
             </div>
          </nav>
          <div class="tab-content" id="nav-tabContent">
@@ -1301,11 +1305,66 @@ function googleTranslateElementInit() {
 
 
   /* ENDS HERE */
-
-
-
-
-
-
+  
+  $('#upgradeNow').click(function(){
+    console.log("Added Cool Things!");
+  });
+  
   </script>
+
+<!-- Modal -->
+    <div class="modal fade "   id="demoModal"  tabindex="-1" role="dialog"
+         aria-labelledby="demoModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg  modal-dialog-centered  " role="document">
+            <div class="modal-content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6 bg-rhino rounded-left d-flex align-items-center text-center justify-content-center">
+                          <div>
+                              <img src="static/images/modalimage.png" class="mw-100" width="" alt="">
+                              <div class="pt-3 ">
+                                  
+                              </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 m-h-50 d-flex align-items-center justify-content-center">
+                          <div class="px-sm-3">
+                              <h3 class="text-center">
+                                {% if active_flag == 'INACTIVE' %}
+                                  FontMan Premium
+                                {% else %}
+                                  Leaving .. Soon ?
+                                {% endif %}
+                              </h3>
+                              {% if active_flag == 'INACTIVE' %}
+                              <ul>
+                                <li>Unlimited Custom Fonts</li>
+                                <li>Unlimited Google Fonts</li>
+                                <li>Unlimited Customization's</li>
+                                <li>Live Support</li>
+                              </ul>
+                              {% else %}
+                              <br/>
+                                <p>No Question's Asked. Upgrade Anytime !</h5>
+                                <br/><br/>
+                              {% endif %}
+                              <form  {% if active_flag == 'INACTIVE' %} action="/confirm_payment/{{app_token}}" {% else %} action="/cancel_charge/{{app_token}}" {% endif %} >
+                                  <div class="col-md-12 mb-3">
+                                      <input type="submit" class="btn btn-lg btn-block" {% if active_flag == 'INACTIVE' %}value="Upgrade" {% else %} value="Downgrade" {% endif %}>
+                                  </div>
+                              </form>
+                              <div class="pt-3 text-center ">
+                                  <small><a href="#" data-dismiss="modal" aria-label="Close" class="text-muted">No, I'll skip for Now.</a></small>
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal Ends -->
+
 {% endblock %}
