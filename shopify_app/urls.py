@@ -9,4 +9,5 @@ urlpatterns = [
     path('logout/', views.logout, name='shopify_app_logout'),
     path('submit/',views.submit,name='shopify_app_fontman'),
     path('csubmit/',views.csubmit,name='shopiyf_custom_fontman'),
+    path('uninstall',views.uninstall,name='shopify_app_uninstall'),
 ]
