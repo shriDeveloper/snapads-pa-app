@@ -19,7 +19,7 @@ def index(request):
 		store_token = store.token
 	except Store.DoesNotExist:
 		#INIIAL SETUP FOR APP
-		store = Store(name = request.session['shopify']['shop_url'] , token = store_token)
+		store = Store(name = request.session['shopify']['shop_url'] , token = store_token )
 		settings = Settings(store_token = store_token)
 		store.save()
 		settings.save()
@@ -27,13 +27,14 @@ def index(request):
 		postData = {
 			"webhook":{
 				"topic":"app/uninstalled",
-				"address":"https://fontman.ml/uninstall",
+				"address":"https://www.fontman.ml/uninstall",
 				"format":"json"
 			}
 		}
 
 		#subscribe to web hook here
 		webhook = requests.post(shop_url+"/admin/api/2021-01/webhooks.json", json = postData ,   headers = {"X-Shopify-Access-Token":token})
+		print("WEBHOOK STATUS"+str(webhook.content))
 
 		### CONFIGURE JS HERE ####
 		res = shopify.ScriptTag(dict(event='onload', src='https://www.fontman.ml/static/js/fontman.js')).save()

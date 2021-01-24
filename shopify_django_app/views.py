@@ -13,11 +13,13 @@ def simple_upload(request):
 		myfile = request.FILES['myfile']
 		shop_url = request.POST.get('shop_url')
 		store_token = request.POST.get('store_token')
+		myfile.name = "".join(myfile.name.split())
+		print("FILE NAME "+myfile.name)
 		name, ext = os.path.splitext(myfile.name)
 		try:
 			my_custom_font = CustomFonts.objects.get(font_name =  name+ext )
 		except CustomFonts.DoesNotExist:
-			fs = FileSystemStorage(location='media/'+shop_url+'/fonts/')
+			fs = FileSystemStorage(location='/home/shriCoder/shopify_django_app/media/'+shop_url+'/fonts/')
 			filename = fs.save(myfile.name, myfile)
 			uploaded_file_url = fs.url(filename)
 			#get shopify theme here
@@ -29,7 +31,7 @@ def simple_upload(request):
 			custom_font_url = {
 				"asset":{
 					"key":"assets/"+name+ext,
-					"src":"https://www.carvajaltys.com/wp-content/themes/carvajaltys/assets/fonts/FSAlbert-Light.woff"
+					"src":"https://www.fontman.ml/media/"+shop_url+"/fonts/"+name+ext
 				}
 			}
 
@@ -45,7 +47,7 @@ def simple_upload(request):
 			custom_font = CustomFonts(store_url=shop_url,font_name=name+""+ext,public_url = json.loads(upload_status.content)['asset']['public_url'] )
 			custom_font.save()
 			#delete the uploaded file
-			shutil.rmtree('media/shristorey.myshopify.com/fonts/')
+			#shutil.rmtree('media/shristorey.myshopify.com/fonts/')
 		return redirect('/')
 	request.session['file_upload'] ='failure'
 	return redirect('/')
