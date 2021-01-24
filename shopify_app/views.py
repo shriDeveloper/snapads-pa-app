@@ -281,6 +281,7 @@ def csubmit(request):
 def uninstall(request):
     if request.method == "POST":
         #delete entries from table
+        print(request.POST)
         #do changes to theme
         return JsonResponse({},safe=False)
     return JsonResponse({},safe=False)
