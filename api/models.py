@@ -3,6 +3,8 @@ class Store(models.Model):
     name = models.CharField(max_length=100,null=True)
     email = models.CharField(max_length=100,null=True)
     token = models.CharField(max_length=100,null=True)
+    upgrade_status = models.CharField(max_length=100,null=True,default='inactive',blank=True)
+    charge_id = models.CharField(max_length=100,null=True,default='',blank=True)
 class Settings(models.Model):
     store_token = models.CharField(max_length=100,null=True,blank=True)
     body_tag = models.CharField(max_length=100,null=True,blank=True)

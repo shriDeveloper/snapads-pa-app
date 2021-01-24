@@ -308,7 +308,7 @@ def uninstall(request):
         print(request.COOKIES)
 
         #do changes to theme
-        return JsonResponse({},safe=False)
+        return render(request,'error/error.html',{'uninstall_flag':"You have uninstalled the app"})
     return JsonResponse({"book":"yess"},safe=False)
 
 
