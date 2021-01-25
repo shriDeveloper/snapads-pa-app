@@ -8,6 +8,10 @@ import hmac, base64, hashlib, binascii, os
 import shopify
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.contrib.sessions.backends.db import SessionStore
+from django.contrib.sessions.models import Session
+from datetime import datetime
+
 
 from api.models import Store,CustomFonts,Settings
 
@@ -297,11 +301,15 @@ def uninstall(request):
         Store.objects.get(name = store_url).delete()
         Settings.objects.get(store_token = store_token).delete()
         CustomFonts.objects.filter(store_url = store_url).delete()
-        print("ALL GOOD MAN !!")
-        print("ALL GOOD MAN")
+        
+        for session in Session.objects.all():
+            store = SessionStore(session_key= session.session_key)
+            if store.get('shopify'):
+                if store.get('shopify')['shop_url'] == store_url:
+                    store.delete()
         #do changes to theme
-        return render(request,'error/error.html',{'uninstall_flag':"You have uninstalled the app"})
-    return JsonResponse({"book":"yess"},safe=False)
+        return JsonResponse({'data':'Payload Received'},safe=False)
+    return HttpResponse("<b>Strong NO Access</b>")
 
 
 def slugifyFont(font):
