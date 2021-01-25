@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 import shopify
 from shopify_app.decorators import shop_login_required
-from django.http import HttpResponse 
+from django.http import HttpResponse
 from api.views import Store,Settings
 from uuid import uuid4
 import requests
@@ -96,7 +96,7 @@ def store_reset(request,token):
 	asset.key = "snippets/fontmangooglecss.liquid"
 	asset.value = ""
 	success = asset.save()
-	
+
 	asset = shopify.Asset()
 	asset.key = "snippets/fontmancustomcss.liquid"
 	asset.value = ""
@@ -119,7 +119,7 @@ def store_reset(request,token):
        }
 
 	#post api a empty data (for reset)
-	response = requests.put("http://localhost:8000/api/settings/"+token,data = json.dumps(request_data))
+	response = requests.put("https://www.fontman.ml/api/settings/"+token,data = json.dumps(request_data))
 	print(response.text)
 
 	return redirect('/')
