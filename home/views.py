@@ -6,7 +6,8 @@ from api.views import Store,Settings
 from uuid import uuid4
 import requests
 import json
-from api.models import CustomFonts
+from api.models import CustomFonts 
+from django.contrib import messages
 
 @shop_login_required
 def index(request):
@@ -75,7 +76,8 @@ def activate_charge(request, *args, **kwargs):
 	rac = shopify.RecurringApplicationCharge.find(charge_id)
 	rac.activate()
 	Store.objects.filter(token = store_token ).update(charge_id = charge_id,upgrade_status = 'active')
-	return redirect("/")
+	messages.success(request, 'Your Account Has Been Upgraded.')
+	return redirect('/')    
 
 @shop_login_required
 def cancel_charge(request,token):
@@ -87,6 +89,7 @@ def cancel_charge(request,token):
 		Store.objects.filter(token = token ).update(charge_id = '', upgrade_status = 'inactive')
 	else:
 		Store.objects.filter(token = token ).update(upgrade_status = 'active')
+	messages.success(request, 'Your Account Has Been Downgraded.')
 	return redirect("/")
 
 @shop_login_required
@@ -120,6 +123,7 @@ def store_reset(request,token):
 
 	#post api a empty data (for reset)
 	response = requests.put("http://localhost:8000/api/settings/"+token,data = json.dumps(request_data))
+	messages.success(request, 'Your Shopify Store Has Been Restored.')
 	print(response.text)
 
 	return redirect('/')
