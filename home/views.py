@@ -1,12 +1,12 @@
 from django.shortcuts import render,redirect
 import shopify
 from shopify_app.decorators import shop_login_required
-from django.http import HttpResponse 
+from django.http import HttpResponse
 from api.views import Store,Settings
 from uuid import uuid4
 import requests
 import json
-from api.models import CustomFonts 
+from api.models import CustomFonts
 from django.contrib import messages
 
 @shop_login_required
@@ -77,7 +77,7 @@ def activate_charge(request, *args, **kwargs):
 	rac.activate()
 	Store.objects.filter(token = store_token ).update(charge_id = charge_id,upgrade_status = 'active')
 	messages.success(request, 'Your Account Has Been Upgraded.')
-	return redirect('/')    
+	return redirect('/')
 
 @shop_login_required
 def cancel_charge(request,token):
@@ -99,7 +99,7 @@ def store_reset(request,token):
 	asset.key = "snippets/fontmangooglecss.liquid"
 	asset.value = ""
 	success = asset.save()
-	
+
 	asset = shopify.Asset()
 	asset.key = "snippets/fontmancustomcss.liquid"
 	asset.value = ""
@@ -122,7 +122,7 @@ def store_reset(request,token):
        }
 
 	#post api a empty data (for reset)
-	response = requests.put("http://localhost:8000/api/settings/"+token,data = json.dumps(request_data))
+	response = requests.put("https://www.fontman.ml/api/settings/"+token,data = json.dumps(request_data))
 	messages.success(request, 'Your Shopify Store Has Been Restored.')
 	print(response.text)
 
