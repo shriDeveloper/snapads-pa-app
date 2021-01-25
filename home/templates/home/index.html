@@ -14,15 +14,15 @@
       <div class="col-md-12">
          <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-               <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-home" aria-selected="true">Basic Elements</a>
+               <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-home" aria-selected="true"><i class="fa fa-code" aria-hidden="true"></i> Basic Elements</a>
                {% if active_flag == 'ACTIVE' %}
-               <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-preview" role="tab" aria-controls="nav-profile" aria-selected="false">Custom Elements</a>
-               <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-help" role="tab" aria-controls="nav-contact" aria-selected="false">My Fonts</a>
+               <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-preview" role="tab" aria-controls="nav-profile" aria-selected="false"><i class="fa fa-plus" aria-hidden="true"></i> Custom Elements</a>
+               <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-help" role="tab" aria-controls="nav-contact" aria-selected="false"><i class="fa fa-font" aria-hidden="true"></i> My Fonts</a>
                {% endif %}
                {% if active_flag == 'INACTIVE' %}
-                  <a class="nav-item nav-link" id="upgradeNow"  role="tab"  aria-selected="false" data-toggle="modal" data-target="#demoModal">Upgrade</a>
+                  <a class="nav-item nav-link" id="upgradeNow"  role="tab"  aria-selected="false" data-toggle="modal" data-target="#demoModal"> <i class="fa fa-smile-o" aria-hidden="true"></i> Upgrade</a>
                {% endif %}
-               <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-app-settings" role="tab" aria-controls="nav-profile" aria-selected="false">Settings</a>
+               <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-app-settings" role="tab" aria-controls="nav-profile" aria-selected="false"> <i class="fa fa-cog" aria-hidden="true"></i> Settings</a>
             </div>
          </nav>
          <div class="tab-content" id="nav-tabContent">
@@ -452,7 +452,7 @@
                         </div>
                           <div class="col-md-1 ml-3">
                             <div class="form-group">
-                            <button class=" btn btn-lg btn-gradient btn-picker-element" type="button" data-src="https://shristorey.myshopify.com" data-hover="Elements picker">Picker</button>
+                           <button class=" btn btn-lg btn-gradient btn-picker-element" type="button" data-src="https://shristorey.myshopify.com" data-hover="Elements picker"><i class="fa fa-mouse-pointer" aria-hidden="true"></i> Picker</button>
                           </div>
                           </div>
 
@@ -468,7 +468,6 @@
                               </tr>
                            </thead>
                            <tbody style="text-align: center;">
-
                               <tr>
                                  <td style="width:30%;">
                                   <div class="form-group">
@@ -637,14 +636,14 @@
                            <tbody style="text-align: center;">
                               {% if active_flag == 'ACTIVE' %}
                               <tr>
-                                 <td>Downgrade Account</td>
-                                 <td><a class="btn btn-outline-primary" role="tab"  aria-selected="false" data-toggle="modal" data-target="#demoModal">Downgrade</a></td>
+                                 <td>Account Settings</td>
+                                 <td><a class="btn btn-gradient btn-block btn-md" style="color:white;" role="tab"  aria-selected="false" data-toggle="modal" data-target="#demoModal">Downgrade</a></td>
                               </tr>
                               {% endif %}
 
                               <tr>
-                                 <td>Reset Store</td>
-                                 <td><a class="btn btn-outline-primary" href="reset/{{app_token}}"  role="tab"> Reset </a></td>
+                                 <td>Store Settings</td>
+                                 <td style="width:80px;"><a class="btn btn-gradient btn-block btn-md" href="reset/{{app_token}}"  role="tab"> Reset </a></td>
                               </tr>
 
 
