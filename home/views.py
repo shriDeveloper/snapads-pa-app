@@ -88,3 +88,38 @@ def cancel_charge(request,token):
 	else:
 		Store.objects.filter(token = token ).update(upgrade_status = 'active')
 	return redirect("/")
+
+@shop_login_required
+def store_reset(request,token):
+	#reset everything (both liquid files)
+	asset = shopify.Asset()
+	asset.key = "snippets/fontmangooglecss.liquid"
+	asset.value = ""
+	success = asset.save()
+	
+	asset = shopify.Asset()
+	asset.key = "snippets/fontmancustomcss.liquid"
+	asset.value = ""
+	success = asset.save()
+
+	request_data = {
+         "body_tag": '',
+         "h1_tag": '',
+         "h2_tag": '',
+         "h3_tag": '',
+         "h4_tag": '',
+         "h5_tag": '',
+         "h6_tag": '',
+         "p_tag": '',
+         "li_tag": '',
+         "a_tag": '',
+         "block_tag": '',
+		 'custom_classes':'',
+         'custom_font':'',
+       }
+
+	#post api a empty data (for reset)
+	response = requests.put("http://localhost:8000/api/settings/"+token,data = json.dumps(request_data))
+	print(response.text)
+
+	return redirect('/')
