@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from django.conf import settings
+from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
 import os
 import requests
@@ -16,6 +17,9 @@ def simple_upload(request):
 		myfile.name = "".join(myfile.name.split())
 		print("FILE NAME "+myfile.name)
 		name, ext = os.path.splitext(myfile.name)
+		if ext not in ['ttf','otf','woff2','woff']:
+			messages.error(request,"Please Upload Valid Font File.")
+			return redirect('/')
 		try:
 			my_custom_font = CustomFonts.objects.get(font_name =  name+ext )
 		except CustomFonts.DoesNotExist:
@@ -48,6 +52,7 @@ def simple_upload(request):
 			custom_font.save()
 			#delete the uploaded file
 			#shutil.rmtree('media/shristorey.myshopify.com/fonts/')
+		messages.info(request,"Font Uploaded Successfully")
 		return redirect('/')
 	request.session['file_upload'] ='failure'
 	return redirect('/')
