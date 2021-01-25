@@ -1376,7 +1376,8 @@ function googleTranslateElementInit() {
                               </ul>
                               {% else %}
                               <br/>
-                                <p>No Question's Asked. Upgrade Anytime !</h5>
+                                <p>No Question's Asked. Upgrade Anytime !
+                     </p>
                                 <br/><br/>
                               {% endif %}
                               <form  {% if active_flag == 'INACTIVE' %} action="/confirm_payment/{{app_token}}" {% else %} action="/cancel_charge/{{app_token}}" {% endif %} >
