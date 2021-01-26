@@ -83,14 +83,15 @@ def activate_charge(request, *args, **kwargs):
 def cancel_charge(request,token):
 	charge = shopify.RecurringApplicationCharge.current()
 	if charge == None:
-		return HttpResponse("<b>No Plan To cancel</b>")
+		messages.success(request, 'No Plan To Cancel.')
+		return redirect("/")
 	charge.destroy()
 	if shopify.RecurringApplicationCharge.current() == None:
 		Store.objects.filter(token = token ).update(charge_id = '', upgrade_status = 'inactive')
 	else:
 		Store.objects.filter(token = token ).update(upgrade_status = 'active')
 	messages.success(request, 'Your Account Has Been Downgraded.')
-	
+
 	font_types = ['.woff','.woff2','.ttf','.otf']
 	#reset custom elements here
 	asset = shopify.Asset()
@@ -128,10 +129,10 @@ def cancel_charge(request,token):
 		request_data['a_tag'] = ''
 	if isCustomMan(store_settings.block_tag):
 		request_data['block_tag'] = ''
-	
-	#after redirect you have to submit save button() 
-	
-	response = requests.put("http://localhost:8000/api/settings/"+token,data = json.dumps(request_data))
+
+	#after redirect you have to submit save button()
+
+	response = requests.put("https://www.fontman.ml/api/settings/"+token,data = json.dumps(request_data))
 
 	return redirect("/")
 
