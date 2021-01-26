@@ -380,7 +380,7 @@
                                   <div class="default-li-div"></div>
                                 </td>
 
-                                <td><input type="checkbox" id="block-li"></td>
+                                 <td><input type="checkbox" id="li-toggle"></td>
 
                               </tr>
 
@@ -413,7 +413,7 @@
                                   <div class="default-a-div"></div>
                                 </td>
 
-                                <td><input type="checkbox" id="block-a"></td>
+                                 <td><input type="checkbox" id="a-toggle"></td>
 
                               </tr>
 
@@ -1351,7 +1351,7 @@ function googleTranslateElementInit() {
                     <div class="row">
                         <div class="col-md-6 bg-rhino rounded-left d-flex align-items-center text-center justify-content-center">
                           <div>
-                              <img src="static/images/modalimage.png" class="mw-100" width="" alt="">
+                     <img {% if active_flag == 'INACTIVE' %} src="static/images/modalimage.png" {% else %} src="static/images/error.png" {% endif %} class="mw-100" width="" alt="">
                               <div class="pt-3 ">
                                   
                               </div>
@@ -1363,7 +1363,7 @@ function googleTranslateElementInit() {
                         {% if active_flag == 'INACTIVE' %}
                         Upgrade @ <del>$15</del> $9.99 Only
                         {% else %}
-                        Leaving .. Soon ?
+                        <p style="color:red;">You Will Lose All Your Custom Fonts !</p>
                         {% endif %}
                      </h4>
                      <br/>
@@ -1375,13 +1375,11 @@ function googleTranslateElementInit() {
                         <li> ✅ 24/7 Live Support</li>
                      </ul>
                      {% else %}
+                     <p>Don't leave us , Let us know, if we can help.</p>
                      <br/>
-                     <p>No Question's Asked. Upgrade Anytime !
-                     </p>
-                                <br/><br/>
-                              {% endif %}
-                              <form  {% if active_flag == 'INACTIVE' %} action="/confirm_payment/{{app_token}}" {% else %} action="/cancel_charge/{{app_token}}" {% endif %} >
-                                  <div class="col-md-12 mb-3">
+                     {% endif %}
+                     <form  {% if active_flag == 'INACTIVE' %} action="/confirm_payment/{{app_token}}" {% else %} action="/cancel_charge/{{app_token}}" {% endif %} >
+                     <div class="col-md-12 mb-3">
                         <input type="submit" class="btn btn-gradient btn-lg btn-block" {% if active_flag == 'INACTIVE' %}value="Upgrade" {% else %} value="Downgrade" {% endif %}>
                                   </div>
                               </form>

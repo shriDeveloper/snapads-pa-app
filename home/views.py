@@ -90,6 +90,49 @@ def cancel_charge(request,token):
 	else:
 		Store.objects.filter(token = token ).update(upgrade_status = 'active')
 	messages.success(request, 'Your Account Has Been Downgraded.')
+	
+	font_types = ['.woff','.woff2','.ttf','.otf']
+	#reset custom elements here
+	asset = shopify.Asset()
+	asset.key = "snippets/fontmancustomcss.liquid"
+	asset.value = ""
+	success = asset.save()
+
+	# #get store_url first
+	store = Store.objects.get(token = token )
+	#delete all custom fonts
+	CustomFonts.objects.filter(store_url = store.name).delete()
+
+	request_data = {}
+	#do eveything to reset custom-fonts , custom-classes and all to here. (make sure its not free)
+	store_settings  = Settings.objects.get(store_token = token )
+	if isCustomMan(store_settings.body_tag):
+		request_data['body_tag'] = ''
+	if isCustomMan(store_settings.h1_tag):
+		request_data['h1_tag'] = ''
+	if isCustomMan(store_settings.h2_tag):
+		request_data['h2_tag'] = ''
+	if isCustomMan(store_settings.h3_tag):
+		request_data['h3_tag'] = ''
+	if isCustomMan(store_settings.h4_tag):
+		request_data['h4_tag'] = ''
+	if isCustomMan(store_settings.h5_tag):
+		request_data['h5_tag'] = ''
+	if isCustomMan(store_settings.h6_tag):
+		request_data['h6_tag'] = ''
+	if isCustomMan(store_settings.p_tag):
+		request_data['p_tag'] = ''
+	if isCustomMan(store_settings.li_tag):
+		request_data['li_tag'] = ''
+	if isCustomMan(store_settings.a_tag):
+		request_data['a_tag'] = ''
+	if isCustomMan(store_settings.block_tag):
+		request_data['block_tag'] = ''
+	
+	#after redirect you have to submit save button() 
+	
+	response = requests.put("http://localhost:8000/api/settings/"+token,data = json.dumps(request_data))
+
 	return redirect("/")
 
 @shop_login_required
@@ -127,3 +170,7 @@ def store_reset(request,token):
 	print(response.text)
 
 	return redirect('/')
+
+def isCustomMan(font):
+    extension = ['.woff','.woff2','.ttf','.otf']
+    return list(filter(font.endswith, extension)) != []
