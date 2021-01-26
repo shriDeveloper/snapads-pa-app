@@ -590,7 +590,7 @@
       </div>
       <div class="col-md-2">
         <div class="form-group">
-          <button class="btn btn-gradient btn-lg" type="submit">Upload Font</button>
+                     <button class="btn btn-gradient btn-lg" type="submit"> <i class="fa fa-upload" aria-hidden="true"></i> Upload</button>
           </form>
         </div>
       </div>
@@ -1359,29 +1359,30 @@ function googleTranslateElementInit() {
                         </div>
                         <div class="col-md-6 m-h-50 d-flex align-items-center justify-content-center">
                           <div class="px-sm-3">
-                              <h3 class="text-center">
-                                {% if active_flag == 'INACTIVE' %}
-                                  FontMan Premium
-                                {% else %}
-                                  Leaving .. Soon ?
-                                {% endif %}
-                              </h3>
-                              {% if active_flag == 'INACTIVE' %}
-                              <ul>
-                                <li>Unlimited Custom Fonts</li>
-                                <li>Unlimited Google Fonts</li>
-                                <li>Unlimited Customization's</li>
-                                <li>Live Support</li>
-                              </ul>
-                              {% else %}
-                              <br/>
-                                <p>No Question's Asked. Upgrade Anytime !
+                     <h4 class="text-center" style="color:green;">
+                        {% if active_flag == 'INACTIVE' %}
+                        Upgrade @ <del>$15</del> $9.99 Only
+                        {% else %}
+                        Leaving .. Soon ?
+                        {% endif %}
+                     </h4>
+                     <br/>
+                     {% if active_flag == 'INACTIVE' %}
+                     <ul type="none">
+                        <li> ✅ Unlimited Custom Fonts</li>
+                        <li> ✅ Unlimited Google Fonts</li>
+                        <li> ✅ Unlimited Customization's</li>
+                        <li> ✅ 24/7 Live Support</li>
+                     </ul>
+                     {% else %}
+                     <br/>
+                     <p>No Question's Asked. Upgrade Anytime !
                      </p>
                                 <br/><br/>
                               {% endif %}
                               <form  {% if active_flag == 'INACTIVE' %} action="/confirm_payment/{{app_token}}" {% else %} action="/cancel_charge/{{app_token}}" {% endif %} >
                                   <div class="col-md-12 mb-3">
-                                      <input type="submit" class="btn btn-lg btn-block" {% if active_flag == 'INACTIVE' %}value="Upgrade" {% else %} value="Downgrade" {% endif %}>
+                        <input type="submit" class="btn btn-gradient btn-lg btn-block" {% if active_flag == 'INACTIVE' %}value="Upgrade" {% else %} value="Downgrade" {% endif %}>
                                   </div>
                               </form>
                               <div class="pt-3 text-center ">
