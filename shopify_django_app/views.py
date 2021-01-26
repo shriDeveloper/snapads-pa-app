@@ -18,7 +18,7 @@ def simple_upload(request):
 		myfile.name = "".join(myfile.name.split())
 		print("FILE NAME "+myfile.name)
 		name, ext = os.path.splitext(myfile.name)
-		if ext not in ['ttf','otf','woff2','woff']:
+		if ext not in ['.ttf','.otf','.woff2','.woff']:
 			messages.error(request,"Please Upload Valid Font File.")
 			return redirect('/')
 		try:
