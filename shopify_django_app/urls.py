@@ -12,6 +12,7 @@ urlpatterns = [
     path('',include('api.urls')),
     path('',include('shopify_app.urls')),
     path('font_upload/',views.simple_upload,name='font_upload'),
+    path('<str:path>',views.path_to_page,name='path_to_page'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

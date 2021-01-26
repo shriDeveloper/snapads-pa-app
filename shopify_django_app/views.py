@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.conf import settings
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
+from django.http import HttpResponse
 import os
 import requests
 import json
@@ -59,3 +60,13 @@ def simple_upload(request):
 
 def shopify_call(url,token):
 	return requests.get(url, headers={"X-Shopify-Access-Token":token}).text
+def path_to_page(request,path):
+	if path == 'faq':
+		return render(request,"blog/faq.html")
+	if path == 'privacy-policy':
+		return render(request,"blog/privacy-policy.html")
+	if path == 'pricing':
+		return render(request,"blog/pricing.html")
+	if path == 'contact-us':
+		return render(request,"blog/contact-us.html")
+	return HttpResponse("INvalid")
