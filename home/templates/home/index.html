@@ -527,9 +527,14 @@
 
               $('#customSubmit').click(function(){
 
+                
+              $('#customSubmit').html('<i class="fa fa-circle-o-notch fa-spin"></i>');
+
+
                 var custom_classes = $("#customClasses").val();
                 var finalized_classes = custom_classes.split("\n");
-
+                finalized_classes = finalized_classes.filter(Boolean)
+                
                 postData = {
                   'custom_classes':finalized_classes,
                   'custom_font':custom_elements_font,
@@ -537,6 +542,14 @@
                   'store_key':'{{store_token}}',
                   'store_url':'{{shop_url}}',
                 }
+
+                if (postData['custom_classes'].length < 1) {
+                       alert("No Custom Classes Added!");
+                       $('#customSubmit').html('<i class="fa fa-floppy-o" aria-hidden="true"></i>');
+                       return false;     
+                }
+
+                console.log(postData);
 
 /*
                 .hero__content-wrapper.hero-initialized .hero__content .hero__content-centered
@@ -558,7 +571,7 @@
                   success:function(response){
                       console.log('Saved Successfully');
                       console.log(response);
-                      $('#save').html('<i class="fa fa-floppy-o" aria-hidden="true"></i>');
+                      $('#customSubmit').html('<i class="fa fa-floppy-o" aria-hidden="true"></i>');
                       location.reload();
                   }
                 });
