@@ -28,7 +28,7 @@ def index(request):
 		postData = {
 			"webhook":{
 				"topic":"app/uninstalled",
-				"address":"https://www.fontman.ml/uninstall",
+				"address":"https://www.fontman.in/uninstall",
 				"format":"json"
 			}
 		}
@@ -38,7 +38,7 @@ def index(request):
 		print("WEBHOOK STATUS"+str(webhook.content))
 
 		### CONFIGURE JS HERE ####
-		res = shopify.ScriptTag(dict(event='onload', src='https://www.fontman.ml/static/js/fontman.js')).save()
+		res = shopify.ScriptTag(dict(event='onload', src='https://www.fontman.in/static/js/fontman.js')).save()
 		########################## ENDS HERE ##################################################################
 	file_upload = request.session.get('file_upload')
 	#load fonts here
@@ -59,7 +59,7 @@ def confirm(request,token):
 	rac.name          = "Test charge"
 	rac.test = True
 	rac.price         = 10.00
-	rac.return_url    = "https://www.fontman.ml/activate_charge?store_token="+token
+	rac.return_url    = "https://www.fontman.in/activate_charge?store_token="+token
 	rac.capped_amount = 100.00
 	rac.terms         = "Foobarbaz"
 	if rac.save():
@@ -134,7 +134,7 @@ def cancel_charge(request,token):
 
 	#after redirect you have to submit save button()
 
-	response = requests.put("https://www.fontman.ml/api/settings/"+token,data = json.dumps(request_data))
+	response = requests.put("https://www.fontman.in/api/settings/"+token,data = json.dumps(request_data))
 
 	return redirect("/")
 
@@ -168,7 +168,7 @@ def store_reset(request,token):
        }
 
 	#post api a empty data (for reset)
-	response = requests.put("https://www.fontman.ml/api/settings/"+token,data = json.dumps(request_data))
+	response = requests.put("https://www.fontman.in/api/settings/"+token,data = json.dumps(request_data))
 	messages.success(request, 'Your Shopify Store Has Been Restored.')
 	print(response.text)
 

@@ -1,6 +1,6 @@
 function InitFontify() {
     (function ($) {
-        var origin = "https://www.fontman.ml";
+        var origin = "https://www.fontman.in";
         var css = "h1 { background: red; }",
             head = document.head || document.getElementsByTagName("head")[0],
             style = document.createElement("style");

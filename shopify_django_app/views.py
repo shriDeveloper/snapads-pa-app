@@ -36,7 +36,7 @@ def simple_upload(request):
 			custom_font_url = {
 				"asset":{
 					"key":"assets/"+name+ext,
-					"src":"https://www.fontman.ml/media/"+shop_url+"/fonts/"+name+ext
+					"src":"https://www.fontman.in/media/"+shop_url+"/fonts/"+name+ext
 				}
 			}
 

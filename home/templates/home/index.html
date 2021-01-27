@@ -559,14 +559,14 @@
                 .newsletter.text-center h2
 */
 
-                var API_URL = 'https://www.fontman.ml';
+                var API_URL = 'https://www.fontman.in';
 
 
                 //ajax here for updating custom classify_classes
                 $.ajax({
                   type:'POST',
                   url: API_URL+'/csubmit/',
-                  //url:'http://fontman.ml/api/settings/{{app_token}}',
+                  //url:'http://fontman.in/api/settings/{{app_token}}',
                   data:{ custom_data : JSON.stringify(postData) },
                   success:function(response){
                       console.log('Saved Successfully');
@@ -715,7 +715,7 @@ function googleTranslateElementInit() {
 
     $(document).ready(function(){
       //load fonts for store
-      var API_URL = 'https://www.fontman.ml';
+      var API_URL = 'https://www.fontman.in';
 
       $.ajax({
           type:'GET',
@@ -1071,7 +1071,7 @@ function googleTranslateElementInit() {
 
   window.addEventListener("message", receiveMessage, false);
     function receiveMessage(event) {
-        if (event.origin == "https://www.fontman.ml") {
+        if (event.origin == "https://www.fontman.in") {
             var e = event;
             if (e.data && e.data.action) {
                 switch (e.data.action) {
@@ -1136,7 +1136,7 @@ function googleTranslateElementInit() {
 
         console.log(request_data);
 
-        var API_URL = 'https://www.fontman.ml';
+        var API_URL = 'https://www.fontman.in';
 
         $.ajax({
           type:'POST',

@@ -85,7 +85,7 @@ def logout(request):
 
 @csrf_exempt
 def submit(request):
-    API_URL = 'https://www.fontman.ml'
+    API_URL = 'https://www.fontman.in'
     if request.method == "POST":
         font_data = request.POST.get('font_data')
         store_data = request.POST.get('store_data')
@@ -217,7 +217,7 @@ def submit(request):
         success = snippet.save()
 
         #finally update db
-        response = requests.put("https://www.fontman.ml/api/settings/"+font_json['store_token'],data = font_data)
+        response = requests.put("https://www.fontman.in/api/settings/"+font_json['store_token'],data = font_data)
         print("RESPONSE IS HERE")
         print(response.text)
 
