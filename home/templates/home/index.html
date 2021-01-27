@@ -447,7 +447,7 @@
                 <div class="row mt-3">
                   <div class="col-md-10">
                           <div class="form-group">
-                              <textarea class="form-control" id="customClasses" placeholder="Custom Classes Are Added Here" name="custom-elements"></textarea>
+                           <textarea class="form-control" readonly id="customClasses" placeholder="Custom Classes Are Added Here" name="custom-elements"></textarea>    
                           </div>
                         </div>
                           <div class="col-md-1 ml-3">
@@ -595,14 +595,18 @@
         </div>
       </div>
               </div>
-
+                  <div class="row mb-4" style="margin-top:0px;">
+                     <div class="col-md-12 text-center">
+                        <small style="color:red;">Note: Please upload  woff , woff2, ttf, otf fonts.</small>
+                     </div>
+                  </div>
               <div class="row">
                 <div class="col-md-12">
                    <table class="table">
                            <thead style="text-align: center;">
                               <tr>
                                  <th scope="col">Font Name</th>
-                                 <th scope="col">Action</th>
+                                 <th scope="col">Status</th>
                               </tr>
                            </thead>
                            <tbody style="text-align: center;">
@@ -636,13 +640,13 @@
                            <tbody style="text-align: center;">
                               {% if active_flag == 'ACTIVE' %}
                               <tr>
-                                 <td><i class="fa fa-bars" aria-hidden="true"></i> Account Settings</td>
+                                 <td><i class="fa fa-bars" aria-hidden="true"></i> Account </td>
                                  <td><a class="btn btn-gradient btn-block btn-md" style="color:white;" role="tab"  aria-selected="false" data-toggle="modal" data-target="#demoModal">Downgrade</a></td>
                               </tr>
                               {% endif %}
 
                               <tr>
-                                 <td> <i class="fa fa-bars" aria-hidden="true"></i> Store Settings</td>
+                                 <td> <i class="fa fa-bars" aria-hidden="true"></i> Store Reset</td>
                                  <td style="width:80px;"><a class="btn btn-gradient btn-block btn-md" href="reset/{{app_token}}"  role="tab"> Reset </a></td>
                               </tr>
 
