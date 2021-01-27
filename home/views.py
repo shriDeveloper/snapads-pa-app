@@ -84,6 +84,8 @@ def cancel_charge(request,token):
 	charge = shopify.RecurringApplicationCharge.current()
 	if charge == None:
 		messages.success(request, 'No Plan To Cancel.')
+		#set it as inactive if there is no active plan
+		Store.objects.filter(token = token ).update(charge_id = '', upgrade_status = 'inactive')
 		return redirect("/")
 	charge.destroy()
 	if shopify.RecurringApplicationCharge.current() == None:
