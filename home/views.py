@@ -173,5 +173,7 @@ def store_reset(request,token):
 	return redirect('/')
 
 def isCustomMan(font):
-    extension = ['.woff','.woff2','.ttf','.otf']
-    return list(filter(font.endswith, extension)) != []
+	extension = ['.woff','.woff2','.ttf','.otf']
+	if font!=None:
+		return list(filter(font.endswith, extension)) != []
+	return False
