@@ -39,6 +39,8 @@ def index(request):
 
 		### CONFIGURE JS HERE ####
 		res = shopify.ScriptTag(dict(event='onload', src='https://www.fontman.in/static/js/fontman.js')).save()
+		print("Script STATUS")
+		print(res)
 		########################## ENDS HERE ##################################################################
 	file_upload = request.session.get('file_upload')
 	#load fonts here
