@@ -303,9 +303,9 @@ def uninstall(request):
             pass
 
         #delete all db entries please
-        Store.objects.get(name = store_url).delete()
-        Settings.objects.get(store_token = store_token).delete()
-        CustomFonts.objects.filter(store_url = store_url).delete()
+        # Store.objects.get(name = store_url).delete()
+        # Settings.objects.get(store_token = store_token).delete()
+        # CustomFonts.objects.filter(store_url = store_url).delete()
 
         for session in Session.objects.all():
             store = SessionStore(session_key= session.session_key)
@@ -314,7 +314,7 @@ def uninstall(request):
                     store.delete()
         #do changes to theme
         return JsonResponse({'data':'Payload Received'},safe=False)
-    return HttpResponse("<b>Strong NO Access</b>")
+    return HttpResponse("<b>NO Access Allowed</b>")
 
 
 def slugifyFont(font):
