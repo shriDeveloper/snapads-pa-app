@@ -228,7 +228,7 @@ def submit(request):
 
 @csrf_exempt
 def csubmit(request):
-    API_URL = 'http://localhost:8000/api/settings/'
+    API_URL = 'https://www.fontman.in/api/settings/'
     if request.method == "POST":
         custom_css = '<style type="text/css" id="fontmancustom_css">'
         custom_data = request.POST.get('custom_data')
@@ -273,10 +273,15 @@ def csubmit(request):
             success = asset.save()
 
         markup = custom_font + custom_css
-
+        #here;s the append code
+        assets = shopify_call("https://"+store_url+"/admin/api/2020-10/themes/"+str(theme_id)+"/assets.json?asset[key]=snippets/fontmancustomcss.liquid",store_token)
+        if not assets:
+            assets = ""
+        else:
+            assets = json.loads(assets)['asset']['value']
         snippet = shopify.Asset()
         snippet.key = "snippets/fontmancustomcss.liquid"
-        snippet.value = markup
+        snippet.value = assets + markup
         success = snippet.save()
 
         return HttpResponse("Great")
@@ -301,7 +306,7 @@ def uninstall(request):
         Store.objects.get(name = store_url).delete()
         Settings.objects.get(store_token = store_token).delete()
         CustomFonts.objects.filter(store_url = store_url).delete()
-        
+
         for session in Session.objects.all():
             store = SessionStore(session_key= session.session_key)
             if store.get('shopify'):
