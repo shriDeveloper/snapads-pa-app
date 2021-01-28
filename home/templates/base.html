@@ -130,11 +130,13 @@ a:hover{
 </nav>
 
 <!-- ALERT HERE -->
-{% if active_flag == 'INACTIVE' and not messages %}
+{% comment %} {% if active_flag == 'INACTIVE' and not messages %} {% endcomment %}
+
 <div class="alert" style="color:white;border-radius:0px;background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(77,97,252,0.63) 0%, rgba(77,97,252,1) 90% );" role="alert">
-    <strong>?? Wooo hoo , You have premium upgrade offer @ <del>$15</del> $9.99 only.</strong>
+    <strong>We are always happy to help you. message us if you have any difficulties in setting fonts. </strong>
 </div>
-{% endif %}
+
+{% comment %} {% endif %} {% endcomment %}
 
 <!-- ENDS HERE -->
 
