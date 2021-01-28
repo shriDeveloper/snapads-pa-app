@@ -58,12 +58,12 @@ def shopify_call(url,token):
 def confirm(request,token):
 	payment_json = ''
 	rac = shopify.RecurringApplicationCharge()
-	rac.name          = "Test charge"
+	rac.name          = "FontMan Premium"
 	rac.test = True
-	rac.price         = 10.00
+	rac.price         = 9.99
 	rac.return_url    = "https://www.fontman.in/activate_charge?store_token="+token
-	rac.capped_amount = 100.00
-	rac.terms         = "Foobarbaz"
+	rac.capped_amount = 12
+	rac.terms         = "Upgrade To add Unlimited Custom Fonts TO Your Shopify Store. "
 	if rac.save():
 		payment_json = json.loads(json.dumps(rac.attributes))
 	print("PAYMENT")
