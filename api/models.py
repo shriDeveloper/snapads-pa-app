@@ -24,3 +24,7 @@ class CustomFonts(models.Model):
     store_url =   models.CharField(max_length=100,null=True,blank=True)
     font_name   = models.CharField(max_length=100,null=True,blank=True)
     public_url = models.CharField(max_length=1000,null=True,default='',blank=True)
+class CustomClass(models.Model):
+    store_token = models.CharField(max_length=100,null=True,blank=True)
+    custom_classes = models.TextField(null=True,blank=True)
+    custom_font = models.CharField(max_length=100,null=True,blank=True)

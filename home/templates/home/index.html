@@ -496,6 +496,36 @@
                           </table>
                   </div>
                 </div>
+
+
+              <div class="row">
+                <div class="col-md-12">
+                   <table class="table">
+                           <thead style="text-align: center;">
+                              <tr>
+                                 <th scope="col">Custom Elements</th>
+                                 <th scope="col">Status</th>
+                              </tr>
+                           </thead>
+                           <tbody style="text-align: center;">
+                              {%  for custom_el in custom_elements %}
+                              <tr>
+                                 <td>{{custom_el.custom_classes}}</td>
+                                 <td>Active</td>
+                              </tr>
+
+                              {% endfor %}
+
+                            </tbody>
+                          </table>
+
+                </div>
+              </div>
+
+
+
+
+
               </div>
             </div>
 
@@ -533,17 +563,19 @@
 
                 var custom_classes = $("#customClasses").val();
                 var finalized_classes = custom_classes.split("\n");
-                finalized_classes = finalized_classes.filter(Boolean)
+                var python_list = String(JSON.stringify(finalized_classes)).replaceAll("\"","\'");
 
                 postData = {
-                  'custom_classes':finalized_classes,
+                  'custom_classes':python_list,
                   'custom_font':custom_elements_font,
                   'store_token':'{{app_token}}',
                   'store_key':'{{store_token}}',
                   'store_url':'{{shop_url}}',
                 }
 
-                if (postData['custom_classes'].length < 1) {
+
+
+                if (custom_classes.length < 1) {
                        alert("No Custom Classes Added!");
                        $('#customSubmit').html('<i class="fa fa-floppy-o" aria-hidden="true"></i>');
                        return false;
