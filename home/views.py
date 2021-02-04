@@ -36,11 +36,6 @@ def index(request):
 		#subscribe to web hook here
 		webhook = requests.post(shop_url+"/admin/api/2021-01/webhooks.json", json = postData ,   headers = {"X-Shopify-Access-Token":token})
 		print("WEBHOOK STATUS"+str(webhook.content))
-
-		### CONFIGURE JS HERE ####
-		res = shopify.ScriptTag(dict(event='onload', src='https://www.fontman.in/static/js/fontman.js')).save()
-		print("Script STATUS")
-		print(res)
 		########################## ENDS HERE ##################################################################
 	file_upload = request.session.get('file_upload')
 	#load fonts here
@@ -62,8 +57,8 @@ def confirm(request,token):
 	rac.test = True
 	rac.price         = 9.99
 	rac.return_url    = "https://www.fontman.in/activate_charge?store_token="+token
-	rac.capped_amount = 12
-	rac.terms         = "Upgrade To add Unlimited Custom Fonts TO Your Shopify Store. "
+	#rac.capped_amount = 12
+	rac.terms         = "Upgrade To add Unlimited Custom Fonts To Your Shopify Store. "
 	if rac.save():
 		payment_json = json.loads(json.dumps(rac.attributes))
 	print("PAYMENT")
@@ -78,6 +73,10 @@ def activate_charge(request, *args, **kwargs):
 	rac = shopify.RecurringApplicationCharge.find(charge_id)
 	rac.activate()
 	Store.objects.filter(token = store_token ).update(charge_id = charge_id,upgrade_status = 'active')
+	### CONFIGURE JS HERE ####
+	res = shopify.ScriptTag(dict(event='onload', src='https://www.fontman.in/static/js/fontman.js')).save()
+	print("Script STATUS")
+	print(res)
 	messages.success(request, 'Your Account Has Been Upgraded.')
 	return redirect('/')
 

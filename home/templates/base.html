@@ -97,7 +97,7 @@ a:hover{
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <!--<a class="nav-link text-style" href="#">How To Use <span class="sr-only">(current)</span></a>-->
+        <a class="nav-link text-style" target="_blank" href="https://www.youtube.com/channel/UCLu4YOu-pwQwjhbuCR-M7Ow">How To Use?</a>
       </li>
 
       <!--
@@ -139,6 +139,12 @@ a:hover{
 {% comment %} {% endif %} {% endcomment %}
 
 <!-- ENDS HERE -->
+
+{% if active_flag == 'INACTIVE' and not messages %}
+<div class="alert alert-info" role="alert">
+    <strong>🚀 Woo hoo ! You have a 🤩 premium upgrade offer just at <strike>$15</strike> $9.99.  👇 Upgrade Now To Avail Premium Features</strong>
+</div>
+{% endif %}
 
 
 

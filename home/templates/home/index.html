@@ -20,7 +20,7 @@
                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-help" role="tab" aria-controls="nav-contact" aria-selected="false"><i class="fa fa-font" aria-hidden="true"></i> My Fonts</a>
                {% endif %}
                {% if active_flag == 'INACTIVE' %}
-                  <a class="nav-item nav-link" id="upgradeNow"  role="tab"  aria-selected="false" data-toggle="modal" data-target="#demoModal"> <i class="fa fa-smile-o" aria-hidden="true"></i> Upgrade</a>
+                  <a class="nav-item nav-link" id="upgradeNow"  role="tab"  aria-selected="false" data-toggle="modal" data-target="#demoModal"> 🚀 Upgrade</a>
                {% endif %}
                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-app-settings" role="tab" aria-controls="nav-profile" aria-selected="false"> <i class="fa fa-cog" aria-hidden="true"></i> Settings</a>
             </div>
@@ -447,7 +447,7 @@
                 <div class="row mt-3">
                   <div class="col-md-10">
                           <div class="form-group">
-                           <textarea class="form-control" readonly id="customClasses" placeholder="Custom Classes Are Added Here" name="custom-elements"></textarea>    
+                           <textarea class="form-control" readonly id="customClasses" placeholder="Custom Classes Are Added Here" name="custom-elements"></textarea>
                           </div>
                         </div>
                           <div class="col-md-1 ml-3">
@@ -527,14 +527,14 @@
 
               $('#customSubmit').click(function(){
 
-                
+
               $('#customSubmit').html('<i class="fa fa-circle-o-notch fa-spin"></i>');
 
 
                 var custom_classes = $("#customClasses").val();
                 var finalized_classes = custom_classes.split("\n");
                 finalized_classes = finalized_classes.filter(Boolean)
-                
+
                 postData = {
                   'custom_classes':finalized_classes,
                   'custom_font':custom_elements_font,
@@ -546,7 +546,7 @@
                 if (postData['custom_classes'].length < 1) {
                        alert("No Custom Classes Added!");
                        $('#customSubmit').html('<i class="fa fa-floppy-o" aria-hidden="true"></i>');
-                       return false;     
+                       return false;
                 }
 
                 console.log(postData);
@@ -670,8 +670,8 @@
                   </div>
                 </div>
             </div>
-         
-         
+
+
          </div>
       </div>
    </div>
@@ -1352,11 +1352,11 @@ function googleTranslateElementInit() {
 
 
   /* ENDS HERE */
-  
+
   $('#upgradeNow').click(function(){
     console.log("Added Cool Things!");
   });
-  
+
   </script>
 
 <!-- Modal -->
@@ -1370,7 +1370,7 @@ function googleTranslateElementInit() {
                           <div>
                      <img {% if active_flag == 'INACTIVE' %} src="static/images/modalimage.png" {% else %} src="static/images/error.png" {% endif %} class="mw-100" width="" alt="">
                               <div class="pt-3 ">
-                                  
+
                               </div>
                           </div>
                         </div>
