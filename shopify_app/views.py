@@ -11,9 +11,9 @@ import json
 from django.contrib.sessions.backends.db import SessionStore
 from django.contrib.sessions.models import Session
 from datetime import datetime
+from ast import literal_eval
 
-
-from api.models import Store,CustomFonts,Settings
+from api.models import Store,CustomFonts,Settings,CustomClass
 
 from home.views import shopify_call
 
@@ -237,17 +237,38 @@ def csubmit(request):
         custom_ele_font = custom_json['custom_font']
         store_url = custom_json['store_url']
         store_token = custom_json['store_key']
+        app_token = custom_json['store_token']
 
-        #check what font it is
-        if isCustomFont(custom_ele_font):
-            custom_font = "<style>@font-face{ font-family: '"+fontmanFamily(custom_ele_font)+"'; src: url("+getCustomFontURL(custom_ele_font)+") format('"+getFontType(custom_ele_font)+"');}</style>"
-        else:
-            custom_font = "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(custom_ele_font)+"'/>"
+        #just add a entry for custom fonts here and fetch from that only
+        custom_class = CustomClass(store_token = app_token, custom_classes = custom_classes , custom_font = custom_ele_font )
+        custom_class.save()
 
-        #assign the font to elements now
-        for classes in custom_classes:
-            custom_css = custom_css + ''+str(classes).strip()+'{font-family:\''+fontmanFamily(custom_ele_font)+'\' !important;}'
-        custom_css = custom_css + "</style>"
+        #after saving just iterate and paste (thats it)
+        custom_elements = CustomClass.objects.filter(store_token = app_token )
+
+        custom_font = ''
+        custom_css = ''
+
+        custom_list = []
+        for element in custom_elements:
+            custom_ele_font = element.custom_font
+            custom_list.append(custom_ele_font)
+
+        unique_fonts = list(set(custom_list))
+        #sum up all unique fonts from the list        
+        for font in unique_fonts:
+            #check what font it is
+            if isCustomFont(font):
+                custom_font += "@font-face{ font-family: '"+fontmanFamily(font)+"'; src: url("+getCustomFontURL(font)+") format('"+getFontType(font)+"');}"                
+            else:
+                custom_font += "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font)+"'/>"
+
+        for element in custom_elements:
+            custom_classes = str(element.custom_classes)
+            #assign the font to elements now
+            for classes in literal_eval(custom_classes):
+                custom_css += ''+str(classes).strip()+'{font-family:\''+fontmanFamily(custom_ele_font)+'\' !important;}'
+
         #we need to save the data to template now (add everything just before </head>)
         themes=shopify_call("https://"+store_url+"/admin/api/2020-10/themes.json",store_token)
         print(themes)
@@ -272,16 +293,11 @@ def csubmit(request):
             asset.value = theme_liquid
             success = asset.save()
 
-        markup = custom_font + custom_css
-        #here;s the append code
-        assets = shopify_call("https://"+store_url+"/admin/api/2020-10/themes/"+str(theme_id)+"/assets.json?asset[key]=snippets/fontmancustomcss.liquid",store_token)
-        if not assets:
-            assets = ""
-        else:
-            assets = json.loads(assets)['asset']['value']
+        markup = '<style>'+custom_font + custom_css+'</style>'
+
         snippet = shopify.Asset()
         snippet.key = "snippets/fontmancustomcss.liquid"
-        snippet.value = assets + markup
+        snippet.value = markup
         success = snippet.save()
 
         return HttpResponse("Great")
