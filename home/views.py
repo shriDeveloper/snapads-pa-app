@@ -6,7 +6,7 @@ from api.views import Store,Settings
 from uuid import uuid4
 import requests
 import json
-from api.models import CustomFonts
+from api.models import CustomFonts,CustomClass
 from django.contrib import messages
 
 @shop_login_required
@@ -40,11 +40,12 @@ def index(request):
 	file_upload = request.session.get('file_upload')
 	#load fonts here
 	store_fonts = CustomFonts.objects.filter(store_url = request.session['shopify']['shop_url'] )
+	custom_elements = CustomClass.objects.filter(store_token = store_token )
 	print(store_fonts)
 	if store.upgrade_status == 'active':
 		ACTIVE_FLAG = 'ACTIVE'
 	request.session['file_upload']='' #reset session here
-	return render(request, 'home/index.html',{'store_token':token,'store_url':shop_url,'app_token':store_token,'shop_url':request.session['shopify']['shop_url'],'file_status':file_upload,'store_fonts':store_fonts,'active_flag':ACTIVE_FLAG})
+	return render(request, 'home/index.html',{'store_token':token,'store_url':shop_url,'app_token':store_token,'shop_url':request.session['shopify']['shop_url'],'file_status':file_upload,'store_fonts':store_fonts,'active_flag':ACTIVE_FLAG,'custom_elements':custom_elements})
 
 def shopify_call(url,token):
 	return requests.get(url, headers={"X-Shopify-Access-Token":token}).text
@@ -106,6 +107,9 @@ def cancel_charge(request,token):
 	store = Store.objects.get(token = token )
 	#delete all custom fonts
 	CustomFonts.objects.filter(store_url = store.name).delete()
+	CustomClass.objects.filter(store_token = store.token).delete()
+
+
 
 	request_data = {}
 	#do eveything to reset custom-fonts , custom-classes and all to here. (make sure its not free)
@@ -151,6 +155,8 @@ def store_reset(request,token):
 	asset.key = "snippets/fontmancustomcss.liquid"
 	asset.value = ""
 	success = asset.save()
+	CustomClass.objects.filter(store_token = token).delete()
+
 
 	request_data = {
          "body_tag": '',

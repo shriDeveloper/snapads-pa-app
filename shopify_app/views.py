@@ -230,7 +230,7 @@ def submit(request):
 def csubmit(request):
     API_URL = 'https://www.fontman.in/api/settings/'
     if request.method == "POST":
-        custom_css = '<style type="text/css" id="fontmancustom_css">'
+        custom_css = ''
         custom_data = request.POST.get('custom_data')
         custom_json = json.loads(custom_data)
         custom_classes = custom_json['custom_classes']
@@ -255,16 +255,17 @@ def csubmit(request):
             custom_list.append(custom_ele_font)
 
         unique_fonts = list(set(custom_list))
-        #sum up all unique fonts from the list        
+        #sum up all unique fonts from the list
         for font in unique_fonts:
             #check what font it is
             if isCustomFont(font):
-                custom_font += "@font-face{ font-family: '"+fontmanFamily(font)+"'; src: url("+getCustomFontURL(font)+") format('"+getFontType(font)+"');}"                
+                custom_font += "@font-face{ font-family: '"+fontmanFamily(font)+"'; src: url("+getCustomFontURL(font)+") format('"+getFontType(font)+"');}"
             else:
                 custom_font += "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font)+"'/>"
 
         for element in custom_elements:
             custom_classes = str(element.custom_classes)
+            custom_ele_font = element.custom_font
             #assign the font to elements now
             for classes in literal_eval(custom_classes):
                 custom_css += ''+str(classes).strip()+'{font-family:\''+fontmanFamily(custom_ele_font)+'\' !important;}'
@@ -293,7 +294,7 @@ def csubmit(request):
             asset.value = theme_liquid
             success = asset.save()
 
-        markup = '<style>'+custom_font + custom_css+'</style>'
+        markup = custom_font + '<style id="fontmancustom_css">'+custom_css+'</style>'
 
         snippet = shopify.Asset()
         snippet.key = "snippets/fontmancustomcss.liquid"
