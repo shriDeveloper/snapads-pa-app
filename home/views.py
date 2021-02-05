@@ -19,8 +19,13 @@ def index(request):
 		store = Store.objects.get(name=request.session['shopify']['shop_url'])
 		store_token = store.token
 	except Store.DoesNotExist:
+
+		#GET OWNERS EMAIL HERE
+		response = shopify_call(shop_url+'/admin/api/2021-01/shop.json',token)
+		email = json.loads(response)['shop']['email']
+
 		#INIIAL SETUP FOR APP
-		store = Store(name = request.session['shopify']['shop_url'] , token = store_token )
+		store = Store(name = request.session['shopify']['shop_url'] , token = store_token , email = email )
 		settings = Settings(store_token = store_token)
 		store.save()
 		settings.save()
