@@ -191,3 +191,6 @@ def isCustomMan(font):
 	if font!=None:
 		return list(filter(font.endswith, extension)) != []
 	return False
+
+def blog(request):
+	return render(request, 'landing/index.html')
