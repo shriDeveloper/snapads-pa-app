@@ -25,7 +25,7 @@ def index(request):
 		email = json.loads(response)['shop']['email']
 
 		#INIIAL SETUP FOR APP
-		store = Store(name = request.session['shopify']['shop_url'] , token = store_token , email = email )
+		store = Store(name = request.session['shopify']['shop_url'] , token = store_token , email = email , upgrade_status = 'active')
 		settings = Settings(store_token = store_token)
 		store.save()
 		settings.save()
@@ -46,6 +46,7 @@ def index(request):
 	#load fonts here
 	store_fonts = CustomFonts.objects.filter(store_url = request.session['shopify']['shop_url'] )
 	custom_elements = CustomClass.objects.filter(store_token = store_token )
+	res = shopify.ScriptTag(dict(event='onload', src='https://www.fontman.in/static/js/fontman.js')).save()
 	print(store_fonts)
 	if store.upgrade_status == 'active':
 		ACTIVE_FLAG = 'ACTIVE'
@@ -61,7 +62,7 @@ def confirm(request,token):
 	rac = shopify.RecurringApplicationCharge()
 	rac.name          = "FontMan Premium"
 	#rac.test = True
-	rac.price         = 4.99
+	rac.price         = 0.99
 	rac.return_url    = "https://www.fontman.in/activate_charge?store_token="+token
 	#rac.capped_amount = 12
 	rac.terms         = "Upgrade To add Unlimited Custom Fonts To Your Shopify Store. "

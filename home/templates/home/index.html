@@ -20,7 +20,7 @@
                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-help" role="tab" aria-controls="nav-contact" aria-selected="false"><i class="fa fa-font" aria-hidden="true"></i> My Fonts</a>
                {% endif %}
                {% if active_flag == 'INACTIVE' %}
-                  <a class="nav-item nav-link" id="upgradeNow"  role="tab"  aria-selected="false" data-toggle="modal" data-target="#demoModal"> 🚀 Upgrade</a>
+                  <a class="nav-item nav-link" id="upgradeNow"  role="tab"  aria-selected="false" data-toggle="modal" data-target="#demoModal"> 🚀 Upgrade @ $0.99 only </a>
                {% endif %}
                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-app-settings" role="tab" aria-controls="nav-profile" aria-selected="false"> <i class="fa fa-cog" aria-hidden="true"></i> Settings</a>
             </div>
@@ -34,6 +34,7 @@
 
       <div class="col-md-10">
 
+        <h5 style="margin-top:15px;">Having trouble Setting Fonts? Watch <a href="https://www.youtube.com/watch?v=wov4_pl4kYY" target="_blank">Here</a> or <a href="mailto:support@fontman.in?subject=I am having Trouble Using FontMan {{store_url}}">Contact Us</a> </h5>
 
       </div>
       <div class="col-md-1">
@@ -455,7 +456,7 @@
                         </div>
                           <div class="col-md-1 ml-3">
                             <div class="form-group">
-                           <button class=" btn btn-lg btn-gradient btn-picker-element" type="button" data-src="https://shristorey.myshopify.com" data-hover="Elements picker"><i class="fa fa-mouse-pointer" aria-hidden="true"></i> Picker</button>
+                           <button class=" btn btn-lg btn-gradient btn-picker-element" type="button" data-src="{{store_url}}" data-hover="Elements picker"><i class="fa fa-mouse-pointer" aria-hidden="true"></i> Picker</button>
                           </div>
                           </div>
 
@@ -689,7 +690,7 @@
                               {% if active_flag == 'ACTIVE' %}
                               <tr>
                                  <td><i class="fa fa-bars" aria-hidden="true"></i> Account </td>
-                                 <td><a class="btn btn-gradient btn-block btn-md" style="color:white;" role="tab"  aria-selected="false" data-toggle="modal" data-target="#demoModal">Downgrade</a></td>
+                                 <td><a class="btn btn-gradient btn-block btn-md disabled" style="color:white;" role="tab"   aria-selected="false" data-toggle="modal" data-target="#demoModal">Downgrade</a></td>
                               </tr>
                               {% endif %}
 
@@ -1413,7 +1414,7 @@ function googleTranslateElementInit() {
                           <div class="px-sm-3">
                      <h4 class="text-center" style="color:green;">
                         {% if active_flag == 'INACTIVE' %}
-                        Upgrade @ <del>$15</del> $9.99 Only
+                        Upgrade @ <del>$5</del> $0.99 Only
                         {% else %}
                         <p style="color:red;">You Will Lose All Your Custom Fonts !</p>
                         {% endif %}
