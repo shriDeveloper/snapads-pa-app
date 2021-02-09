@@ -9,15 +9,23 @@ import json
 from api.models import CustomFonts,CustomClass
 from django.contrib import messages
 
+from django.template.loader import render_to_string
+
+#send grid
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+
 @shop_login_required
 def index(request):
 	shop_url = "https://"+request.session['shopify']['shop_url']
 	ACTIVE_FLAG = 'INACTIVE'
 	token = request.session['shopify']['access_token']
 	store_token = rand_token = uuid4()
+	review = ''
 	try:
 		store = Store.objects.get(name=request.session['shopify']['shop_url'])
 		store_token = store.token
+		review = store.review
 	except Store.DoesNotExist:
 
 		#GET OWNERS EMAIL HERE
@@ -37,16 +45,32 @@ def index(request):
 				"format":"json"
 			}
 		}
-		res = shopify.ScriptTag(dict(event='onload', src='https://www.fontman.in/static/js/fontman.js')).save()
-		print(store_fonts)
+
+		email_html = render_to_string('email/install.html')
+		#do mail sending here
+		send_mail(email,'Thanks For Installing FontMan :)',email_html)
+
 		#subscribe to web hook here
 		webhook = requests.post(shop_url+"/admin/api/2021-01/webhooks.json", json = postData ,   headers = {"X-Shopify-Access-Token":token})
 		print("WEBHOOK STATUS"+str(webhook.content))
+
+		### CONFIGURE JS HERE ####
+		res = shopify.ScriptTag(dict(event='onload', src='http://localhost:8000/static/js/fontman.js')).save()
 		########################## ENDS HERE ##################################################################
 	file_upload = request.session.get('file_upload')
 	#load fonts here
 	store_fonts = CustomFonts.objects.filter(store_url = request.session['shopify']['shop_url'] )
 	custom_elements = CustomClass.objects.filter(store_token = store_token )
+	
+	#check if review mail is required or not
+	if review == '1':
+		email = store.email
+		Store.objects.filter(token = store_token ).update(review = '')
+		email_html = render_to_string('email/review.html')
+		#do mail sending here
+		send_mail(email,'Please Support Us :)',email_html)
+		
+
 	if store.upgrade_status == 'active':
 		ACTIVE_FLAG = 'ACTIVE'
 	request.session['file_upload']='' #reset session here
@@ -194,3 +218,17 @@ def isCustomMan(font):
 
 def blog(request):
 	return render(request, 'landing/index.html')
+def send_mail(to_mail,sub,html):
+	message = Mail(
+	from_email='support@fontman.in',
+	to_emails=to_mail,
+	subject=sub,
+	html_content=html)
+	try:
+		sg = SendGridAPIClient('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')
+		response = sg.send(message)
+		print(response.status_code)
+		print(response.body)
+		print(response.headers)
+	except Exception as e:
+		print(e.message)

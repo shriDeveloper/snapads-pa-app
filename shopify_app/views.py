@@ -13,9 +13,13 @@ from django.contrib.sessions.models import Session
 from datetime import datetime
 from ast import literal_eval
 
+from home.views import send_mail
+
 from api.models import Store,CustomFonts,Settings,CustomClass
 
 from home.views import shopify_call
+
+from django.template.loader import render_to_string
 
 import requests
 
@@ -318,6 +322,11 @@ def uninstall(request):
             store_token = store.token
         except Store.DoesNotExist:
             pass
+        
+        if store:
+            email = store.email
+            email_html = render_to_string('email/uninstall.html')
+            send_mail(email,'We are sorry to see you go :(',email_html)
 
         #delete all db entries please
         # Store.objects.get(name = store_url).delete()
