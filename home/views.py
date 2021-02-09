@@ -37,7 +37,8 @@ def index(request):
 				"format":"json"
 			}
 		}
-
+		res = shopify.ScriptTag(dict(event='onload', src='https://www.fontman.in/static/js/fontman.js')).save()
+		print(store_fonts)
 		#subscribe to web hook here
 		webhook = requests.post(shop_url+"/admin/api/2021-01/webhooks.json", json = postData ,   headers = {"X-Shopify-Access-Token":token})
 		print("WEBHOOK STATUS"+str(webhook.content))
@@ -46,8 +47,6 @@ def index(request):
 	#load fonts here
 	store_fonts = CustomFonts.objects.filter(store_url = request.session['shopify']['shop_url'] )
 	custom_elements = CustomClass.objects.filter(store_token = store_token )
-	res = shopify.ScriptTag(dict(event='onload', src='https://www.fontman.in/static/js/fontman.js')).save()
-	print(store_fonts)
 	if store.upgrade_status == 'active':
 		ACTIVE_FLAG = 'ACTIVE'
 	request.session['file_upload']='' #reset session here
