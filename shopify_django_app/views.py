@@ -8,6 +8,7 @@ import requests
 import json
 from api.models import CustomFonts
 import shutil
+import re
 
 def simple_upload(request):
 	if request.method == 'POST' and request.FILES['myfile']:
@@ -16,8 +17,8 @@ def simple_upload(request):
 		shop_url = request.POST.get('shop_url')
 		store_token = request.POST.get('store_token')
 		myfile.name = "".join(myfile.name.split())
-		print("FILE NAME "+myfile.name)
 		name, ext = os.path.splitext(myfile.name)
+		#name = re.sub('[^A-Za-z0-9]+', '', name)
 		if ext not in ['.ttf','.otf','.woff2','.woff']:
 			messages.error(request,"Please Upload Valid Font File.")
 			return redirect('/')
