@@ -17,10 +17,7 @@ def simple_upload(request):
 		shop_url = request.POST.get('shop_url')
 		store_token = request.POST.get('store_token')
 		myfile.name = "".join(myfile.name.split())
-<<<<<<< HEAD
 		myfile.name = re.sub('[^a-zA-Z.]+', '',myfile.name)
-=======
->>>>>>> 7235926782865d219df545ee8cd36ab7388c8f3f
 		name, ext = os.path.splitext(myfile.name)
 		#name = re.sub('[^A-Za-z0-9]+', '', name)
 		if ext not in ['.ttf','.otf','.woff2','.woff']:
