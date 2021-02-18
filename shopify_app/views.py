@@ -220,6 +220,7 @@ def submit(request):
         snippet.value = markup
         success = snippet.save()
 
+        print("ITS ALL FINE ")
         #finally update db
         response = requests.put("https://www.fontman.in/api/settings/"+font_json['store_token'],data = font_data)
         print("RESPONSE IS HERE")
@@ -263,7 +264,7 @@ def csubmit(request):
         for font in unique_fonts:
             #check what font it is
             if isCustomFont(font):
-                custom_font += "@font-face{ font-family: '"+fontmanFamily(font)+"'; src: url("+getCustomFontURL(font)+") format('"+getFontType(font)+"');}"
+                custom_font += "<style>@font-face{ font-family: '"+fontmanFamily(font)+"'; src: url("+getCustomFontURL(font)+") format('"+getFontType(font)+"');}</style>"
             else:
                 custom_font += "<link rel='stylesheet' href='//fonts.googleapis.com/css?family="+slugifyFont(font)+"'/>"
 
@@ -322,7 +323,7 @@ def uninstall(request):
             store_token = store.token
         except Store.DoesNotExist:
             pass
-        
+
         if store:
             email = store.email
             email_html = render_to_string('email/uninstall.html')

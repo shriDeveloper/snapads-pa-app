@@ -33,7 +33,7 @@ def index(request):
 		email = json.loads(response)['shop']['email']
 
 		#INIIAL SETUP FOR APP
-		store = Store(name = request.session['shopify']['shop_url'] , token = store_token , email = email , upgrade_status = 'active')
+		store = Store(name = request.session['shopify']['shop_url'] , token = store_token , email = email , upgrade_status = 'inactive')
 		settings = Settings(store_token = store_token)
 		store.save()
 		settings.save()
@@ -49,19 +49,16 @@ def index(request):
 		email_html = render_to_string('email/install.html')
 		#do mail sending here
 		send_mail(email,'Thanks For Installing FontMan :)',email_html)
-
 		#subscribe to web hook here
 		webhook = requests.post(shop_url+"/admin/api/2021-01/webhooks.json", json = postData ,   headers = {"X-Shopify-Access-Token":token})
 		print("WEBHOOK STATUS"+str(webhook.content))
 
 		### CONFIGURE JS HERE ####
-		res = shopify.ScriptTag(dict(event='onload', src='http://localhost:8000/static/js/fontman.js')).save()
 		########################## ENDS HERE ##################################################################
 	file_upload = request.session.get('file_upload')
 	#load fonts here
 	store_fonts = CustomFonts.objects.filter(store_url = request.session['shopify']['shop_url'] )
 	custom_elements = CustomClass.objects.filter(store_token = store_token )
-	
 	#check if review mail is required or not
 	if review == '1':
 		email = store.email
@@ -69,7 +66,7 @@ def index(request):
 		email_html = render_to_string('email/review.html')
 		#do mail sending here
 		send_mail(email,'Please Support Us :)',email_html)
-		
+
 
 	if store.upgrade_status == 'active':
 		ACTIVE_FLAG = 'ACTIVE'
@@ -85,10 +82,10 @@ def confirm(request,token):
 	rac = shopify.RecurringApplicationCharge()
 	rac.name          = "FontMan Premium"
 	#rac.test = True
-	rac.price         = 0.99
+	rac.price         = 2.99
 	rac.return_url    = "https://www.fontman.in/activate_charge?store_token="+token
 	#rac.capped_amount = 12
-	rac.terms         = "Upgrade To add Unlimited Custom Fonts To Your Shopify Store. "
+	rac.terms         = "Upgrade to add Unlimited Custom Fonts To Your Shopify Store. "
 	if rac.save():
 		payment_json = json.loads(json.dumps(rac.attributes))
 	print("PAYMENT")
