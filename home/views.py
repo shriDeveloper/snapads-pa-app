@@ -85,6 +85,7 @@ def confirm(request,token):
 	rac.price         = 2.99
 	rac.return_url    = "https://www.fontman.in/activate_charge?store_token="+token
 	#rac.capped_amount = 12
+	rac.trial_days = 4
 	rac.terms         = "Upgrade to add Unlimited Custom Fonts To Your Shopify Store. "
 	if rac.save():
 		payment_json = json.loads(json.dumps(rac.attributes))
@@ -122,7 +123,7 @@ def cancel_charge(request,token):
 		Store.objects.filter(token = token ).update(upgrade_status = 'active')
 	messages.success(request, 'Your Account Has Been Downgraded.')
 
-	font_types = ['.woff','.woff2','.ttf','.otf']
+	font_types = ['.woff','.woff2','.ttf','.otf','.TTF','.WOFF2','.WOFF','.OTF']
 	#reset custom elements here
 	asset = shopify.Asset()
 	asset.key = "snippets/fontmancustomcss.liquid"
@@ -208,7 +209,7 @@ def store_reset(request,token):
 	return redirect('/')
 
 def isCustomMan(font):
-	extension = ['.woff','.woff2','.ttf','.otf']
+	extension = ['.woff','.woff2','.ttf','.otf','.TTF','.WOFF2','.WOFF','.OTF']
 	if font!=None:
 		return list(filter(font.endswith, extension)) != []
 	return False
