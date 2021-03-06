@@ -560,7 +560,7 @@
                            <tbody style="text-align: center;">
                               {%  for custom_el in custom_elements %}
                               <tr>
-                                 <td>{{custom_el.custom_classes}}</td>
+                                 <td>{{custom_el.custom_classes|truncatechars:900}}</td>
                                  <td>Active</td>
                               </tr>
 
@@ -1119,58 +1119,30 @@ function googleTranslateElementInit() {
 
 
 
-    var $postData = [];
-    var $picker = $(".btn-picker-element, .elements-picker-block");
-    var $textarea = $picker;
-    $picker.on("click", function (event) {
+  
+window.addEventListener("message", receiveMessage, false);
+    function receiveMessage(event) {
+            return true;
+    }
 
-        console.log("Clicked ");
-        var itv;
-        var $this = $(this);
-        $textarea = $this;
-        var target = window.open($picker.data("src"), "_blank", "location=0");
-        var $input = $this.closest("div.row").find('[name="custom-elements"]').val(),
-            $postData = $input == "" ? [] : $input.split(/\r|\n/g);
-        function message(evt) {
-            if (typeof evt.data.message == "string" && evt.data.message === "init") {
-                console.log("Got request", evt);
-                target.postMessage({ message: "pick", data: $postData }, "*");
+    $('.btn-picker-element').on("click", function (event) {
+        var target = window.open('{{store_url}}', "_blank", "location=0;width = 900px;height = 800px");
+        function message(event) {
+            if(event.data.msg === "picker" && event.data.mode === "init"  ){
+                target.postMessage({ msg: "picker", mode: 'start' }, "*");
                 return true;
             }
-            if (typeof evt.data.message == "string" && evt.data.message == "pull") {
-                $postData = evt.data.data;
-                $textarea.closest("div.row").find('[name="custom-elements"]').val($postData.join("\n"));
+            if(event.data.msg === "picker" && event.data.mode === "picked"){
+                const arr = event.data.data;
+                //do the funky stuff here
+                const already = $('#customClasses').val().split('\n');
+                const concatted = arr.concat(already);
+                const final = Array.from(new Set(concatted));
+                $('#customClasses').val(final.join('\n'));
             }
         }
         window.addEventListener("message", message, false);
-        itv = setInterval(() => {
-            if (!target || !target.opener) {
-                clearInterval(itv);
-                window.removeEventListener("message", message);
-            }
-        }, 1000);
     });
-
-  window.addEventListener("message", receiveMessage, false);
-    function receiveMessage(event) {
-        if (event.origin == "https://www.fontman.in") {
-            var e = event;
-            if (e.data && e.data.action) {
-                switch (e.data.action) {
-                    case "fonts":
-                        var fonts = Object.keys(e.data.fonts);
-                        if (fonts.length < 1) return;
-                        console.log(fonts);
-                        $('[name="google-font"]').val(decodeURIComponent(fonts[0]));
-                        $.fancybox.close();
-                        break;
-                }
-            }
-            return true;
-        }
-    }
-
-
 
 
 

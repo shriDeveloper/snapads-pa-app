@@ -102,9 +102,24 @@ def activate_charge(request, *args, **kwargs):
 	rac.activate()
 	Store.objects.filter(token = store_token ).update(charge_id = charge_id,upgrade_status = 'active')
 	### CONFIGURE JS HERE ####
-	res = shopify.ScriptTag(dict(event='onload', src='https://www.fontman.in/static/js/fontman.js')).save()
-	print("Script STATUS")
-	print(res)
+	store_url = "https://"+request.session['shopify']['shop_url']
+	store_token = request.session['shopify']['access_token'] 
+	themes=shopify_call(store_url+"/admin/api/2020-10/themes.json",store_token)
+	for theme in json.loads(themes)['themes']:
+		if theme['role']=='main':
+			theme_id = theme['id']
+	assets = shopify_call(store_url+"/admin/api/2020-10/themes/"+str(theme_id)+"/assets.json?asset[key]=layout/theme.liquid",store_token)
+	assets = json.loads(assets)['asset']['value']
+	#theme settings
+	snippet = "<style>#btn-picker{z-index:1;background-color:purple;color:white; position:fixed;top:50%;right:20px;width:70px;height:50px;text-align:center;opacity:1;border-color:purple!important;border-width:.5px ;font-weight:bold;cursor:pointer;display: none;}</style><script src='https://code.jquery.com/jquery-3.6.0.min.js' integrity='sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=' crossorigin='anonymous'></script><script src='https://cdn.jsdelivr.net/npm/html-element-picker@latest'></script><script type='text/javascript' src='https://www.fontman.in/static/js/great.js'></script>"
+	body_tag = "</body>"
+	fontman_api = snippet+body_tag
+	if snippet not in assets:
+		theme_liquid = assets.replace(body_tag,fontman_api)
+		asset = shopify.Asset()
+		asset.key = "layout/theme.liquid"
+		asset.value = theme_liquid
+		success = asset.save()	
 	messages.success(request, 'Your Account Has Been Upgraded.')
 	return redirect('/')
 
