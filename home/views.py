@@ -72,7 +72,7 @@ def index(request):
 		assets = shopify_call(s_url+"/admin/api/2020-10/themes/"+str(th_id)+"/assets.json?asset[key]=layout/theme.liquid",s_token)
 		assets = json.loads(assets)['asset']['value']
 		#theme settings
-		snippet = "<style>#btn-picker{z-index:1;background-color:purple;color:white; position:fixed;top:50%;right:20px;width:70px;height:50px;text-align:center;opacity:1;border-color:purple!important;border-width:.5px ;font-weight:bold;cursor:pointer;display: none;}</style><script src='https://code.jquery.com/jquery-3.6.0.min.js' integrity='sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=' crossorigin='anonymous'></script><script src='https://cdn.jsdelivr.net/npm/html-element-picker@latest'></script><script type='text/javascript' src='https://www.fontman.in/static/js/great.js'></script>"
+		snippet = "<script>var link = document.createElement('link');link.setAttribute('rel', 'stylesheet');link.type = 'text/css';link.href = 'https://www.fontman.in/static/css/picker.css';document.head.appendChild(link);</script><script src='https://code.jquery.com/jquery-3.6.0.min.js' integrity='sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=' crossorigin='anonymous'></script><script src='https://cdn.jsdelivr.net/npm/html-element-picker@latest'></script><script type='text/javascript' src='https://www.fontman.in/static/js/great.js'></script>"
 		body_tag = "</body>"
 		fontman_api = snippet+body_tag
 		if snippet not in assets:
@@ -81,7 +81,8 @@ def index(request):
 			asset.key = "layout/theme.liquid"
 			asset.value = theme_liquid
 			success = asset.save()
-		print("Saved")
+			print("Saved")
+			Store.objects.filter(token = store_token ).update(review = '')
 	if store.upgrade_status == 'active':
 		ACTIVE_FLAG = 'ACTIVE'
 	request.session['file_upload']='' #reset session here
@@ -117,7 +118,7 @@ def activate_charge(request, *args, **kwargs):
 	Store.objects.filter(token = store_token ).update(charge_id = charge_id,upgrade_status = 'active')
 	### CONFIGURE JS HERE ####
 	store_url = "https://"+request.session['shopify']['shop_url']
-	store_token = request.session['shopify']['access_token'] 
+	store_token = request.session['shopify']['access_token']
 	themes=shopify_call(store_url+"/admin/api/2020-10/themes.json",store_token)
 	for theme in json.loads(themes)['themes']:
 		if theme['role']=='main':
@@ -125,7 +126,7 @@ def activate_charge(request, *args, **kwargs):
 	assets = shopify_call(store_url+"/admin/api/2020-10/themes/"+str(theme_id)+"/assets.json?asset[key]=layout/theme.liquid",store_token)
 	assets = json.loads(assets)['asset']['value']
 	#theme settings
-	snippet = "<style>#btn-picker{z-index:1;background-color:purple;color:white; position:fixed;top:50%;right:20px;width:70px;height:50px;text-align:center;opacity:1;border-color:purple!important;border-width:.5px ;font-weight:bold;cursor:pointer;display: none;}</style><script src='https://code.jquery.com/jquery-3.6.0.min.js' integrity='sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=' crossorigin='anonymous'></script><script src='https://cdn.jsdelivr.net/npm/html-element-picker@latest'></script><script type='text/javascript' src='https://www.fontman.in/static/js/great.js'></script>"
+	snippet = "<script>var link = document.createElement('link');link.setAttribute('rel', 'stylesheet');link.type = 'text/css';link.href = 'https://www.fontman.in/static/css/picker.css';document.head.appendChild(link);</script><script src='https://code.jquery.com/jquery-3.6.0.min.js' integrity='sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=' crossorigin='anonymous'></script><script src='https://cdn.jsdelivr.net/npm/html-element-picker@latest'></script><script type='text/javascript' src='https://www.fontman.in/static/js/great.js'></script>"
 	body_tag = "</body>"
 	fontman_api = snippet+body_tag
 	if snippet not in assets:
@@ -133,7 +134,7 @@ def activate_charge(request, *args, **kwargs):
 		asset = shopify.Asset()
 		asset.key = "layout/theme.liquid"
 		asset.value = theme_liquid
-		success = asset.save()	
+		success = asset.save()
 	messages.success(request, 'Your Account Has Been Upgraded.')
 	return redirect('/')
 
