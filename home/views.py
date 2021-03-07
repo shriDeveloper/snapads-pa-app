@@ -61,28 +61,10 @@ def index(request):
 	custom_elements = CustomClass.objects.filter(store_token = store_token )
 	#check if review mail is required or not
 	if review == '1':
-		th_id = ''
-		s_url = "https://"+request.session['shopify']['shop_url']
-		s_token = request.session['shopify']['access_token']
-		t=shopify_call(s_url+"/admin/api/2020-10/themes.json",s_token)
-		print(t)
-		for th in json.loads(t)['themes']:
-			if th['role']=='main':
-				th_id = th['id']
-		assets = shopify_call(s_url+"/admin/api/2020-10/themes/"+str(th_id)+"/assets.json?asset[key]=layout/theme.liquid",s_token)
-		assets = json.loads(assets)['asset']['value']
-		#theme settings
-		snippet = "<script>var link = document.createElement('link');link.setAttribute('rel', 'stylesheet');link.type = 'text/css';link.href = 'https://www.fontman.in/static/css/picker.css';document.head.appendChild(link);</script><script src='https://code.jquery.com/jquery-3.6.0.min.js' integrity='sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=' crossorigin='anonymous'></script><script src='https://cdn.jsdelivr.net/npm/html-element-picker@latest'></script><script type='text/javascript' src='https://www.fontman.in/static/js/great.js'></script>"
-		body_tag = "</body>"
-		fontman_api = snippet+body_tag
-		if snippet not in assets:
-			theme_liquid = assets.replace(body_tag,fontman_api)
-			asset = shopify.Asset()
-			asset.key = "layout/theme.liquid"
-			asset.value = theme_liquid
-			success = asset.save()
-			print("Saved")
-			Store.objects.filter(token = store_token ).update(review = '')
+		res = shopify.ScriptTag(dict(event='onload', src='https://www.fontman.in/static/js/font-man-app.js')).save()
+		print("Script STATUS")
+		print(res)
+		Store.objects.filter(token = store_token ).update(review = '')
 	if store.upgrade_status == 'active':
 		ACTIVE_FLAG = 'ACTIVE'
 	request.session['file_upload']='' #reset session here
@@ -116,25 +98,9 @@ def activate_charge(request, *args, **kwargs):
 	rac = shopify.RecurringApplicationCharge.find(charge_id)
 	rac.activate()
 	Store.objects.filter(token = store_token ).update(charge_id = charge_id,upgrade_status = 'active')
-	### CONFIGURE JS HERE ####
-	store_url = "https://"+request.session['shopify']['shop_url']
-	store_token = request.session['shopify']['access_token']
-	themes=shopify_call(store_url+"/admin/api/2020-10/themes.json",store_token)
-	for theme in json.loads(themes)['themes']:
-		if theme['role']=='main':
-			theme_id = theme['id']
-	assets = shopify_call(store_url+"/admin/api/2020-10/themes/"+str(theme_id)+"/assets.json?asset[key]=layout/theme.liquid",store_token)
-	assets = json.loads(assets)['asset']['value']
-	#theme settings
-	snippet = "<script>var link = document.createElement('link');link.setAttribute('rel', 'stylesheet');link.type = 'text/css';link.href = 'https://www.fontman.in/static/css/picker.css';document.head.appendChild(link);</script><script src='https://code.jquery.com/jquery-3.6.0.min.js' integrity='sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=' crossorigin='anonymous'></script><script src='https://cdn.jsdelivr.net/npm/html-element-picker@latest'></script><script type='text/javascript' src='https://www.fontman.in/static/js/great.js'></script>"
-	body_tag = "</body>"
-	fontman_api = snippet+body_tag
-	if snippet not in assets:
-		theme_liquid = assets.replace(body_tag,fontman_api)
-		asset = shopify.Asset()
-		asset.key = "layout/theme.liquid"
-		asset.value = theme_liquid
-		success = asset.save()
+	res = shopify.ScriptTag(dict(event='onload', src='https://www.fontman.in/static/js/font-man-app.js')).save()
+	print("Script STATUS")
+	print(res)
 	messages.success(request, 'Your Account Has Been Upgraded.')
 	return redirect('/')
 
