@@ -1118,32 +1118,34 @@ function googleTranslateElementInit() {
     });
 
 
-
-
-window.addEventListener("message", receiveMessage, false);
-    function receiveMessage(event) {
-            return true;
-    }
-
-    $('.btn-picker-element').on("click", function (event) {
-        var target = window.open('{{store_url}}', "_blank", "location=0;width = 900px;height = 800px");
-        function message(event) {
-            if(event.data.msg === "picker" && event.data.mode === "init"  ){
-                target.postMessage({ msg: "picker", mode: 'start' }, "*");
-                return true;
-            }
-            if(event.data.msg === "picker" && event.data.mode === "picked"){
-                const arr = event.data.data;
-                //do the funky stuff here
-                const already = $('#customClasses').val().split('\n');
-                const concatted = arr.concat(already);
-                const final = Array.from(new Set(concatted));
-                $('#customClasses').val(final.join('\n'));
-            }
-        }
-        window.addEventListener("message", message, false);
+    /* update one is here */
+//set here
+let class_list = []
+const classes = document.getElementById('customClasses');
+function receiveMessage(e) {
+    return console.log(e), !0;
+}
+window.addEventListener("message", receiveMessage, !1),
+    $(".btn-picker-element").on("click", function (e) {
+        var t = window.open("{{store_url}}", "_blank", "location=0;width = 900px;height = 800px");
+        window.addEventListener(
+            "message",
+            function (e) {
+                if ((console.log("Receiving Data"), console.log(e), "picker" === e.data.msg && "init" === e.data.mode)) return console.log("Got request From Server", e), t.postMessage({ msg: "picker", mode: "start" }, "*"), !0;
+                if ("picker" === e.data.msg && "picked" === e.data.mode) {
+                    const o = e.data.data.trim();
+                    //its where out demon hide
+                    if(!class_list.includes(o) && o!=='body'){
+                      classes.value +=o+"\n"
+                      class_list.push(o);  
+                    }
+                }
+            },
+            !1
+        );
     });
 
+    /* ends here */
 
 
   $('#save').click(function(){
