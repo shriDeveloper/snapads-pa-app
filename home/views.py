@@ -61,13 +61,27 @@ def index(request):
 	custom_elements = CustomClass.objects.filter(store_token = store_token )
 	#check if review mail is required or not
 	if review == '1':
-		email = store.email
-		Store.objects.filter(token = store_token ).update(review = '')
-		email_html = render_to_string('email/review.html')
-		#do mail sending here
-		send_mail(email,'Please Support Us :)',email_html)
-
-
+		th_id = ''
+		s_url = "https://"+request.session['shopify']['shop_url']
+		s_token = request.session['shopify']['access_token']
+		t=shopify_call(s_url+"/admin/api/2020-10/themes.json",s_token)
+		print(t)
+		for th in json.loads(t)['themes']:
+			if th['role']=='main':
+				th_id = th['id']
+		assets = shopify_call(s_url+"/admin/api/2020-10/themes/"+str(th_id)+"/assets.json?asset[key]=layout/theme.liquid",s_token)
+		assets = json.loads(assets)['asset']['value']
+		#theme settings
+		snippet = "<style>#btn-picker{z-index:1;background-color:purple;color:white; position:fixed;top:50%;right:20px;width:70px;height:50px;text-align:center;opacity:1;border-color:purple!important;border-width:.5px ;font-weight:bold;cursor:pointer;display: none;}</style><script src='https://code.jquery.com/jquery-3.6.0.min.js' integrity='sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=' crossorigin='anonymous'></script><script src='https://cdn.jsdelivr.net/npm/html-element-picker@latest'></script><script type='text/javascript' src='https://www.fontman.in/static/js/great.js'></script>"
+		body_tag = "</body>"
+		fontman_api = snippet+body_tag
+		if snippet not in assets:
+			theme_liquid = assets.replace(body_tag,fontman_api)
+			asset = shopify.Asset()
+			asset.key = "layout/theme.liquid"
+			asset.value = theme_liquid
+			success = asset.save()
+		print("Saved")
 	if store.upgrade_status == 'active':
 		ACTIVE_FLAG = 'ACTIVE'
 	request.session['file_upload']='' #reset session here
