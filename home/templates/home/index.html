@@ -22,6 +22,15 @@
                {% if active_flag == 'INACTIVE' %}
                   <a class="nav-item nav-link" id="upgradeNow"  role="tab"  aria-selected="false" data-toggle="modal" data-target="#demoModal"> 🚀 Upgrade @ $2.99/month only </a>
                {% endif %}
+
+
+
+               {% if active_flag == 'INACTIVE' %}
+               <!-- Why Upgrade -->
+               <a class="nav-item nav-link" id="nav-why-upgrade-tab" data-toggle="tab" href="#nav-app-why-upgrade" role="tab" aria-controls="nav-profile" aria-selected="false">  Why Upgrade <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+               {% endif %}
+
+
                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-app-settings" role="tab" aria-controls="nav-profile" aria-selected="false"> <i class="fa fa-cog" aria-hidden="true"></i> Settings</a>
             </div>
          </nav>
@@ -752,6 +761,47 @@
                   </div>
                 </div>
             </div>
+
+
+            <!-- Why upgrade -->
+
+
+            <div class="tab-pane fade" id="nav-app-why-upgrade" role="tabpanel">
+                <div class="container mt-3">
+                  <div class="row mt-5">
+                      <div class="col-md-7" id="why-upgrade" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+                        <img src="../static/images/premium-upgraded.gif" style="width: 100%;object-fit: cover;height: 350px;">
+                      </div>
+                      <div class="col-md-1"></div>
+                      <div class="col-md-4" style="background-image: linear-gradient( 109.6deg,  rgba(238,58,136,1) 11.2%, rgba(128,162,245,1) 91.1% );box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+                        <div class="mt-5">
+                        <h4 class="text-center" style="color:white;">
+                           <b> Upgrade @ <del>$10</del> $2.99 Only</b>
+                        </h4>
+                        <br/>
+                        <ul type="none" style="color: white;">
+                          <li> ✅ Unlimited Custom Fonts</li>
+                          <li> ✅ Unlimited Google Fonts</li>
+                          <li> ✅ Unlimited Customization's</li>
+                          <li> ✅ Custom Element Picker</li>
+                          <li> ✅ 24/7 Live Support</li>
+                        </ul>
+                        <br/>
+                        <form action="/confirm_payment/{{app_token}}">
+                          <div class="col-md-12 mb-3">
+                              <input type="submit" class="btn btn-lg btn-block" style="background:purple;color:white;" value="Upgrade">
+                        </div>
+                        </form>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+            </div>
+
+            <!-- ends here -->
+
+
+
 
 
          </div>
