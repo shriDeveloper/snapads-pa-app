@@ -7,7 +7,7 @@ function loadFontMan(){
     var picker_button  = document.createElement('input');
       picker_button.setAttribute('id', 'fontman-btn-picker');
       picker_button.setAttribute('type', 'button');
-      picker_button.setAttribute('value', 'Picker');
+      picker_button.setAttribute('value', '+');
     document.head.appendChild(fontman_link);
     document.body.appendChild(picker_button);
     const fontman_scripts = [{
@@ -24,13 +24,12 @@ function loadFontMan(){
         'src':'https://www.fontman.in/static/js/fontman-custom-logic.js'
     }];
     fontman_scripts.forEach((script)=>{
-      var fontman_script = document.createElement('script');  
+      var fontman_script = document.createElement('script');
       fontman_script.setAttribute('id', script.id);
       fontman_script.setAttribute('src', script.src);
       fontman_script.setAttribute('type','text/javascript');
       document.body.appendChild(fontman_script);
-    });  
+    });
   }
-    
+
   loadFontMan();
-  

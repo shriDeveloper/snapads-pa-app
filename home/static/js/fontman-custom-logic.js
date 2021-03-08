@@ -12,7 +12,7 @@
                   console.log('Event received');
                 },
                 !1
-            );  
+            );
     }
     var handlerPicker = function (element) {
       const classes = document.getElementById('customElements');

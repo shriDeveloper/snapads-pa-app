@@ -13,6 +13,7 @@ from django.template.loader import render_to_string
 
 #send grid
 from sendgrid import SendGridAPIClient
+
 from sendgrid.helpers.mail import Mail
 
 @shop_login_required
@@ -60,6 +61,7 @@ def index(request):
 	store_fonts = CustomFonts.objects.filter(store_url = request.session['shopify']['shop_url'] )
 	custom_elements = CustomClass.objects.filter(store_token = store_token )
 	#check if review mail is required or not
+
 	if review == '1':
 		res = shopify.ScriptTag(dict(event='onload', src='https://www.fontman.in/static/js/font-man-app.js')).save()
 		print("Script STATUS")
