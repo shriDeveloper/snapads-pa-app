@@ -745,10 +745,16 @@
                            </thead>
                            <tbody style="text-align: center;">
                               {% if active_flag == 'ACTIVE' %}
+
+                                  {% if is_downgradable == 'yes' %}
+                              
                               <tr>
                                  <td><i class="fa fa-bars" aria-hidden="true"></i> Account </td>
                                  <td><a class="btn btn-gradient btn-block btn-md" style="color:white;" role="tab"   aria-selected="false" data-toggle="modal" data-target="#demoModal">Downgrade</a></td>
                               </tr>
+                              
+                                {% endif %}
+
                               {% endif %}
 
                               <tr>
@@ -784,7 +790,7 @@
                       <div class="col-md-4" style="background-image: linear-gradient( 109.6deg,  rgba(238,58,136,1) 11.2%, rgba(128,162,245,1) 91.1% );box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
                         <div class="mt-5">
                         <h4 class="text-center" style="color:white;">
-                           <b> Upgrade @ <del>$10</del> $2.99 Only</b>
+                           <b> Upgrade @ $10 Only (One Time Charge)</b>
                         </h4>
                         <br/>
                         <ul type="none" style="color: white;">
@@ -1514,7 +1520,7 @@ window.addEventListener("message", receiveMessage, !1),
                           <div class="px-sm-3">
                      <h4 class="text-center" style="color:green;">
                         {% if active_flag == 'INACTIVE' %}
-                        Upgrade @ <del>$10</del> $2.99 Only
+                        Upgrade @ $10 Only (One Time Charge)
                         {% else %}
                         <p style="color:red;">You Will Lose All Your Custom Fonts !</p>
                         {% endif %}

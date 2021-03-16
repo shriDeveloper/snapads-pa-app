@@ -20,12 +20,15 @@ from sendgrid.helpers.mail import Mail
 def index(request):
 	shop_url = "https://"+request.session['shopify']['shop_url']
 	ACTIVE_FLAG = 'INACTIVE'
+	charge_id = ''
+	is_downgradable = 'no'
 	token = request.session['shopify']['access_token']
 	store_token = rand_token = uuid4()
 	review = ''
 	try:
 		store = Store.objects.get(name=request.session['shopify']['shop_url'])
 		store_token = store.token
+		charge_id = store.charge_id
 		review = store.review
 	except Store.DoesNotExist:
 
@@ -57,6 +60,14 @@ def index(request):
 		### CONFIGURE JS HERE ####
 		########################## ENDS HERE ##################################################################
 	file_upload = request.session.get('file_upload')
+	#check is already active recurring charge
+	if charge_id:
+		downgrade_button = shopify_call(shop_url+'/admin/api/2021-01/recurring_application_charges/'+charge_id+'.json',token)
+		rec_status = json.loads(downgrade_button)
+		if 'errors' not in rec_status:
+			if rec_status['recurring_application_charge']['status'] == 'active':
+				is_downgradable = 'yes'
+
 	#load fonts here
 	store_fonts = CustomFonts.objects.filter(store_url = request.session['shopify']['shop_url'] )
 	custom_elements = CustomClass.objects.filter(store_token = store_token )
@@ -70,35 +81,43 @@ def index(request):
 	if store.upgrade_status == 'active':
 		ACTIVE_FLAG = 'ACTIVE'
 	request.session['file_upload']='' #reset session here
-	return render(request, 'home/index.html',{'store_token':token,'store_url':shop_url,'app_token':store_token,'shop_url':request.session['shopify']['shop_url'],'file_status':file_upload,'store_fonts':store_fonts,'active_flag':ACTIVE_FLAG,'custom_elements':custom_elements})
+	return render(request, 'home/index.html',{'store_token':token,'store_url':shop_url,'app_token':store_token,'shop_url':request.session['shopify']['shop_url'],'file_status':file_upload,'store_fonts':store_fonts,'active_flag':ACTIVE_FLAG,'custom_elements':custom_elements,'is_downgradable':is_downgradable})
 
 def shopify_call(url,token):
 	return requests.get(url, headers={"X-Shopify-Access-Token":token}).text
 
 @shop_login_required
 def confirm(request,token):
-	payment_json = ''
-	rac = shopify.RecurringApplicationCharge()
-	rac.name          = "FontMan Premium"
-	#rac.test = True
-	rac.price         = 2.99
-	rac.return_url    = "https://www.fontman.in/activate_charge?store_token="+token
-	#rac.capped_amount = 12
-	rac.trial_days = 4
-	rac.terms         = "Upgrade to add Unlimited Custom Fonts To Your Shopify Store. "
-	if rac.save():
-		payment_json = json.loads(json.dumps(rac.attributes))
-	print("PAYMENT")
-	return redirect(''+payment_json['confirmation_url'])
-	print(payment_json)
+	application_charge = shopify.ApplicationCharge.create({
+    	'name': 'FontMan Premium',
+    	'price': 10,
+    	'test': True,
+    	'return_url': 'https://www.fontman.in/activate_charge?store_token='+token
+	})
+	return redirect(''+application_charge.confirmation_url)
+	# rac = shopify.RecurringApplicationCharge()
+	# rac.name          = "FontMan Premium"
+	# rac.test = True
+	# rac.price         = 2.99
+	# rac.return_url    = "http://localhost:8000/activate_charge?store_token="+token
+	# #rac.capped_amount = 12
+	# rac.trial_days = 4
+	# rac.terms header      = "Upgrade to add Unlimited Custom Fonts To Your Shopify Store. "
+	# if rac.save():
+	# 	payment_json = json.loads(json.dumps(rac.attributes))
+	# print("PAYMENT")
+	# return redirect(''+payment_json['confirmation_url'])
+	# print(payment_json)
 
 @shop_login_required
 def activate_charge(request, *args, **kwargs):
 	# After confirmation...
 	charge_id = request.GET.get('charge_id')
 	store_token = request.GET.get('store_token')
-	rac = shopify.RecurringApplicationCharge.find(charge_id)
-	rac.activate()
+	charge = shopify.ApplicationCharge.find(charge_id)
+	shopify.ApplicationCharge.activate(charge)
+	# rac = shopify.RecurringApplicationCharge.find(charge_id)
+	# rac.activate()
 	Store.objects.filter(token = store_token ).update(charge_id = charge_id,upgrade_status = 'active')
 	res = shopify.ScriptTag(dict(event='onload', src='https://www.fontman.in/static/js/font-man-app.js')).save()
 	print("Script STATUS")
