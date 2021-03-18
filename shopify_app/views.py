@@ -135,7 +135,6 @@ def submit(request):
         #settings for google fonts
         google_fonts = set()
         custom_fonts = set()
-
         font_link = ""
         fontman_css = '<style type="text/css" id="fontmangoogle_css">'
         if font_json['body_tag'] != "":
