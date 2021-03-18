@@ -21,6 +21,8 @@ def index(request):
 	shop_url = "https://"+request.session['shopify']['shop_url']
 	ACTIVE_FLAG = 'INACTIVE'
 	charge_id = ''
+	theme_id  = ''
+	custom_classes = ''
 	is_downgradable = 'no'
 	token = request.session['shopify']['access_token']
 	store_token = rand_token = uuid4()
@@ -81,6 +83,34 @@ def index(request):
 	if store.upgrade_status == 'active':
 		ACTIVE_FLAG = 'ACTIVE'
 	request.session['file_upload']='' #reset session here
+	#do the custom classes here
+	custom_classes = Settings.objects.get(store_token = store_token).custom_classes
+	if custom_classes == None:
+		custom_classes = ''
+	custom_active = Settings.objects.get(store_token = store_token).custom_font
+	if custom_active == '1':
+		#do here custom classes
+		themes=shopify_call(shop_url+"/admin/api/2020-10/themes.json",token)
+		for theme in json.loads(themes)['themes']:
+			if theme['role']=='main':
+				theme_id = theme['id']
+		assets = shopify_call(shop_url+"/admin/api/2020-10/themes/"+str(theme_id)+"/assets.json?asset[key]=layout/theme.liquid",token)
+		assets = json.loads(assets)['asset']['value']
+		#theme settings
+		snippet = "{% include 'fontmancustomclasses' %}"
+		head_tag = "</head>"
+		fontman_api = snippet+head_tag
+		if snippet not in assets:
+			theme_liquid = assets.replace(head_tag,fontman_api)
+			asset = shopify.Asset()
+			asset.key = "layout/theme.liquid"
+			asset.value = theme_liquid
+			success = asset.save()
+		fontman_css = '<style>'+custom_classes+'<style>'
+		snippet = shopify.Asset()
+		snippet.key = "snippets/fontmancustomclasses.liquid"
+		snippet.value = fontman_css
+		success = snippet.save()
 	return render(request, 'home/index.html',{'store_token':token,'store_url':shop_url,'app_token':store_token,'shop_url':request.session['shopify']['shop_url'],'file_status':file_upload,'store_fonts':store_fonts,'active_flag':ACTIVE_FLAG,'custom_elements':custom_elements,'is_downgradable':is_downgradable})
 
 def shopify_call(url,token):
@@ -91,7 +121,6 @@ def confirm(request,token):
 	application_charge = shopify.ApplicationCharge.create({
     	'name': 'FontMan Premium',
     	'price': 10,
-    	'test': False,
     	'return_url': 'https://www.fontman.in/activate_charge?store_token='+token
 	})
 	return redirect(''+application_charge.confirmation_url)
