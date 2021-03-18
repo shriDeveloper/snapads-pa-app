@@ -91,7 +91,6 @@ def confirm(request,token):
 	application_charge = shopify.ApplicationCharge.create({
     	'name': 'FontMan Premium',
     	'price': 10,
-    	'test': False,
     	'return_url': 'https://www.fontman.in/activate_charge?store_token='+token
 	})
 	return redirect(''+application_charge.confirmation_url)
