@@ -106,7 +106,7 @@ def index(request):
 			asset.key = "layout/theme.liquid"
 			asset.value = theme_liquid
 			success = asset.save()
-		fontman_css = '<style>'+custom_classes+'<style>'
+		fontman_css = '<style>'+custom_classes+'</style>'
 		snippet = shopify.Asset()
 		snippet.key = "snippets/fontmancustomclasses.liquid"
 		snippet.value = fontman_css
