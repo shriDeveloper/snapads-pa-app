@@ -13,8 +13,9 @@
                 },
                 !1
             );
-    }
-    var handlerPicker = function (element) {
+
+
+        var handlerPicker = function (element) {
       const classes = document.getElementById('customElements');
       const dom_path = finder(element).trim();
       window.opener.postMessage({ msg: "picker", data: dom_path , mode:'picked' }, '*')
@@ -32,4 +33,9 @@
       Array.from(links).forEach( function(link) {
         link.setAttribute('style',`pointer-events:${val}`);
       });
+    }
+
+
+
+
     }

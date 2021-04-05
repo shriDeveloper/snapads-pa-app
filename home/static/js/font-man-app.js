@@ -1,3 +1,15 @@
+if(window.jQuery){
+    loadFontMan();
+}else{
+    var fontman_script = document.createElement('script');
+    fontman_script.setAttribute('id', 'fontman-jquery-script');
+    fontman_script.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js');
+    fontman_script.setAttribute('type','text/javascript');
+    document.body.appendChild(fontman_script);
+    loadFontMan();
+}
+
+
 function loadFontMan(){
       //add the link to head element
     var fontman_link = document.createElement('link');
@@ -11,9 +23,6 @@ function loadFontMan(){
     document.head.appendChild(fontman_link);
     document.body.appendChild(picker_button);
     const fontman_scripts = [{
-        'id':'fontman-jquery-script',
-        'src':'https://code.jquery.com/jquery-3.6.0.min.js'
-    },{
         'id':'fontman-element-picker',
         'src':'https://www.fontman.in/static/js/fontman-element-picker.js'
     },{
@@ -31,5 +40,3 @@ function loadFontMan(){
       document.body.appendChild(fontman_script);
     });
   }
-
-  loadFontMan();
