@@ -23,7 +23,7 @@ def index(request):
 	charge_id = ''
 	theme_id  = ''
 	custom_classes = ''
-	is_downgradable = 'no'
+	is_downgradable = 'yes'
 	token = request.session['shopify']['access_token']
 	store_token = rand_token = uuid4()
 	review = ''
@@ -63,12 +63,12 @@ def index(request):
 		########################## ENDS HERE ##################################################################
 	file_upload = request.session.get('file_upload')
 	#check is already active recurring charge
-	if charge_id:
-		downgrade_button = shopify_call(shop_url+'/admin/api/2021-01/recurring_application_charges/'+charge_id+'.json',token)
-		rec_status = json.loads(downgrade_button)
-		if 'errors' not in rec_status:
-			if rec_status['recurring_application_charge']['status'] == 'active':
-				is_downgradable = 'yes'
+	# if charge_id:
+	# 	downgrade_button = shopify_call(shop_url+'/admin/api/2021-01/recurring_application_charges/'+charge_id+'.json',token)
+	# 	rec_status = json.loads(downgrade_button)
+	# 	if 'errors' not in rec_status:
+	# 		if rec_status['recurring_application_charge']['status'] == 'active':
+	# 			is_downgradable = 'yes'
 
 	#load fonts here
 	store_fonts = CustomFonts.objects.filter(store_url = request.session['shopify']['shop_url'] )
@@ -118,24 +118,26 @@ def shopify_call(url,token):
 
 @shop_login_required
 def confirm(request,token):
-	application_charge = shopify.ApplicationCharge.create({
-    	'name': 'FontMan Premium',
-    	'price': 10,
-    	'return_url': 'https://www.fontman.in/activate_charge?store_token='+token
-	})
-	return redirect(''+application_charge.confirmation_url)
-	# rac = shopify.RecurringApplicationCharge()
-	# rac.name          = "FontMan Premium"
-	# rac.test = True
-	# rac.price         = 2.99
-	# rac.return_url    = "http://localhost:8000/activate_charge?store_token="+token
-	# #rac.capped_amount = 12
-	# rac.trial_days = 4
-	# rac.terms header      = "Upgrade to add Unlimited Custom Fonts To Your Shopify Store. "
-	# if rac.save():
-	# 	payment_json = json.loads(json.dumps(rac.attributes))
-	# print("PAYMENT")
-	# return redirect(''+payment_json['confirmation_url'])
+	#this code is for one time charge
+	# application_charge = shopify.ApplicationCharge.create({
+ #    	'name': 'FontMan Premium',
+ #    	'price': 10,
+ #    	'test': True,
+ #    	'return_url': 'http://localhost:8000/activate_charge?store_token='+token
+	# })
+	# return redirect(''+application_charge.confirmation_url)
+	rac = shopify.RecurringApplicationCharge()
+	rac.name          = "FontBox Premium"
+	#rac.test = True
+	rac.price         = 4.99
+	rac.return_url    = "https://www.fontman.in/activate_charge?store_token="+token
+	#rac.capped_amount = 12
+	rac.trial_days = 4
+	rac.terms   = "Upgrade to add Unlimited Custom Fonts To Your Shopify Store. "
+	if rac.save():
+		payment_json = json.loads(json.dumps(rac.attributes))
+	print("PAYMENT")
+	return redirect(''+payment_json['confirmation_url'])
 	# print(payment_json)
 
 @shop_login_required
@@ -143,10 +145,14 @@ def activate_charge(request, *args, **kwargs):
 	# After confirmation...
 	charge_id = request.GET.get('charge_id')
 	store_token = request.GET.get('store_token')
-	charge = shopify.ApplicationCharge.find(charge_id)
-	shopify.ApplicationCharge.activate(charge)
-	# rac = shopify.RecurringApplicationCharge.find(charge_id)
-	# rac.activate()
+	
+	#remove the one time charge
+	# charge = shopify.ApplicationCharge.find(charge_id)
+	# shopify.ApplicationCharge.activate(charge)
+
+	rac = shopify.RecurringApplicationCharge.find(charge_id)
+	rac.activate()
+	
 	Store.objects.filter(token = store_token ).update(charge_id = charge_id,upgrade_status = 'active')
 	res = shopify.ScriptTag(dict(event='onload', src='https://www.fontman.in/static/js/font-man-app.js')).save()
 	print("Script STATUS")
